@@ -24,10 +24,10 @@ Open **http://localhost:5173**.
    ```
 
 2. **Push to GitHub**  
-   Create a new repo on GitHub, then:
+   Create a new repo at [github.com/new](https://github.com/new) named `all-star-refrigeration` (no README/license). Then run (replace **YOUR_USERNAME** with your GitHub username):
    ```bash
+   cd "/Users/rickgriffith/Desktop/All Star"
    git remote add origin https://github.com/YOUR_USERNAME/all-star-refrigeration.git
-   git branch -M main
    git push -u origin main
    ```
 
