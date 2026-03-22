@@ -238,6 +238,10 @@ const PHONE_HREF = "tel:+16027637600";
 const EMAIL = "allstarrefrigeration@gmail.com";
 const EMAIL_HREF = "mailto:allstarrefrigeration@gmail.com";
 
+/** Service van next to home hero headline — white Sprinter; change filename to swap. */
+const HERO_VAN_FILENAME = "image4.jpeg";
+const HERO_VAN_PHOTO = `/photos/${HERO_VAN_FILENAME}`;
+
 /** Owner photos in public/photos/ — add filenames here if you add more images. */
 const OWNER_PHOTO_FILES = [
   "image0.jpeg",
@@ -257,26 +261,31 @@ const OWNER_PHOTO_FILES = [
   "image15.jpeg",
 ];
 
+/** Home strip above “Our work” — explicit files + captions */
 const PHOTO_STRIP = [
   {
-    src: `/photos/${OWNER_PHOTO_FILES[0]}`,
-    title: "Real techs. Real Phoenix roofs.",
-    subtitle: "Installation & repair",
+    src: "/photos/image0.jpeg",
+    title: "BBB Accredited",
+    subtitle: "Backed by trusted business standards",
   },
   {
-    src: `/photos/${OWNER_PHOTO_FILES[1]}`,
-    title: "Comfort back where it belongs.",
-    subtitle: "Happy customers",
+    src: "/photos/image1.jpeg",
+    title: "Licensed, bonded & insured",
+    subtitle: "Sales · Service · Installation",
   },
   {
-    src: `/photos/${OWNER_PHOTO_FILES[2]}`,
-    title: "Equipment done right.",
-    subtitle: "Service & installs",
+    src: "/photos/image5.jpeg",
+    title: "Jobs of every size",
+    subtitle: "From home comfort to heavy commercial lifts",
   },
 ];
 
-/** Remaining owner photos for the gallery (no duplicate strip images). */
-const OWNER_GALLERY_PHOTOS = OWNER_PHOTO_FILES.slice(3);
+const PHOTO_STRIP_FILENAMES = ["image0.jpeg", "image1.jpeg", "image5.jpeg"];
+
+/** Remaining owner photos for the gallery (no hero van, no strip images). */
+const OWNER_GALLERY_PHOTOS = OWNER_PHOTO_FILES.filter(
+  (f) => f !== HERO_VAN_FILENAME && !PHOTO_STRIP_FILENAMES.includes(f)
+);
 
 const SERVICES = [
   {
@@ -646,49 +655,132 @@ const CTABanner = ({ navigate }) => (
 // ========== HOME ==========
 const HomePage = ({ navigate }) => (
   <div>
-    {/* Hero */}
-    <section style={{ position: 'relative', minHeight: '88vh', display: 'flex', alignItems: 'center', background: 'var(--midnight)', overflow: 'hidden', fontFamily: "'DM Sans', sans-serif" }}>
+    {/* Hero — copy + real service van */}
+    <section style={{ position: 'relative', minHeight: 'min(92vh, 900px)', display: 'flex', alignItems: 'center', background: 'var(--midnight)', overflow: 'hidden', fontFamily: "'DM Sans', sans-serif" }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 80%, rgba(196,30,36,0.12) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(21,101,160,0.08) 0%, transparent 50%), linear-gradient(180deg, rgba(13,27,42,0.95) 0%, rgba(13,27,42,0.8) 100%)', zIndex: 1 }} />
-      {/* Thermostat ghost */}
-      <div style={{ position: 'absolute', right: '8%', top: '50%', transform: 'translateY(-50%)', zIndex: 2, opacity: 0.35 }}>
-        <div style={{ width: 280, height: 280, borderRadius: '50%', background: 'radial-gradient(circle at 30% 20%, rgba(248,250,252,0.06), transparent 60%)', border: '2px solid rgba(248,113,113,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-          <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '5.8rem', color: '#F97373', textShadow: '0 0 18px rgba(15,23,42,0.85)', lineHeight: 1 }}>
-            82<sup style={{ fontSize: '1.9rem' }}>°</sup>
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 3,
+          width: '100%',
+          maxWidth: 1180,
+          margin: '0 auto',
+          padding: 'clamp(32px, 5vw, 80px) clamp(24px, 4vw, 48px)',
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1.08fr) minmax(240px, 0.88fr)',
+          gap: 'clamp(36px, 5vw, 56px)',
+          alignItems: 'start',
+        }}
+        className="hero-home-grid"
+      >
+        <div style={{ minWidth: 0, paddingTop: 2 }}>
+          <div className="anim-fadeInUp anim-d2" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(196,30,36,0.15)', border: '1px solid rgba(196,30,36,0.3)', color: '#E88A8D', padding: '8px 18px', borderRadius: 30, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.04em', marginBottom: 22 }}>
+            <span style={{ width: 8, height: 8, background: 'var(--flame)', borderRadius: '50%', animation: 'dotPulse 1.5s ease-in-out infinite' }} />
+            It's already 82° inside. It's going to be 110° today.
           </div>
-          <div style={{ position: 'absolute', inset: -14, border: '1px solid rgba(248,113,113,0.3)', borderRadius: '50%', animation: 'tempPulse 3s ease-in-out infinite' }} />
-        </div>
-      </div>
-      <div style={{ position: 'relative', zIndex: 3, maxWidth: 700, padding: 'clamp(30px, 6vw, 80px)' }}>
-        <div className="anim-fadeInUp anim-d2" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(196,30,36,0.15)', border: '1px solid rgba(196,30,36,0.3)', color: '#E88A8D', padding: '8px 18px', borderRadius: 30, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.04em', marginBottom: 28 }}>
-          <span style={{ width: 8, height: 8, background: 'var(--flame)', borderRadius: '50%', animation: 'dotPulse 1.5s ease-in-out infinite' }} />
-          It's already 82° inside. It's going to be 110° today.
-        </div>
-        <h2 className="anim-fadeInUp anim-d3" style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2.2rem, 5vw, 3.5rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.08, marginBottom: 22 }}>
-          Your AC Went Down.<br />We're Already <span style={{ color: '#E0F2FE' }}>On Our Way.</span>
-        </h2>
-        <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(1rem, 2vw, 1.18rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, marginBottom: 32, maxWidth: 560 }}>
-          You woke up sweating. The dog's panting. The thermostat reads a number that makes your stomach drop. You don't need a sales pitch — <span style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>you need someone who picks up the phone and shows up.</span>
-        </p>
-        <div className="anim-fadeInUp anim-d5" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-          <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '16px 32px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: "'DM Sans', sans-serif" }}>
-            <PhoneIcon /> Call Now — Free Estimate
-          </a>
-          <button onClick={() => navigate('contact')} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', background: 'none', border: '1px solid rgba(255,255,255,0.2)', padding: '16px 24px', borderRadius: 60, cursor: 'pointer', fontWeight: 600, fontSize: '1rem', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.3s' }}>
-            Schedule for later →
-          </button>
-        </div>
-        <div className="anim-fadeInUp anim-d7" style={{ display: 'flex', gap: 28, marginTop: 44, paddingTop: 28, borderTop: '1px solid rgba(255,255,255,0.08)', flexWrap: 'wrap' }}>
-          {[
-            { icon: <ClockIcon />, label: <><strong style={{ color: 'rgba(255,255,255,0.85)' }}>Same-day</strong> service</> },
-            { icon: <ShieldIcon />, label: <><strong style={{ color: 'rgba(255,255,255,0.85)' }}>Licensed</strong> & insured</> },
-            { icon: <StarIcon />, label: <><strong style={{ color: 'rgba(255,255,255,0.85)' }}>5-star</strong> rated</> },
-          ].map((t, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.45)', fontSize: '0.88rem', fontWeight: 500 }}>
-              <span style={{ color: 'var(--gold)' }}>{t.icon}</span> {t.label}
+          <h2 className="anim-fadeInUp anim-d3" style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.75rem, 3.6vw, 2.65rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.12, marginBottom: 22 }}>
+            Your AC Went Down.<br />We're Already <span style={{ color: '#E0F2FE' }}>On Our Way.</span>
+          </h2>
+          <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(1rem, 2vw, 1.18rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, marginBottom: 32, maxWidth: 560 }}>
+            You woke up sweating. The dog's panting. The thermostat reads a number that makes your stomach drop. You don't need a sales pitch — <span style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>you need someone who picks up the phone and shows up.</span>
+          </p>
+          <div className="anim-fadeInUp anim-d5" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+            <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '16px 32px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: "'DM Sans', sans-serif" }}>
+              <PhoneIcon /> Call Now — Free Estimate
+            </a>
+            <button onClick={() => navigate('contact')} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', background: 'none', border: '1px solid rgba(255,255,255,0.2)', padding: '16px 24px', borderRadius: 60, cursor: 'pointer', fontWeight: 600, fontSize: '1rem', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.3s' }}>
+              Schedule for later →
+            </button>
+          </div>
+          <div className="anim-fadeInUp anim-d7" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 32, rowGap: 12, marginTop: 44, paddingTop: 28, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.45)', fontSize: '0.88rem', fontWeight: 500 }}>
+              <span style={{ color: 'var(--gold)' }}><ClockIcon /></span>
+              <span><strong style={{ color: 'rgba(255,255,255,0.85)' }}>Same-day</strong> service</span>
             </div>
-          ))}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'nowrap', color: 'rgba(255,255,255,0.45)', fontSize: '0.88rem', fontWeight: 500 }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
+                <span style={{ color: 'var(--gold)' }}><ShieldIcon /></span>
+                <span><strong style={{ color: 'rgba(255,255,255,0.85)' }}>Licensed</strong> & insured</span>
+              </span>
+              <span style={{ color: 'rgba(255,255,255,0.3)', fontWeight: 400 }} aria-hidden>·</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
+                <span style={{ color: 'var(--gold)' }}><StarIcon /></span>
+                <span><strong style={{ color: 'rgba(255,255,255,0.85)' }}>5-star</strong> rated</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          className="hero-van-column"
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'flex-start',
+            paddingTop: 2,
+            minHeight: 0,
+          }}
+        >
+          <div
+            className="hero-van-photo"
+            style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: 400,
+              borderRadius: 22,
+              overflow: 'hidden',
+              boxShadow: '0 22px 56px rgba(0,0,0,0.42), 0 0 0 1px rgba(255,255,255,0.08) inset',
+              border: '1px solid rgba(255,255,255,0.1)',
+              aspectRatio: '4 / 5',
+              maxHeight: 'min(480px, 58vh)',
+            }}
+          >
+            <img
+              src={HERO_VAN_PHOTO}
+              alt="All Star Refrigeration service van — Phoenix metro"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center 42%',
+                display: 'block',
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                pointerEvents: 'none',
+                background: 'linear-gradient(180deg, transparent 50%, rgba(13,27,42,0.4) 100%)',
+              }}
+            />
+          </div>
         </div>
       </div>
+      <style>{`
+        @media (min-width: 901px) {
+          .hero-home-grid {
+            align-items: start;
+          }
+        }
+        @media (max-width: 900px) {
+          .hero-home-grid {
+            grid-template-columns: 1fr !important;
+            gap: 28px !important;
+          }
+          .hero-van-column {
+            justify-content: center !important;
+            padding-top: 0 !important;
+          }
+          .hero-van-photo {
+            max-width: 100% !important;
+            aspect-ratio: 16 / 10 !important;
+            max-height: 300px !important;
+          }
+          .hero-van-photo img {
+            object-position: center 38% !important;
+          }
+        }
+      `}</style>
     </section>
 
     {/* Empathy Section */}
