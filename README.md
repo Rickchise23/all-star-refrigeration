@@ -45,11 +45,7 @@ Open **http://localhost:5173**.
 
 **Optional:** In the Vercel project, go to **Settings → Domains** to add a custom domain (e.g. `allstarrefrigerationllc.com`) when you’re ready.
 
-## Where to put photos
+## Photos
 
-Drop images into **`public/photos/`** so they’re available at `/photos/filename.jpg`:
-
-- `public/photos/allstar-tech-on-roof.jpg`
-- `public/photos/phoenix-family-living-room.jpg`
-- `public/photos/ac-unit-closeup-night.jpg`
+Owner images live in **`public/photos/`**. Filenames are listed in the **`OWNER_PHOTO_FILES`** array in `allstar-website.jsx` (first 3 = hero strip, rest = gallery). Commit and push so Vercel deploys them.
 

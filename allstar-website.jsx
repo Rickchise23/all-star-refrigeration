@@ -236,6 +236,46 @@ const injectStyles = () => {
 const PHONE = "(602) 763-7600";
 const PHONE_HREF = "tel:+16027637600";
 
+/** Owner photos in public/photos/ — add filenames here if you add more images. */
+const OWNER_PHOTO_FILES = [
+  "image0.jpeg",
+  "image1.jpeg",
+  "image3.jpeg",
+  "image4.jpeg",
+  "image5.jpeg",
+  "image6.jpeg",
+  "image7.jpeg",
+  "image8.jpeg",
+  "image9.jpeg",
+  "image10.jpeg",
+  "image11.jpeg",
+  "image12.jpeg",
+  "image13.jpeg",
+  "image14.jpeg",
+  "image15.jpeg",
+];
+
+const PHOTO_STRIP = [
+  {
+    src: `/photos/${OWNER_PHOTO_FILES[0]}`,
+    title: "Real techs. Real Phoenix roofs.",
+    subtitle: "Installation & repair",
+  },
+  {
+    src: `/photos/${OWNER_PHOTO_FILES[1]}`,
+    title: "Comfort back where it belongs.",
+    subtitle: "Happy customers",
+  },
+  {
+    src: `/photos/${OWNER_PHOTO_FILES[2]}`,
+    title: "Equipment done right.",
+    subtitle: "Service & installs",
+  },
+];
+
+/** Remaining owner photos for the gallery (no duplicate strip images). */
+const OWNER_GALLERY_PHOTOS = OWNER_PHOTO_FILES.slice(3);
+
 const SERVICES = [
   {
     id: "emergency-ac-repair",
@@ -681,40 +721,67 @@ const HomePage = ({ navigate }) => (
       </div>
     </section>
 
-    {/* Photo strip – hook up to real images in /public/images */}
+    {/* Photo strip — images from public/photos/ (see PHOTO_STRIP + public/photos/README.md) */}
     <section style={{ padding: '0 clamp(24px, 4vw, 80px) 70px', background: 'var(--warm-white)', fontFamily: "'DM Sans', sans-serif" }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div className="photo-strip">
-          <div
-            className="photo-strip__item"
-            style={{ backgroundImage: "url('/photos/allstar-tech-on-roof.jpg')" }}
-          >
-            <div className="photo-strip__label">
-              <span>Real techs. Real Phoenix roofs.</span>
-              <span style={{ fontSize: '0.78rem', opacity: 0.85 }}>Installation & repair</span>
+          {PHOTO_STRIP.map((photo, i) => (
+            <div
+              key={i}
+              className="photo-strip__item"
+              style={{ backgroundImage: `url('${photo.src}')` }}
+              role="img"
+              aria-label={photo.title}
+            >
+              <div className="photo-strip__label">
+                <span>{photo.title}</span>
+                <span style={{ fontSize: '0.78rem', opacity: 0.85 }}>{photo.subtitle}</span>
+              </div>
             </div>
-          </div>
-          <div
-            className="photo-strip__item"
-            style={{ backgroundImage: "url('/photos/phoenix-family-living-room.jpg')" }}
-          >
-            <div className="photo-strip__label">
-              <span>Families back in a cool living room.</span>
-              <span style={{ fontSize: '0.78rem', opacity: 0.85 }}>Happy customers</span>
-            </div>
-          </div>
-          <div
-            className="photo-strip__item"
-            style={{ backgroundImage: "url('/photos/ac-unit-closeup-night.jpg')" }}
-          >
-            <div className="photo-strip__label">
-              <span>Modern high‑efficiency units we install.</span>
-              <span style={{ fontSize: '0.78rem', opacity: 0.85 }}>Top brands</span>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
+
+    {/* Owner photo gallery */}
+    {OWNER_GALLERY_PHOTOS.length > 0 && (
+      <section style={{ padding: '0 clamp(24px, 4vw, 80px) clamp(60px, 8vw, 90px)', background: 'var(--warm-white)', fontFamily: "'DM Sans', sans-serif" }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 32 }}>
+            <SectionTag>Our work</SectionTag>
+            <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.6rem, 3.5vw, 2.1rem)', color: 'var(--midnight)', lineHeight: 1.15, marginBottom: 8 }}>
+              On the job in Phoenix
+            </h3>
+            <p style={{ fontSize: '0.98rem', color: '#718096', maxWidth: 520, margin: '0 auto' }}>
+              Real jobs, real equipment, real Valley heat — straight from the field.
+            </p>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+              gap: 14,
+            }}
+          >
+            {OWNER_GALLERY_PHOTOS.map((file, i) => (
+              <img
+                key={file}
+                src={`/photos/${file}`}
+                alt={`All Star Refrigeration work photo ${i + 1}`}
+                loading="lazy"
+                style={{
+                  width: "100%",
+                  aspectRatio: "4 / 3",
+                  objectFit: "cover",
+                  borderRadius: 16,
+                  boxShadow: "0 4px 18px rgba(15,23,42,0.12)",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
     {/* Why Choose All Star */}
     <section style={{ padding: 'clamp(60px, 8vw, 90px) clamp(24px, 4vw, 80px)', background: 'white', fontFamily: "'DM Sans', sans-serif" }}>
