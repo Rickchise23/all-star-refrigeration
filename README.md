@@ -43,7 +43,7 @@ Open **http://localhost:5173**.
    - You edit code locally (or on GitHub), push to `main`.
    - Vercel automatically rebuilds and updates the live site. The owner sees changes after each deploy.
 
-**Optional:** In the Vercel project, go to **Settings → Domains** to add a custom domain (e.g. `allstarrefrigerationllc.com`) when you’re ready.
+**Optional:** In the Vercel project, go to **Settings → Domains** to connect a custom domain (the business’s own domain) when DNS is ready.
 
 ## Photos
 

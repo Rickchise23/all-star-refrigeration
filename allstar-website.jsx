@@ -233,8 +233,10 @@ const injectStyles = () => {
 };
 
 // --------------- DATA ---------------
-const PHONE = "(602) 763-7600";
+const PHONE = "1(602)763 7600";
 const PHONE_HREF = "tel:+16027637600";
+const EMAIL = "allstarrefrigeration@gmail.com";
+const EMAIL_HREF = "mailto:allstarrefrigeration@gmail.com";
 
 /** Owner photos in public/photos/ — add filenames here if you add more images. */
 const OWNER_PHOTO_FILES = [
@@ -592,10 +594,10 @@ const Footer = ({ navigate }) => (
           <PhoneIcon /> <a href={PHONE_HREF} style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>{PHONE}</a>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', marginBottom: 10 }}>
-          <MailIcon /> info@allstarrefrigerationllc.com
+          <MailIcon /> <a href={EMAIL_HREF} style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>{EMAIL}</a>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>
-          <MapPinIcon /> 4516 N 19th Ave, Phoenix, AZ 85022
+          <MapPinIcon /> 16227 N 28th Pl, Phoenix, AZ 85032
         </div>
       </div>
     </div>
@@ -1236,14 +1238,14 @@ const ContactPage = ({ navigate }) => {
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, background: 'white', padding: '18px 24px', borderRadius: 16, border: '1px solid rgba(0,0,0,0.06)' }}>
                 <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--ice)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cool)' }}><MailIcon /></div>
                 <div>
-                  <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem' }}>info@allstarrefrigerationllc.com</div>
+                  <a href={EMAIL_HREF} style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem', textDecoration: 'none' }}>{EMAIL}</a>
                   <div style={{ fontSize: '0.85rem', color: '#718096' }}>We respond within 1 hour</div>
                 </div>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, background: 'white', padding: '18px 24px', borderRadius: 16, border: '1px solid rgba(0,0,0,0.06)' }}>
                 <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--ice)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cool)' }}><MapPinIcon /></div>
                 <div>
-                  <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem' }}>4516 N 19th Ave, Phoenix, AZ 85022</div>
+                  <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem' }}>16227 N 28th Pl, Phoenix, AZ 85032</div>
                   <div style={{ fontSize: '0.85rem', color: '#718096' }}>Serving homes and businesses across the Phoenix metro area</div>
                 </div>
               </div>
@@ -1287,7 +1289,7 @@ const ContactPage = ({ navigate }) => {
                   </div>
                   <div>
                     <label style={labelStyle}>Phone Number</label>
-                    <input style={inputStyle} value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} placeholder="(602) 555-0000" required type="tel" />
+                    <input style={inputStyle} value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} placeholder="1(602)763 7600" required type="tel" />
                   </div>
                 </div>
 
