@@ -149,39 +149,32 @@ const injectStyles = () => {
       background: linear-gradient(90deg, var(--flame-dark), var(--cool-deep));
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       gap: 10px;
       z-index: 120;
       font-family: 'DM Sans', sans-serif;
       box-shadow: 0 -6px 20px rgba(0,0,0,0.25);
     }
-    .allstar-mobile-cta a,
     .allstar-mobile-cta button {
       flex: 1;
       border-radius: 999px;
-      padding: 10px 16px;
+      padding: 12px 18px;
       border: none;
       font-weight: 700;
       font-size: 0.95rem;
       cursor: pointer;
     }
-    .allstar-mobile-cta__call {
+    .allstar-mobile-cta__request {
       background: #ffffff;
       color: var(--flame-dark);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       text-decoration: none;
-    }
-    .allstar-mobile-cta__schedule {
-      background: transparent;
-      color: #FDFDFD;
-      border: 1px solid rgba(255,255,255,0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      max-width: 420px;
+      margin: 0 auto;
+      width: 100%;
     }
     @media (min-width: 900px) {
       .allstar-mobile-cta { display: none; }
@@ -233,10 +226,14 @@ const injectStyles = () => {
 };
 
 // --------------- DATA ---------------
-const PHONE = "1(602)763 7600";
+const PHONE = "(602) 763-7600";
 const PHONE_HREF = "tel:+16027637600";
 const EMAIL = "allstarrefrigeration@gmail.com";
 const EMAIL_HREF = "mailto:allstarrefrigeration@gmail.com";
+
+/** Lead magnet — promoted sitewide */
+const SERVICE_CALL_PRICE = "$89";
+const SERVICE_CALL_SHORT = `${SERVICE_CALL_PRICE} service call`;
 
 /** Service van next to home hero headline — white Sprinter; change filename to swap. */
 const HERO_VAN_FILENAME = "image4.jpeg";
@@ -403,6 +400,7 @@ const REVIEWS = [
 const SERVICE_AREAS = ["Phoenix", "Scottsdale", "Tempe", "Mesa", "Gilbert", "Chandler", "Glendale", "Peoria", "Surprise", "Avondale", "Goodyear", "Buckeye"];
 
 const FAQS = [
+  { q: `What’s included in the ${SERVICE_CALL_PRICE} service call?`, a: `It covers a trip to your home, a full diagnostic of your system, and a clear, written quote before any repair work. You’re not paying for a vague “trip charge” — you’re paying for answers and transparency. If you approve repairs, we’ll apply the service call toward the work when it makes sense — we’ll explain that on site.` },
   { q: "How fast can you get here?", a: "For emergencies, we aim for same-day service — often within 2 hours depending on our current schedule. We prioritize by severity, so if your house is 90°+ with kids or elderly family members, you jump to the front of the line." },
   { q: "Do you charge extra for weekends or after-hours?", a: "No. We don't believe in punishing people for having an emergency at an inconvenient time. Our rates are our rates — period." },
   { q: "How much does a typical repair cost?", a: "It depends on what's wrong and the type of system you have, but we believe you should have a ballpark before you ever call. Most common repairs (capacitors, contactors, minor electrical) land between $180–$450, with larger repairs (motors, coils, refrigerant issues) typically between $450–$1,200. We always give you a written, line‑item estimate before we start, so there are no surprises." },
@@ -413,13 +411,38 @@ const FAQS = [
 
 // --------------- SHARED COMPONENTS ---------------
 
-const EmergencyBar = () => (
-  <div style={{ background: 'var(--flame)', color: 'white', padding: '11px 20px', textAlign: 'center', fontWeight: 700, fontSize: '0.9rem', letterSpacing: '0.02em', position: 'relative', overflow: 'hidden', zIndex: 100, fontFamily: "'DM Sans', sans-serif" }}>
+const EmergencyBar = ({ navigate }) => (
+  <div style={{ background: 'var(--flame)', color: 'white', padding: '10px 18px', textAlign: 'center', fontWeight: 700, fontSize: '0.88rem', letterSpacing: '0.02em', position: 'relative', overflow: 'hidden', zIndex: 100, fontFamily: "'DM Sans', sans-serif" }}>
     <div style={{ position: 'absolute', top: 0, left: '-100%', width: '100%', height: '100%', background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)', animation: 'heatPulse 3s ease-in-out infinite' }} />
-    <span style={{ position: 'relative', zIndex: 1 }}>
-      <span style={{ display: 'inline-block', background: 'rgba(0,0,0,0.2)', padding: '2px 10px', borderRadius: 20, marginRight: 8, fontSize: '0.82rem' }}>🌡️ Phoenix Heat Alert</span>
-      AC down? Call us 9–5 or book online 24/7. <a href={PHONE_HREF} style={{ color: 'white', textDecoration: 'none', borderBottom: '2px solid rgba(255,255,255,0.5)' }}>Call — {PHONE}</a>
-    </span>
+    <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '10px 14px' }}>
+      <button
+        type="button"
+        onClick={() => navigate('contact', { scrollToForm: true })}
+        aria-label="Book service — go to request form"
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          background: 'linear-gradient(180deg, #FBBF24 0%, #D97706 100%)',
+          color: '#0f172a',
+          padding: '5px 14px',
+          borderRadius: 999,
+          fontSize: '0.88rem',
+          fontWeight: 800,
+          letterSpacing: '0.04em',
+          boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+          border: 'none',
+          cursor: 'pointer',
+          fontFamily: "'DM Sans', sans-serif",
+        }}
+      >
+        {SERVICE_CALL_SHORT.toUpperCase()}
+      </button>
+      <span style={{ opacity: 0.85 }}>🌡️ Phoenix Heat Alert</span>
+      <span>
+        AC down? 9–5 calls · 24/7 online booking.{' '}
+        <a href={PHONE_HREF} style={{ color: 'white', textDecoration: 'none', borderBottom: '2px solid rgba(255,255,255,0.5)', fontWeight: 800 }}>{PHONE}</a>
+      </span>
+    </div>
   </div>
 );
 
@@ -626,9 +649,30 @@ const SectionTag = ({ children, light }) => (
 const CTABanner = ({ navigate }) => (
   <section style={{ padding: '80px 40px', background: 'var(--cool-deep)', textAlign: 'center', position: 'relative', overflow: 'hidden', fontFamily: "'DM Sans', sans-serif" }}>
     <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 100%, rgba(214,239,248,0.08) 0%, transparent 60%)' }} />
-    <div style={{ position: 'relative', zIndex: 1, maxWidth: 650, margin: '0 auto' }}>
-      <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'white', lineHeight: 1.1, marginBottom: 14 }}>Don't Sweat It. Just Call.</h3>
-      <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.55)', marginBottom: 36, lineHeight: 1.6 }}>One call between 9–5 or a few clicks any time of day. Either way, you get a real tech, fast service, and fair, transparent pricing.</p>
+    <div style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto' }}>
+      <button
+        type="button"
+        onClick={() => navigate('contact', { scrollToForm: true })}
+        aria-label="Book service — go to request form"
+        style={{
+          display: 'inline-block',
+          background: 'linear-gradient(180deg, #FBBF24 0%, #D97706 100%)',
+          color: '#0f172a',
+          padding: '8px 18px',
+          borderRadius: 999,
+          fontWeight: 800,
+          fontSize: '0.85rem',
+          letterSpacing: '0.08em',
+          marginBottom: 16,
+          border: 'none',
+          cursor: 'pointer',
+          fontFamily: "'DM Sans', sans-serif",
+        }}
+      >
+        {SERVICE_CALL_SHORT.toUpperCase()}
+      </button>
+      <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'white', lineHeight: 1.1, marginBottom: 14 }}>Don't Sweat It — Start With {SERVICE_CALL_PRICE}.</h3>
+      <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.55)', marginBottom: 36, lineHeight: 1.6 }}>One call between 9–5 (or book online 24/7). A real tech, a clear diagnosis, and pricing you’ll see in writing — starting with our flat {SERVICE_CALL_SHORT}.</p>
       <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
         <a href={PHONE_HREF} style={{
           display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white',
@@ -637,7 +681,7 @@ const CTABanner = ({ navigate }) => (
         }}>
           <PhoneIcon /> {PHONE}
         </a>
-        <button onClick={() => navigate('contact')} style={{
+        <button onClick={() => navigate('contact', { scrollToForm: true })} style={{
           display: 'inline-flex', alignItems: 'center', gap: 8, background: 'none', color: 'rgba(255,255,255,0.7)',
           padding: '18px 28px', borderRadius: 60, border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer',
           fontWeight: 600, fontSize: '1rem', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.3s'
@@ -674,10 +718,38 @@ const HomePage = ({ navigate }) => (
         className="hero-home-grid"
       >
         <div style={{ minWidth: 0, paddingTop: 2 }}>
-          <div className="anim-fadeInUp anim-d2" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(196,30,36,0.15)', border: '1px solid rgba(196,30,36,0.3)', color: '#E88A8D', padding: '8px 18px', borderRadius: 30, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.04em', marginBottom: 22 }}>
+          <div className="anim-fadeInUp anim-d2" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(196,30,36,0.15)', border: '1px solid rgba(196,30,36,0.3)', color: '#E88A8D', padding: '8px 18px', borderRadius: 30, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.04em', marginBottom: 16 }}>
             <span style={{ width: 8, height: 8, background: 'var(--flame)', borderRadius: '50%', animation: 'dotPulse 1.5s ease-in-out infinite' }} />
             It's already 82° inside. It's going to be 110° today.
           </div>
+          <button
+            type="button"
+            onClick={() => navigate('contact', { scrollToForm: true })}
+            className="anim-fadeInUp anim-d2"
+            aria-label="Book a service call — open scheduling form"
+            style={{
+              marginBottom: 22,
+              padding: '16px 20px',
+              borderRadius: 18,
+              background: 'linear-gradient(135deg, rgba(212,165,57,0.18) 0%, rgba(196,30,36,0.14) 55%, rgba(21,101,160,0.1) 100%)',
+              border: '1px solid rgba(212,165,57,0.45)',
+              boxShadow: '0 12px 40px rgba(0,0,0,0.25)',
+              maxWidth: 520,
+              width: '100%',
+              cursor: 'pointer',
+              textAlign: 'left',
+              fontFamily: 'inherit',
+            }}
+          >
+            <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.65rem, 3.2vw, 2.35rem)', color: 'var(--gold)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>
+              {SERVICE_CALL_PRICE}{' '}
+              <span style={{ color: 'rgba(248,250,252,0.98)', fontSize: '0.52em', fontWeight: 700, fontFamily: "'DM Sans', sans-serif", letterSpacing: '0.02em', verticalAlign: 'middle' }}>service call</span>
+            </div>
+            <p style={{ margin: '10px 0 0', fontSize: '0.92rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.55, fontWeight: 500 }}>
+              Flat rate to get a licensed tech on site — clear diagnosis, upfront quote before we start work.{' '}
+              <strong style={{ color: 'rgba(255,255,255,0.95)' }}>That’s how we earn your trust.</strong>
+            </p>
+          </button>
           <h2 className="anim-fadeInUp anim-d3" style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.75rem, 3.6vw, 2.65rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.12, marginBottom: 22 }}>
             Your AC Went Down.<br />We're Already <span style={{ color: '#E0F2FE' }}>On Our Way.</span>
           </h2>
@@ -686,9 +758,9 @@ const HomePage = ({ navigate }) => (
           </p>
           <div className="anim-fadeInUp anim-d5" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
             <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '16px 32px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: "'DM Sans', sans-serif" }}>
-              <PhoneIcon /> Call Now — Free Estimate
+              <PhoneIcon /> Call — {SERVICE_CALL_SHORT}
             </a>
-            <button onClick={() => navigate('contact')} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', background: 'none', border: '1px solid rgba(255,255,255,0.2)', padding: '16px 24px', borderRadius: 60, cursor: 'pointer', fontWeight: 600, fontSize: '1rem', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.3s' }}>
+            <button onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', background: 'none', border: '1px solid rgba(255,255,255,0.2)', padding: '16px 24px', borderRadius: 60, cursor: 'pointer', fontWeight: 600, fontSize: '1rem', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.3s' }}>
               Schedule for later →
             </button>
           </div>
@@ -1006,8 +1078,30 @@ const HomePage = ({ navigate }) => (
           <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.9rem, 4vw, 2.5rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 18 }}>
             Transparent Pricing You Can Actually See.
           </h3>
+          <button
+            type="button"
+            onClick={() => navigate('contact', { scrollToForm: true })}
+            aria-label="Request service — open scheduling form"
+            style={{
+              fontSize: '1.05rem',
+              color: '#4A5568',
+              lineHeight: 1.7,
+              marginBottom: 14,
+              padding: '14px 18px',
+              background: 'white',
+              borderRadius: 14,
+              border: '2px solid rgba(212,165,57,0.45)',
+              boxShadow: '0 4px 20px rgba(15,23,42,0.06)',
+              width: '100%',
+              textAlign: 'left',
+              cursor: 'pointer',
+              fontFamily: "'DM Sans', sans-serif",
+            }}
+          >
+            <strong style={{ color: 'var(--midnight)', fontSize: '1.15em' }}>{SERVICE_CALL_SHORT}</strong> is our standard way to get rolling: a tech on site, full diagnostic, and a written quote before optional repairs — <strong>no “free estimate” games that turn into pressure.</strong>
+          </button>
           <p style={{ fontSize: '1.02rem', color: '#4A5568', lineHeight: 1.7, marginBottom: 16 }}>
-            Tired of “call for pricing” and mystery invoices? So are we. With All Star, you get clear ballpark numbers up front — before anyone steps foot in your home.
+            Tired of “call for pricing” and mystery invoices? So are we. You get clear numbers up front — before anyone turns a wrench.
           </p>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
             {[
@@ -1027,13 +1121,36 @@ const HomePage = ({ navigate }) => (
           </p>
         </div>
         <div style={{ background: 'white', borderRadius: 20, padding: 24, border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 8px 30px rgba(15,23,42,0.04)' }}>
+          <button
+            type="button"
+            onClick={() => navigate('contact', { scrollToForm: true })}
+            aria-label="Book a service call — open scheduling form"
+            style={{
+              textAlign: 'center',
+              padding: '18px 16px',
+              marginBottom: 18,
+              borderRadius: 16,
+              background: 'linear-gradient(145deg, rgba(212,165,57,0.15) 0%, rgba(196,30,36,0.08) 100%)',
+              border: '1px solid rgba(212,165,57,0.35)',
+              width: '100%',
+              cursor: 'pointer',
+              fontFamily: "'DM Sans', sans-serif",
+            }}
+          >
+            <div style={{ fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.14em', color: 'var(--cool)', textTransform: 'uppercase', marginBottom: 6 }}>Lead with clarity</div>
+            <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 4vw, 2.75rem)', color: 'var(--midnight)', lineHeight: 1 }}>
+              {SERVICE_CALL_PRICE}
+            </div>
+            <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem', marginTop: 4 }}>service call</div>
+            <div style={{ fontSize: '0.82rem', color: '#718096', marginTop: 8, lineHeight: 1.45 }}>Diagnostic + written quote before repairs</div>
+          </button>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.98rem' }}>Typical Phoenix Pricing Ranges</div>
-            <div style={{ fontSize: '0.78rem', color: '#A0AEC0' }}>For most homes up to ~2,000 sq ft</div>
+            <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.98rem' }}>More typical ranges</div>
+            <div style={{ fontSize: '0.78rem', color: '#A0AEC0' }}>Most homes ~2,000 sq ft</div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {[
-              { label: "Diagnostic & same-day visit", range: "$89 – $129" },
+              { label: "Same-day / priority visit (if quoted)", range: "up to $129" },
               { label: "Common repairs (capacitors, contactors, minor electrical)", range: "$180 – $450" },
               { label: "Larger repairs (motors, coils, refrigerant issues)", range: "$450 – $1,200" },
               { label: "Pre-season tune‑up", range: "$89 – $149" },
@@ -1147,9 +1264,9 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
           <p style={{ fontSize: '1.15rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, maxWidth: 600 }}>{svc.heroSub}</p>
           <div style={{ marginTop: 32, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
             <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '16px 32px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1.05rem', boxShadow: '0 6px 25px rgba(196,30,36,0.35)', fontFamily: "'DM Sans', sans-serif" }}>
-              <PhoneIcon /> Call Now
+              <PhoneIcon /> Call — {SERVICE_CALL_SHORT}
             </a>
-            <button onClick={() => navigate('contact')} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'none', color: 'rgba(255,255,255,0.7)', padding: '16px 24px', borderRadius: 60, border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', fontWeight: 600, fontFamily: "'DM Sans', sans-serif" }}>
+            <button onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'none', color: 'rgba(255,255,255,0.7)', padding: '16px 24px', borderRadius: 60, border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', fontWeight: 600, fontFamily: "'DM Sans', sans-serif" }}>
               Schedule Online
             </button>
           </div>
@@ -1311,7 +1428,7 @@ const ContactPage = ({ navigate }) => {
             <SectionTag>Get in touch</SectionTag>
             <h1 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 4vw, 2.6rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 18 }}>Let's Get You <span style={{ color: 'var(--cool)' }}>Comfortable.</span></h1>
             <p style={{ fontSize: '1.05rem', color: '#4A5568', lineHeight: 1.7, marginBottom: 36 }}>
-              Whether it's an emergency or you're planning ahead, we're here. Call us directly for the fastest response, or fill out the form and we'll get back to you within the hour.
+              Whether it's an emergency or you're planning ahead, we're here. Ask about our <strong>{SERVICE_CALL_SHORT}</strong> — then call us for the fastest response, or fill out the form and we'll get back to you within the hour.
             </p>
 
             {/* Quick contact cards */}
@@ -1370,7 +1487,7 @@ const ContactPage = ({ navigate }) => {
                 <p style={{ color: '#4A5568', lineHeight: 1.6 }}>We'll be in touch within the hour. If it's urgent, don't wait — call us directly at <a href={PHONE_HREF} style={{ color: 'var(--flame)', fontWeight: 700 }}>{PHONE}</a>.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} style={{ background: 'white', borderRadius: 20, padding: 'clamp(24px, 4vw, 40px)', border: '1px solid rgba(0,0,0,0.06)' }}>
+              <form id="contact-form" onSubmit={handleSubmit} style={{ background: 'white', borderRadius: 20, padding: 'clamp(24px, 4vw, 40px)', border: '1px solid rgba(0,0,0,0.06)', scrollMarginTop: 96 }}>
                 <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '1.4rem', color: 'var(--midnight)', marginBottom: 6 }}>Request Service</h3>
                 <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: 24 }}>Fill this out and we'll call you back within an hour.</p>
 
@@ -1381,7 +1498,7 @@ const ContactPage = ({ navigate }) => {
                   </div>
                   <div>
                     <label style={labelStyle}>Phone Number</label>
-                    <input style={inputStyle} value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} placeholder="1(602)763 7600" required type="tel" />
+                    <input style={inputStyle} value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} placeholder="(602) 763-7600" required type="tel" />
                   </div>
                 </div>
 
@@ -1473,6 +1590,8 @@ const FAQItem = ({ q, a }) => {
 // --------------- ROUTER ---------------
 export default function AllStarWebsite() {
   const [page, setPage] = useState('home');
+  const pageRef = useRef(page);
+  pageRef.current = page;
 
   useEffect(() => { injectStyles(); }, []);
 
@@ -1488,9 +1607,17 @@ export default function AllStarWebsite() {
     document.title = titles[page] || base;
   }, [page]);
 
-  const navigate = (p) => {
+  const navigate = (p, opts) => {
+    const prev = pageRef.current;
+    const willChange = prev !== p;
     setPage(p);
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (opts?.scrollToForm) {
+      setTimeout(() => {
+        document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, willChange ? 280 : 80);
+    } else {
+      queueMicrotask(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+    }
   };
 
   const renderPage = () => {
@@ -1505,19 +1632,22 @@ export default function AllStarWebsite() {
 
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--charcoal)', background: 'var(--warm-white)', minHeight: '100vh' }}>
-      <EmergencyBar />
+      <EmergencyBar navigate={navigate} />
       <Header currentPage={page} navigate={navigate} />
       {renderPage()}
       <Footer navigate={navigate} />
       <div className="allstar-mobile-cta">
-        <a href={PHONE_HREF} className="allstar-mobile-cta__call">
-          <PhoneIcon /> <span>Call Now</span>
-        </a>
         <button
-          className="allstar-mobile-cta__schedule"
-          onClick={() => navigate('contact')}
+          type="button"
+          className="allstar-mobile-cta__request"
+          onClick={() => navigate('contact', { scrollToForm: true })}
+          aria-label="Request service — open contact form"
         >
-          <CalendarIcon /> <span>Schedule</span>
+          <MailIcon />
+          <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.15, textAlign: 'left' }}>
+            <span>Request service</span>
+            <span style={{ fontSize: '0.72rem', fontWeight: 800, opacity: 0.92 }}>{SERVICE_CALL_PRICE} · we’ll call you back</span>
+          </span>
         </button>
       </div>
     </div>
