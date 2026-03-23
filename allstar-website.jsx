@@ -82,6 +82,33 @@ const LogoImg = ({ height = 52, dark = false }) => {
   );
 };
 
+// --------------- SCROLL REVEAL HOOK ---------------
+const useReveal = (delay = 0) => {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold: 0.12 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  const style = {
+    opacity: visible ? 1 : 0,
+    transform: visible ? 'translateY(0)' : 'translateY(28px)',
+    transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}s, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}s`,
+  };
+  return { ref, style };
+};
+
+const Reveal = ({ children, delay = 0, style: extraStyle, className }) => {
+  const { ref, style } = useReveal(delay);
+  return <div ref={ref} style={{ ...style, ...extraStyle }} className={className}>{children}</div>;
+};
+
 // --------------- STYLES ---------------
 const injectStyles = () => {
   if (document.getElementById('allstar-styles')) return;
@@ -261,6 +288,16 @@ const injectStyles = () => {
     @media (max-width: 480px) {
       .form-row-2col { grid-template-columns: 1fr; }
     }
+    @media (max-width: 768px) {
+      .pricing-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+      .about-values-grid { grid-template-columns: repeat(2, 1fr) !important; }
+      .services-list-btn {
+        grid-template-columns: 56px 1fr !important;
+        padding: 20px 18px !important;
+        gap: 16px !important;
+      }
+      .services-list-details { display: none !important; }
+    }
     @media (min-width: 900px) {
       .allstar-mobile-cta { display: none; }
     }
@@ -278,7 +315,7 @@ const injectStyles = () => {
       position: relative;
       border-radius: 20px;
       overflow: hidden;
-      min-height: 180px;
+      min-height: 240px;
       background-size: cover;
       background-position: center;
       box-shadow: 0 10px 30px rgba(15,23,42,0.25);
@@ -793,7 +830,7 @@ const EmergencyBar = ({ navigate }) => (
           alignItems: 'center',
           background: 'linear-gradient(180deg, #FBBF24 0%, #D97706 100%)',
           color: '#0f172a',
-          padding: '5px 14px',
+          padding: '9px 16px',
           borderRadius: 999,
           fontSize: '0.88rem',
           fontWeight: 800,
@@ -845,7 +882,7 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
   return (
     <header style={{
       background: 'white',
-      padding: '0 40px',
+      padding: '0 clamp(16px, 3vw, 40px)',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
@@ -954,7 +991,7 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
                   {SERVICES.map(svc => (
                     <button key={svc.id} onClick={() => { navigate(`service-${svc.id}`); setMobileOpen(false); }} style={{
                       display: 'block', width: '100%', textAlign: 'left', background: 'none', border: 'none',
-                      padding: '12px 0', fontSize: '0.95rem', fontWeight: 500, color: '#4A5568',
+                      padding: '14px 0', fontSize: '0.95rem', fontWeight: 500, color: '#4A5568',
                       borderBottom: '1px solid #f5f5f5', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif"
                     }}>{svc.title}</button>
                   ))}
@@ -977,21 +1014,35 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
 };
 
 const Footer = ({ navigate }) => (
-  <footer style={{ background: 'var(--midnight)', padding: '60px 40px 30px', fontFamily: "'DM Sans', sans-serif" }}>
-    <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 40 }}>
+  <footer style={{ background: 'var(--midnight)', padding: 'clamp(48px, 8vw, 80px) clamp(20px, 4vw, 40px) clamp(24px, 3vw, 30px)', fontFamily: "'DM Sans', sans-serif" }}>
+    {/* Mini CTA */}
+    <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center', marginBottom: 48, paddingBottom: 40, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+      <h4 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.4rem, 3vw, 1.8rem)', color: 'white', marginBottom: 16 }}>Ready to Stop Sweating?</h4>
+      <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '14px 32px', borderRadius: 50, fontWeight: 700, textDecoration: 'none', fontSize: '1rem', boxShadow: '0 4px 18px rgba(196,30,36,0.35)', transition: 'all 0.3s', fontFamily: "'DM Sans', sans-serif" }}>
+        <PhoneIcon /> {PHONE}
+      </a>
+    </div>
+    <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'clamp(24px, 4vw, 40px)' }}>
       <div>
       <div style={{ fontFamily: "'Archivo Black', sans-serif", color: 'white', fontSize: '1.1rem', marginBottom: 12 }}>
           <LogoImg height={42} dark={true} />
         </div>
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem', lineHeight: 1.7, maxWidth: 280 }}>
+        <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.9rem', lineHeight: 1.7, maxWidth: 280 }}>
           Locally owned AC repair and installation serving the Phoenix metro area. Your neighbors, not a corporation.
         </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: 8, background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', fontFamily: "'Archivo Black', sans-serif", fontSize: '0.95rem', color: '#22C55E', lineHeight: 1 }}>A+</div>
+          <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.82rem', lineHeight: 1.35 }}>BBB Accredited<br />Since 2017</span>
+        </div>
       </div>
       <div>
         <div style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 16 }}>Services</div>
         {SERVICES.map(svc => (
           <div key={svc.id} style={{ marginBottom: 10 }}>
-            <button onClick={() => navigate(`service-${svc.id}`)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem', cursor: 'pointer', padding: 0, fontFamily: "'DM Sans', sans-serif" }}>{svc.title}</button>
+            <button onClick={() => navigate(`service-${svc.id}`)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', cursor: 'pointer', padding: '8px 0', fontFamily: "'DM Sans', sans-serif", transition: 'color 0.2s' }}
+              onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.85)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}
+            >{svc.title}</button>
           </div>
         ))}
       </div>
@@ -999,7 +1050,10 @@ const Footer = ({ navigate }) => (
         <div style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 16 }}>Company</div>
         {[{ label: 'About Us', page: 'about' }, { label: 'Reviews', page: 'reviews' }, { label: 'Contact', page: 'contact' }, { label: 'FAQ', page: 'contact', scrollToFaq: true }].map(item => (
           <div key={item.label} style={{ marginBottom: 10 }}>
-            <button onClick={() => (item.scrollToFaq ? navigate('contact', { scrollToFaq: true }) : navigate(item.page))} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem', cursor: 'pointer', padding: 0, fontFamily: "'DM Sans', sans-serif" }}>{item.label}</button>
+            <button onClick={() => (item.scrollToFaq ? navigate('contact', { scrollToFaq: true }) : navigate(item.page))} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', cursor: 'pointer', padding: '8px 0', fontFamily: "'DM Sans', sans-serif", transition: 'color 0.2s' }}
+              onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.85)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}
+            >{item.label}</button>
           </div>
         ))}
       </div>
@@ -1016,7 +1070,7 @@ const Footer = ({ navigate }) => (
         </div>
       </div>
     </div>
-    <div style={{ maxWidth: 1100, margin: '30px auto 0', paddingTop: 20, borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10, fontSize: '0.8rem', color: 'rgba(255,255,255,0.25)' }}>
+    <div style={{ maxWidth: 1100, margin: '30px auto 0', paddingTop: 20, borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10, fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)' }}>
       <span>© 2026 All Star Refrigeration. All rights reserved.</span>
       <div style={{ display: 'flex', gap: 20 }}>
         <span>ROC Licensed</span><span>Fully Insured</span><span>Phoenix, AZ</span>
@@ -1026,12 +1080,13 @@ const Footer = ({ navigate }) => (
 );
 
 const SectionTag = ({ children, light }) => (
-  <div style={{ fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: light ? 'var(--gold)' : 'var(--cool)', marginBottom: 14 }}>{children}</div>
+  <div style={{ fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: light ? 'var(--gold)' : 'var(--cool)', marginBottom: 16 }}>{children}</div>
 );
 
 const CTABanner = ({ navigate }) => (
-  <section style={{ padding: '80px 40px', background: 'var(--cool-deep)', textAlign: 'center', position: 'relative', overflow: 'hidden', fontFamily: "'DM Sans', sans-serif" }}>
-    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 100%, rgba(214,239,248,0.08) 0%, transparent 60%)' }} />
+  <section style={{ padding: 'clamp(80px, 12vw, 140px) clamp(24px, 4vw, 80px)', background: 'linear-gradient(135deg, #0D1B2A 0%, var(--cool-deep) 50%, #0D1B2A 100%)', textAlign: 'center', position: 'relative', overflow: 'hidden', fontFamily: "'DM Sans', sans-serif" }}>
+    <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 100%, rgba(214,239,248,0.1) 0%, transparent 55%)' }} />
     <div style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto' }}>
       <button
         type="button"
@@ -1054,7 +1109,7 @@ const CTABanner = ({ navigate }) => (
       >
         {SERVICE_CALL_SHORT.toUpperCase()}
       </button>
-      <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'white', lineHeight: 1.1, marginBottom: 14 }}>Don't Sweat It — Start With {SERVICE_CALL_PRICE}.</h3>
+      <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 5vw, 3rem)', color: 'white', lineHeight: 1.08, marginBottom: 16 }}>Don't Sweat It — Start With {SERVICE_CALL_PRICE}.</h3>
       <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.55)', marginBottom: 36, lineHeight: 1.6 }}>One call between 9–5 (or book online 24/7). A real tech, a clear diagnosis, and pricing you’ll see in writing — starting with our flat {SERVICE_CALL_SHORT}.</p>
       <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
         <a href={PHONE_HREF} style={{
@@ -1084,7 +1139,7 @@ const HomePage = ({ navigate }) => (
   <div>
     {/* Hero — copy + real service van */}
     <section style={{ position: 'relative', minHeight: 'min(92vh, 900px)', display: 'flex', alignItems: 'center', background: 'var(--midnight)', overflow: 'hidden', fontFamily: "'DM Sans', sans-serif" }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 80%, rgba(196,30,36,0.12) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(21,101,160,0.08) 0%, transparent 50%), linear-gradient(180deg, rgba(13,27,42,0.95) 0%, rgba(13,27,42,0.8) 100%)', zIndex: 1 }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 80%, rgba(196,30,36,0.22) 0%, transparent 55%), radial-gradient(ellipse at 80% 20%, rgba(21,101,160,0.16) 0%, transparent 45%), linear-gradient(180deg, rgba(13,27,42,0.97) 0%, rgba(13,27,42,0.82) 100%)', zIndex: 1 }} />
       <div
         style={{
           position: 'relative',
@@ -1105,7 +1160,7 @@ const HomePage = ({ navigate }) => (
             <span style={{ width: 8, height: 8, background: 'var(--flame)', borderRadius: '50%', animation: 'dotPulse 1.5s ease-in-out infinite' }} />
             It's already 82° inside. It's going to be 110° today.
           </div>
-          <h1 className="anim-fadeInUp anim-d3" style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.75rem, 3.6vw, 2.65rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.12, marginBottom: 22 }}>
+          <h1 className="anim-fadeInUp anim-d3" style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 5.5vw, 4rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.06, marginBottom: 26 }}>
             Your AC Went Down.<br />We're Already <span style={{ color: '#E0F2FE' }}>On Our Way.</span>
           </h1>
           <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(1rem, 2vw, 1.18rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, marginBottom: 32, maxWidth: 560 }}>
@@ -1124,7 +1179,7 @@ const HomePage = ({ navigate }) => (
               <span style={{ color: 'var(--gold)' }}><ClockIcon /></span>
               <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>Same-day service</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'nowrap', fontSize: '0.88rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', fontSize: '0.88rem' }}>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
                 <span style={{ color: 'var(--gold)' }}><ShieldIcon /></span>
                 <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>Licensed & insured</span>
@@ -1238,7 +1293,7 @@ const HomePage = ({ navigate }) => (
 
     {/* Empathy Section */}
     <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--warm-white)', fontFamily: "'DM Sans', sans-serif" }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 60, alignItems: 'center' }}>
+      <Reveal style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: 'clamp(28px, 5vw, 60px)', alignItems: 'center' }}>
         <div>
           <SectionTag>We get it</SectionTag>
           <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 22 }}>We've Lived This <span style={{ color: 'var(--flame)' }}>Nightmare</span> Too.</h3>
@@ -1265,7 +1320,7 @@ const HomePage = ({ navigate }) => (
             </div>
           ))}
         </div>
-      </div>
+      </Reveal>
     </section>
 
     {/* Photo strip — images from public/photos/ (see PHOTO_STRIP + public/photos/README.md) */}
@@ -1344,8 +1399,8 @@ const HomePage = ({ navigate }) => (
     )}
 
     {/* Why Choose All Star */}
-    <section style={{ padding: 'clamp(60px, 8vw, 90px) clamp(24px, 4vw, 80px)', background: 'white', fontFamily: "'DM Sans', sans-serif" }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section style={{ padding: 'clamp(60px, 8vw, 90px) clamp(24px, 4vw, 80px)', background: 'var(--sand)', fontFamily: "'DM Sans', sans-serif" }}>
+      <Reveal style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <SectionTag>Why choose us</SectionTag>
           <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 10 }}>
@@ -1378,18 +1433,16 @@ const HomePage = ({ navigate }) => (
               desc: "We live here, we work here, and our reputation with your neighbors matters more than billboards."
             }
           ].map((item, i) => (
-            <div key={i} style={{ background: 'var(--warm-white)', borderRadius: 18, padding: 26, border: '1px solid rgba(0,0,0,0.04)', display: 'flex', gap: 14 }}>
-              <div style={{ width: 42, height: 42, borderRadius: 12, background: 'var(--ice)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cool)', flexShrink: 0 }}>
+            <div key={i} style={{ background: 'linear-gradient(180deg, var(--ice) 0%, white 100%)', borderRadius: 18, padding: '32px 24px', border: '1px solid rgba(21,101,160,0.12)', textAlign: 'center', boxShadow: '0 4px 20px rgba(15,23,42,0.05)' }}>
+              <div style={{ width: 52, height: 52, borderRadius: 14, background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cool)', margin: '0 auto 16px', boxShadow: '0 2px 8px rgba(21,101,160,0.1)' }}>
                 {item.icon}
               </div>
-              <div>
-                <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.96rem', marginBottom: 4 }}>{item.title}</div>
-                <div style={{ fontSize: '0.9rem', color: '#718096', lineHeight: 1.6 }}>{item.desc}</div>
-              </div>
+              <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.96rem', marginBottom: 6 }}>{item.title}</div>
+              <div style={{ fontSize: '0.9rem', color: '#5a6f83', lineHeight: 1.6 }}>{item.desc}</div>
             </div>
           ))}
         </div>
-      </div>
+      </Reveal>
     </section>
 
     {/* Services Overview */}
@@ -1403,7 +1456,7 @@ const HomePage = ({ navigate }) => (
           {SERVICES.map(svc => (
             <button key={svc.id} onClick={() => navigate(`service-${svc.id}`)}
               style={{
-                background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20,
+                background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderTop: `3px solid ${svc.color}`, borderRadius: 20,
                 padding: '32px 28px', textAlign: 'left', cursor: 'pointer', transition: 'all 0.4s', position: 'relative', overflow: 'hidden',
                 fontFamily: "'DM Sans', sans-serif"
               }}
@@ -1425,8 +1478,8 @@ const HomePage = ({ navigate }) => (
     </section>
 
     {/* How It Works */}
-    <section style={{ padding: 'clamp(60px, 8vw, 90px) clamp(24px, 4vw, 80px)', background: 'white', fontFamily: "'DM Sans', sans-serif" }}>
-      <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+    <section style={{ padding: 'clamp(60px, 8vw, 90px) clamp(24px, 4vw, 80px)', background: 'linear-gradient(180deg, #EAF3FA 0%, #D6E9F8 100%)', fontFamily: "'DM Sans', sans-serif" }}>
+      <Reveal style={{ maxWidth: 1000, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <SectionTag>How it works</SectionTag>
           <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 10 }}>From Panic to Cool Air in Three Steps.</h3>
@@ -1450,23 +1503,21 @@ const HomePage = ({ navigate }) => (
               desc: "Most repairs are handled on the first visit. We document our work, answer questions, and leave your space cleaner than we found it."
             }
           ].map((step, i) => (
-            <div key={i} style={{ background: 'var(--warm-white)', borderRadius: 18, padding: 26, border: '1px solid rgba(0,0,0,0.04)', display: 'flex', gap: 16 }}>
-              <div style={{ width: 42, height: 42, borderRadius: 12, background: 'var(--ice)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cool)', flexShrink: 0 }}>
-                {step.icon}
+            <div key={i} style={{ background: 'white', borderRadius: 18, padding: '28px 24px', border: '1px solid rgba(21,101,160,0.12)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', boxShadow: '0 4px 18px rgba(15,23,42,0.06)' }}>
+              <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--cool)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Archivo Black', sans-serif", fontSize: '1.15rem', marginBottom: 16, boxShadow: '0 4px 14px rgba(21,101,160,0.25)' }}>
+                {i + 1}
               </div>
-              <div>
-                <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.98rem', marginBottom: 4 }}>{step.title}</div>
-                <div style={{ fontSize: '0.9rem', color: '#718096', lineHeight: 1.6 }}>{step.desc}</div>
-              </div>
+              <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.98rem', marginBottom: 6 }}>{step.title.replace(/^\d+\.\s*/, '')}</div>
+              <div style={{ fontSize: '0.9rem', color: '#5a6f83', lineHeight: 1.6 }}>{step.desc}</div>
             </div>
           ))}
         </div>
-      </div>
+      </Reveal>
     </section>
 
     {/* Transparent Pricing */}
     <section style={{ padding: 'clamp(50px, 7vw, 80px) clamp(24px, 4vw, 80px)', background: 'var(--warm-white)', fontFamily: "'DM Sans', sans-serif" }}>
-      <div style={{ maxWidth: 1050, margin: '0 auto', display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 1fr)', gap: 40 }}>
+      <div className="pricing-grid" style={{ maxWidth: 1050, margin: '0 auto', display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 1fr)', gap: 'clamp(24px, 4vw, 40px)' }}>
         <div>
           <SectionTag>No games, just numbers</SectionTag>
           <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.9rem, 4vw, 2.5rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 18 }}>
@@ -1565,14 +1616,14 @@ const HomePage = ({ navigate }) => (
 
     {/* Reviews Preview */}
     <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'white', fontFamily: "'DM Sans', sans-serif" }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <Reveal style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 48 }}>
           <SectionTag>From your neighbors</SectionTag>
           <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.8rem, 4vw, 2.3rem)', color: 'var(--midnight)', lineHeight: 1.1 }}>Phoenix Families Trust All Star</h3>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 22 }}>
           {REVIEWS.slice(0, 3).map((r, i) => (
-            <div key={i} style={{ background: 'var(--warm-white)', borderRadius: 20, padding: 30, border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div key={i} style={{ background: 'var(--warm-white)', borderRadius: 20, padding: 30, borderLeft: '4px solid var(--gold)', border: '1px solid rgba(0,0,0,0.06)', borderLeftWidth: 4, borderLeftColor: 'var(--gold)', boxShadow: '0 6px 28px rgba(15,23,42,0.07)' }}>
               <div style={{ display: 'flex', gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <StarIcon key={j} />)}</div>
               <p style={{ fontSize: '0.95rem', lineHeight: 1.7, color: '#4A5568', fontStyle: 'italic', marginBottom: 18 }}>"{r.text}"</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -1591,7 +1642,7 @@ const HomePage = ({ navigate }) => (
             onMouseLeave={e => { e.currentTarget.style.background = 'none'; e.currentTarget.style.color = 'var(--cool)'; }}
           >Read More Reviews</button>
         </div>
-      </div>
+      </Reveal>
     </section>
 
     <CTABanner navigate={navigate} />
@@ -1609,9 +1660,10 @@ const ServicesPage = ({ navigate }) => (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {SERVICES.map(svc => (
             <button key={svc.id} onClick={() => navigate(`service-${svc.id}`)}
+              className="services-list-btn"
               style={{
                 display: 'grid', gridTemplateColumns: '80px 1fr auto', gap: 24, alignItems: 'center',
-                background: 'white', borderRadius: 20, padding: '32px 36px', border: '1px solid rgba(0,0,0,0.04)',
+                background: 'white', borderRadius: 20, padding: 'clamp(20px, 3vw, 32px) clamp(18px, 3vw, 36px)', border: '1px solid rgba(0,0,0,0.04)',
                 cursor: 'pointer', textAlign: 'left', transition: 'all 0.3s', fontFamily: "'DM Sans', sans-serif",
                 boxShadow: '0 2px 10px rgba(0,0,0,0.03)'
               }}
@@ -1625,7 +1677,7 @@ const ServicesPage = ({ navigate }) => (
                 <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '1.15rem', color: 'var(--midnight)', marginBottom: 6 }}>{svc.title}</div>
                 <div style={{ color: '#718096', fontSize: '0.95rem', lineHeight: 1.55 }}>{svc.shortDesc}</div>
               </div>
-              <div style={{ color: 'var(--cool)', display: 'flex', alignItems: 'center', gap: 4, fontWeight: 600, fontSize: '0.9rem', whiteSpace: 'nowrap' }}>
+              <div className="services-list-details" style={{ color: 'var(--cool)', display: 'flex', alignItems: 'center', gap: 4, fontWeight: 600, fontSize: '0.9rem', whiteSpace: 'nowrap' }}>
                 View details <ArrowRightIcon />
               </div>
             </button>
@@ -1864,15 +1916,15 @@ const AboutPage = ({ navigate }) => (
       <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
         <SectionTag>Our story</SectionTag>
         <h1 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 5vw, 3rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 24 }}>Built on Frustration.<br />Fueled by <span style={{ color: 'var(--flame)' }}>Doing It Right.</span></h1>
-        <div style={{ width: 120, height: 120, borderRadius: '50%', background: 'var(--cool)', margin: '0 auto 32px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 30px rgba(21,101,160,0.2)', position: 'relative' }}>
+        <div style={{ width: 120, height: 120, borderRadius: '50%', background: 'var(--cool)', margin: '0 auto 32px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 30px rgba(21,101,160,0.2)', position: 'relative', color: 'white', fontFamily: "'Archivo Black', sans-serif", fontSize: '2rem' }}>
           <div style={{ position: 'absolute', inset: -6, border: '2px dashed rgba(21,101,160,0.3)', borderRadius: '50%' }} />
-          <UserIcon />
+          JD
         </div>
         <blockquote style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.3rem, 3vw, 1.7rem)', fontStyle: 'italic', color: 'var(--midnight)', lineHeight: 1.5, marginBottom: 20, maxWidth: 700, marginLeft: 'auto', marginRight: 'auto' }}>
           "I didn't start this company to get rich. I started it because I got tired of watching big outfits charge my neighbors a fortune and still make them wait three days in a hot house."
         </blockquote>
-        <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '1rem' }}>All Star Refrigeration</div>
-        <div style={{ color: 'var(--cool)', fontSize: '0.88rem', fontWeight: 500, marginBottom: 36 }}>Locally Owned & Operated — Phoenix, AZ</div>
+        <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '1.05rem' }}>Joe David</div>
+        <div style={{ color: 'var(--cool)', fontSize: '0.88rem', fontWeight: 500, marginBottom: 36 }}>Owner, All Star Refrigeration — Phoenix, AZ</div>
       </div>
     </section>
 
@@ -1886,14 +1938,14 @@ const AboutPage = ({ navigate }) => (
           <p>We're not trying to be the biggest HVAC company in Phoenix. We're trying to be the one you tell your friends about.</p>
         </div>
 
-        <div style={{ marginTop: 60, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 20 }}>
+        <div className="about-values-grid" style={{ marginTop: 60, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
           {[
             { icon: <ClockIcon />, title: "Same-Day Service", desc: "Because broken AC in Phoenix is an emergency, not an inconvenience." },
             { icon: <ThumbsUpIcon />, title: "Honest Pricing", desc: "We tell you the cost before we start. No surprise invoices. Ever." },
             { icon: <ShieldIcon />, title: "Fully Licensed", desc: "ROC licensed, fully insured, background-checked techs." },
             { icon: <UsersIcon />, title: "Locally Owned", desc: "We live here, we work here, and our reputation is everything." }
           ].map((v, i) => (
-            <div key={i} style={{ background: 'white', borderRadius: 16, padding: 28, textAlign: 'center', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div key={i} style={{ background: 'white', borderRadius: 16, padding: 'clamp(16px, 2vw, 28px)', textAlign: 'center', border: '1px solid rgba(0,0,0,0.04)' }}>
               <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--ice)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cool)', margin: '0 auto 14px' }}>{v.icon}</div>
               <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem', marginBottom: 6 }}>{v.title}</div>
               <div style={{ fontSize: '0.88rem', color: '#718096', lineHeight: 1.5 }}>{v.desc}</div>
@@ -2006,7 +2058,7 @@ const ContactPage = ({ navigate }) => {
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif" }}>
       <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--warm-white)' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 50 }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: 'clamp(28px, 4vw, 50px)' }}>
           {/* Contact Info */}
           <div>
             <SectionTag>Get in touch</SectionTag>
