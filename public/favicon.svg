@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="All Star Refrigeration">
+  <defs>
+    <linearGradient id="fav-r" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EF4444"/>
+      <stop offset="100%" stop-color="#B91C1C"/>
+    </linearGradient>
+    <linearGradient id="fav-b" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <clipPath id="fav-t"><rect x="0" y="0" width="32" height="16"/></clipPath>
+    <clipPath id="fav-bt"><rect x="0" y="16" width="32" height="16"/></clipPath>
+  </defs>
+  <circle cx="16" cy="16" r="15" fill="url(#fav-r)" clip-path="url(#fav-t)"/>
+  <circle cx="16" cy="16" r="15" fill="url(#fav-b)" clip-path="url(#fav-bt)"/>
+  <ellipse cx="16" cy="16" rx="16" ry="2.5" fill="white" opacity="0.85"/>
+  <path d="M16 7.5c-.8 1.6-1.4 3-1.4 4.8 0 1.8 1 3.4 1.4 4.2.4-.8 1.4-2.4 1.4-4.2 0-1.8-.6-3.2-1.4-4.8z" fill="white" opacity="0.92"/>
+  <g transform="translate(16,23.5)" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity="0.92">
+    <line x1="0" y1="-3.5" x2="0" y2="3.5"/>
+    <line x1="-3" y1="-2" x2="3" y2="2"/>
+    <line x1="-3" y1="2" x2="3" y2="-2"/>
+  </g>
+</svg>
