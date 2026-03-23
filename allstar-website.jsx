@@ -621,8 +621,8 @@ const EMAIL_HREF = "mailto:allstarrefrigeration@gmail.com";
 const SERVICE_CALL_PRICE = "$89";
 const SERVICE_CALL_SHORT = `${SERVICE_CALL_PRICE} service call`;
 
-/** Service van next to home hero headline — white Sprinter; change filename to swap. */
-const HERO_VAN_FILENAME = "image4.jpeg";
+/** Home hero image beside headline; change filename to swap. */
+const HERO_VAN_FILENAME = "image3.jpeg";
 const HERO_VAN_PHOTO = `/photos/${HERO_VAN_FILENAME}`;
 
 /** Emergency AC Repair service page — van + on-the-job (not shown on home gallery). */
@@ -701,10 +701,9 @@ const GALLERY_CONTAIN_FILENAMES = ["image0.jpeg"];
 /** Excluded from home “Our work” only (files may still appear on service pages). */
 const HOME_GALLERY_EXCLUDE = ["image11.jpeg", "image15.jpeg"];
 
-/** Remaining owner photos for the gallery (no hero van, strip, or service-detail-only shots). */
+/** Owner photos for “Our work” gallery (hero image may appear here too; strip & service-detail-only shots still excluded). */
 const OWNER_GALLERY_PHOTOS = OWNER_PHOTO_FILES.filter(
   (f) =>
-    f !== HERO_VAN_FILENAME &&
     !PHOTO_STRIP_FILENAMES.includes(f) &&
     !REPAIR_PAGE_GALLERY_EXCLUDE.includes(f) &&
     !INSTALL_PAGE_GALLERY_EXCLUDE.includes(f) &&
