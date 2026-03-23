@@ -279,6 +279,29 @@ const injectStyles = () => {
       gap: 10px;
       text-decoration: none;
     }
+    .footer-contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.78);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      padding: 8px 0;
+      min-height: 44px;
+      box-sizing: border-box;
+      transition: color 0.2s ease;
+    }
+    .footer-contact-link:hover {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .footer-contact-link:focus-visible {
+      outline: 2px solid var(--ice);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
     .form-row-2col {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1059,12 +1082,14 @@ const Footer = ({ navigate }) => (
       </div>
       <div>
         <div style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 16 }}>Contact</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', marginBottom: 10 }}>
-          <PhoneIcon /> <a href={PHONE_HREF} style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>{PHONE}</a>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', marginBottom: 10 }}>
-          <MailIcon /> <a href={EMAIL_HREF} style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>{EMAIL}</a>
-        </div>
+        <a href={PHONE_HREF} className="footer-contact-link" aria-label={`Call ${PHONE}`}>
+          <PhoneIcon />
+          <span>{PHONE}</span>
+        </a>
+        <a href={EMAIL_HREF} className="footer-contact-link" aria-label={`Email ${EMAIL}`}>
+          <MailIcon />
+          <span style={{ overflowWrap: 'anywhere' }}>{EMAIL}</span>
+        </a>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>
           <MapPinIcon /> 16227 N 28th Pl, Phoenix, AZ 85032
         </div>
