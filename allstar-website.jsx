@@ -221,6 +221,247 @@ const injectStyles = () => {
       justify-content: space-between;
     }
 
+    .service-detail-hero-section {
+      padding: clamp(28px, 4vw, 52px) clamp(20px, 3.5vw, 64px) !important;
+    }
+    .service-detail-hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(220px, 0.78fr);
+      gap: clamp(18px, 3vw, 36px);
+      align-items: center;
+      width: 100%;
+    }
+    @media (max-width: 820px) {
+      .service-detail-hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .service-detail-van-photo {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.32);
+      max-height: min(360px, 44vh);
+    }
+    .service-detail-van-photo img {
+      width: 100%;
+      height: 100%;
+      max-height: min(360px, 44vh);
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* Emergency repair / maintenance: two-column included section */
+    .repair-included-section {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+      gap: clamp(20px, 3vw, 36px);
+      align-items: start;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    /* Install (and legacy): paired rows — text + photo per row */
+    .repair-included-paired-rows {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, min(38vw, 400px));
+      grid-template-rows: auto auto auto;
+      column-gap: clamp(22px, 3.5vw, 40px);
+      row-gap: clamp(16px, 2.5vw, 22px);
+      align-items: start;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .repair-included-paired-rows .repair-pair-right {
+      width: 100%;
+      max-width: min(400px, 100%);
+      justify-self: end;
+      min-width: 0;
+    }
+    .repair-left-what {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .repair-right-p1 {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .repair-left-when {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .repair-right-p2 {
+      grid-column: 2;
+      grid-row: 2;
+    }
+    .repair-right-p3 {
+      grid-column: 2;
+      grid-row: 3;
+    }
+    /* Install page: paired rows — 4:3 tiles (was 160px cap; too short on desktop) */
+    .install-pair-rows .repair-pair-right .install-pair-photo-grid__item {
+      display: block;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 10px 36px rgba(15,23,42,0.08);
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      max-height: min(280px, 40vh);
+      min-height: 0;
+      height: auto;
+    }
+    .install-pair-rows .repair-pair-right .install-pair-photo-grid__item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .repair-included-stack {
+      grid-template-columns: minmax(0, 1fr) minmax(260px, min(38vw, 400px));
+      gap: clamp(24px, 4vw, 40px) clamp(22px, 3.5vw, 40px);
+      align-items: start;
+    }
+    .repair-photos-stack {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 2.5vw, 22px);
+      width: 100%;
+      max-width: min(400px, 100%);
+      margin-left: auto;
+      min-width: 0;
+    }
+    .repair-photos-stack .repair-photo-tile--pair {
+      flex: 0 0 auto;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      max-height: min(220px, 30vh);
+      min-height: 0;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 10px 36px rgba(15,23,42,0.08);
+    }
+    .repair-photos-stack .repair-photo-tile--pair img {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    @media (max-width: 900px) {
+      .repair-included-section {
+        grid-template-columns: 1fr;
+      }
+      .repair-included-stack {
+        grid-template-columns: 1fr !important;
+      }
+      .repair-included-paired-rows {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto !important;
+      }
+      .repair-included-paired-rows .repair-left-what,
+      .repair-included-paired-rows .repair-left-when,
+      .repair-included-paired-rows .repair-right-p1,
+      .repair-included-paired-rows .repair-right-p2,
+      .repair-included-paired-rows .repair-right-p3 {
+        grid-column: auto !important;
+        grid-row: auto !important;
+        justify-self: stretch !important;
+        max-width: none !important;
+      }
+      .repair-section-photos {
+        margin-left: 0 !important;
+        max-width: none !important;
+      }
+      .repair-photos-stack {
+        margin-left: 0 !important;
+        max-width: none !important;
+      }
+      .install-included-layout {
+        grid-template-columns: 1fr !important;
+      }
+      .install-included-aside {
+        margin-left: 0 !important;
+        max-width: none !important;
+      }
+      .install-pair-rows .repair-pair-right .install-pair-photo-grid__item {
+        height: auto !important;
+        max-height: none !important;
+      }
+    }
+    .repair-section-photos {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 300px;
+      margin-left: auto;
+    }
+    .repair-photo-tile {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 10px 36px rgba(15,23,42,0.08);
+      flex-shrink: 0;
+    }
+    .repair-photo-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* AC install: optional 2-up grid — row height matches paired-row tiles */
+    .install-pair-photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: minmax(0, min(280px, 40vh));
+      gap: 10px;
+      flex: 0 0 auto;
+      min-height: 0;
+      max-height: min(280px, 40vh);
+      min-width: 0;
+      width: 100%;
+    }
+    .install-pair-photo-grid__item {
+      display: block;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 10px 36px rgba(15,23,42,0.08);
+      min-height: 0;
+      max-height: 100%;
+    }
+    .install-pair-photo-grid__item img {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* AC install: copy stacked on left, photos stacked on right — avoids 2×2 row-height gap */
+    .install-included-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(260px, min(38vw, 400px));
+      gap: clamp(20px, 3vw, 36px) clamp(22px, 3.5vw, 40px);
+    }
+    .install-included-aside {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(14px, 2.5vw, 20px);
+      width: 100%;
+      max-width: min(400px, 100%);
+      margin-left: auto;
+      min-width: 0;
+    }
+
   `;
   document.head.appendChild(style);
 };
@@ -238,6 +479,36 @@ const SERVICE_CALL_SHORT = `${SERVICE_CALL_PRICE} service call`;
 /** Service van next to home hero headline — white Sprinter; change filename to swap. */
 const HERO_VAN_FILENAME = "image4.jpeg";
 const HERO_VAN_PHOTO = `/photos/${HERO_VAN_FILENAME}`;
+
+/** Emergency AC Repair service page — van + on-the-job (not shown on home gallery). */
+const REPAIR_SERVICE_ID = "emergency-ac-repair";
+const REPAIR_PAGE_VAN_PHOTO = "/photos/image3.jpeg";
+const REPAIR_PAGE_WORK_PHOTO = "/photos/image10.jpeg";
+const REPAIR_PAGE_SIDE_PHOTO = "/photos/image13.jpeg";
+/** Second row beside “When to Call Us” — also on home strip (`image8`). */
+const REPAIR_PAGE_WHEN_TO_CALL_PHOTO = "/photos/image8.jpeg";
+/** Electrical / control shot stays off the home gallery. Tech shot (image10) is on the home strip + repair page; van (image3) in gallery. */
+const REPAIR_PAGE_GALLERY_EXCLUDE = ["image13.jpeg"];
+
+/** AC Installation & Replacement service page — hero + supporting shots (not in home gallery). */
+const AC_INSTALL_SERVICE_ID = "ac-installation";
+const INSTALL_PAGE_HERO_PHOTO = "/photos/image14.jpeg";
+const INSTALL_PAGE_PHOTO_CRANE = "/photos/image5.jpeg";
+/** Left tile in install photo row (hero uses `image14`; this slot uses `image6`). */
+const INSTALL_PAGE_PHOTO_GRID_LEFT = "/photos/image6.jpeg";
+/** image15 is home gallery only — not used on install page. */
+const INSTALL_PAGE_GALLERY_EXCLUDE = ["image6.jpeg", "image14.jpeg"];
+
+/** Heating Repair & Install service page — hero photo (`image12` also in home gallery; order swapped with `image15` there only). */
+const HEATING_SERVICE_ID = "heating-repair";
+const HEATING_PAGE_HERO_PHOTO = "/photos/image12.jpeg";
+const HEATING_PAGE_GALLERY_EXCLUDE = [];
+
+/** Seasonal Maintenance service page — hero + sidebar (not in home gallery). */
+const MAINTENANCE_SERVICE_ID = "maintenance";
+const MAINTENANCE_PAGE_HERO_PHOTO = "/photos/image7.jpeg";
+const MAINTENANCE_PAGE_SIDEBAR_PHOTO = "/photos/image8.jpeg";
+const MAINTENANCE_PAGE_GALLERY_EXCLUDE = ["image7.jpeg"];
 
 /** Owner photos in public/photos/ — add filenames here if you add more images. */
 const OWNER_PHOTO_FILES = [
@@ -261,9 +532,9 @@ const OWNER_PHOTO_FILES = [
 /** Home strip above “Our work” — explicit files + captions */
 const PHOTO_STRIP = [
   {
-    src: "/photos/image0.jpeg",
-    title: "BBB Accredited",
-    subtitle: "Backed by trusted business standards",
+    src: "/photos/image10.jpeg",
+    title: "Professional techs",
+    subtitle: `Flat ${SERVICE_CALL_PRICE} service call — book online 24/7 or call 9–5. Easy.`,
   },
   {
     src: "/photos/image1.jpeg",
@@ -271,17 +542,30 @@ const PHOTO_STRIP = [
     subtitle: "Sales · Service · Installation",
   },
   {
-    src: "/photos/image5.jpeg",
-    title: "Jobs of every size",
-    subtitle: "From home comfort to heavy commercial lifts",
+    src: "/photos/image8.jpeg",
+    title: "Full replacement or just a tune up",
+    subtitle: "We'll get your AC back running at light speed.",
   },
 ];
 
-const PHOTO_STRIP_FILENAMES = ["image0.jpeg", "image1.jpeg", "image5.jpeg"];
+const PHOTO_STRIP_FILENAMES = ["image10.jpeg", "image1.jpeg", "image8.jpeg"];
 
-/** Remaining owner photos for the gallery (no hero van, no strip images). */
+/** “Our work” tiles that use `object-fit: contain` so logos or full equipment aren’t cropped. */
+const GALLERY_CONTAIN_FILENAMES = ["image0.jpeg"];
+
+/** Excluded from home “Our work” only (files may still appear on service pages). */
+const HOME_GALLERY_EXCLUDE = ["image11.jpeg", "image15.jpeg"];
+
+/** Remaining owner photos for the gallery (no hero van, strip, or service-detail-only shots). */
 const OWNER_GALLERY_PHOTOS = OWNER_PHOTO_FILES.filter(
-  (f) => f !== HERO_VAN_FILENAME && !PHOTO_STRIP_FILENAMES.includes(f)
+  (f) =>
+    f !== HERO_VAN_FILENAME &&
+    !PHOTO_STRIP_FILENAMES.includes(f) &&
+    !REPAIR_PAGE_GALLERY_EXCLUDE.includes(f) &&
+    !INSTALL_PAGE_GALLERY_EXCLUDE.includes(f) &&
+    !HEATING_PAGE_GALLERY_EXCLUDE.includes(f) &&
+    !MAINTENANCE_PAGE_GALLERY_EXCLUDE.includes(f) &&
+    !HOME_GALLERY_EXCLUDE.includes(f)
 );
 
 const SERVICES = [
@@ -342,7 +626,7 @@ const SERVICES = [
     icon: SunIcon,
     color: "#D97706",
     bgColor: "#FEF3C7",
-    hero: "Phoenix Winters Are No Joke at 4AM.",
+    hero: "Phoenix Winters Are No Joke.",
     heroSub: "When your heat pump or furnace quits on a January morning, you remember real fast that the desert gets cold too.",
     details: [
       "Heat pump repair and replacement",
@@ -367,7 +651,7 @@ const SERVICES = [
     icon: ChartIcon,
     color: "#059669",
     bgColor: "#D1FAE5",
-    hero: "The Smartest $100 You'll Spend All Year.",
+    hero: `The Smartest ${SERVICE_CALL_PRICE} You'll Spend All Year.`,
     heroSub: "A spring tune-up catches the small stuff before it becomes a $2,000 problem in July. Every year we save people from breakdowns they never saw coming.",
     details: [
       "Full system inspection — electrical, mechanical, refrigerant",
@@ -446,7 +730,7 @@ const EmergencyBar = ({ navigate }) => (
   </div>
 );
 
-const Header = ({ currentPage, navigate }) => {
+const Header = ({ currentPage, navigate, contactNavTarget }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
@@ -462,10 +746,16 @@ const Header = ({ currentPage, navigate }) => {
     { label: "Services", page: "services", dropdown: true },
     { label: "About", page: "about" },
     { label: "Reviews", page: "reviews" },
-    { label: "Contact", page: "contact" }
+    { label: "Contact", page: "contact" },
+    { label: "FAQ", page: "contact", scrollToFaq: true },
   ];
 
-  const isActive = (page) => currentPage === page || (page === "services" && currentPage.startsWith("service-"));
+  const isActive = (item) => {
+    if (item.page === "services" && currentPage.startsWith("service-")) return true;
+    if (item.scrollToFaq) return currentPage === "contact" && contactNavTarget === "faq";
+    if (item.page === "contact") return currentPage === "contact" && contactNavTarget !== "faq";
+    return currentPage === item.page;
+  };
 
   return (
     <header style={{
@@ -489,16 +779,20 @@ const Header = ({ currentPage, navigate }) => {
       {/* Desktop Nav */}
       <nav style={{ display: 'flex', alignItems: 'center', gap: 6 }} className="desktop-nav">
         {navItems.map(item => (
-          <div key={item.page} style={{ position: 'relative' }}
+          <div key={item.label} style={{ position: 'relative' }}
             onMouseEnter={() => item.dropdown && setServicesOpen(true)}
             onMouseLeave={() => item.dropdown && setServicesOpen(false)}
           >
             <button
-              onClick={() => { navigate(item.page); setServicesOpen(false); }}
+              onClick={() => {
+                if (item.scrollToFaq) navigate('contact', { scrollToFaq: true });
+                else navigate(item.page);
+                setServicesOpen(false);
+              }}
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
                 padding: '8px 16px', borderRadius: 8, fontSize: '0.92rem', fontWeight: 500,
-                color: isActive(item.page) ? 'var(--cool)' : 'var(--charcoal)',
+                color: isActive(item) ? 'var(--cool)' : 'var(--charcoal)',
                 fontFamily: "'DM Sans', sans-serif",
                 display: 'flex', alignItems: 'center', gap: 4,
                 transition: 'color 0.2s',
@@ -560,8 +854,12 @@ const Header = ({ currentPage, navigate }) => {
           overflowY: 'auto'
         }}>
           {navItems.map(item => (
-            <div key={item.page}>
-              <button onClick={() => { navigate(item.page); setMobileOpen(false); }} style={{
+            <div key={item.label}>
+              <button onClick={() => {
+                if (item.scrollToFaq) navigate('contact', { scrollToFaq: true });
+                else navigate(item.page);
+                setMobileOpen(false);
+              }} style={{
                 display: 'block', width: '100%', textAlign: 'left', background: 'none', border: 'none',
                 padding: '16px 0', fontSize: '1.15rem', fontWeight: 600, color: 'var(--midnight)',
                 borderBottom: '1px solid #eee', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif"
@@ -614,9 +912,9 @@ const Footer = ({ navigate }) => (
       </div>
       <div>
         <div style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 16 }}>Company</div>
-        {[{ label: 'About Us', page: 'about' }, { label: 'Reviews', page: 'reviews' }, { label: 'Contact', page: 'contact' }].map(item => (
-          <div key={item.page} style={{ marginBottom: 10 }}>
-            <button onClick={() => navigate(item.page)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem', cursor: 'pointer', padding: 0, fontFamily: "'DM Sans', sans-serif" }}>{item.label}</button>
+        {[{ label: 'About Us', page: 'about' }, { label: 'Reviews', page: 'reviews' }, { label: 'Contact', page: 'contact' }, { label: 'FAQ', page: 'contact', scrollToFaq: true }].map(item => (
+          <div key={item.label} style={{ marginBottom: 10 }}>
+            <button onClick={() => (item.scrollToFaq ? navigate('contact', { scrollToFaq: true }) : navigate(item.page))} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem', cursor: 'pointer', padding: 0, fontFamily: "'DM Sans', sans-serif" }}>{item.label}</button>
           </div>
         ))}
       </div>
@@ -711,7 +1009,7 @@ const HomePage = ({ navigate }) => (
           margin: '0 auto',
           padding: 'clamp(32px, 5vw, 80px) clamp(24px, 4vw, 48px)',
           display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1.08fr) minmax(240px, 0.88fr)',
+          gridTemplateColumns: 'minmax(0, 1.05fr) minmax(280px, 1fr)',
           gap: 'clamp(36px, 5vw, 56px)',
           alignItems: 'start',
         }}
@@ -722,34 +1020,6 @@ const HomePage = ({ navigate }) => (
             <span style={{ width: 8, height: 8, background: 'var(--flame)', borderRadius: '50%', animation: 'dotPulse 1.5s ease-in-out infinite' }} />
             It's already 82° inside. It's going to be 110° today.
           </div>
-          <button
-            type="button"
-            onClick={() => navigate('contact', { scrollToForm: true })}
-            className="anim-fadeInUp anim-d2"
-            aria-label="Book a service call — open scheduling form"
-            style={{
-              marginBottom: 22,
-              padding: '16px 20px',
-              borderRadius: 18,
-              background: 'linear-gradient(135deg, rgba(212,165,57,0.18) 0%, rgba(196,30,36,0.14) 55%, rgba(21,101,160,0.1) 100%)',
-              border: '1px solid rgba(212,165,57,0.45)',
-              boxShadow: '0 12px 40px rgba(0,0,0,0.25)',
-              maxWidth: 520,
-              width: '100%',
-              cursor: 'pointer',
-              textAlign: 'left',
-              fontFamily: 'inherit',
-            }}
-          >
-            <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.65rem, 3.2vw, 2.35rem)', color: 'var(--gold)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>
-              {SERVICE_CALL_PRICE}{' '}
-              <span style={{ color: 'rgba(248,250,252,0.98)', fontSize: '0.52em', fontWeight: 700, fontFamily: "'DM Sans', sans-serif", letterSpacing: '0.02em', verticalAlign: 'middle' }}>service call</span>
-            </div>
-            <p style={{ margin: '10px 0 0', fontSize: '0.92rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.55, fontWeight: 500 }}>
-              Flat rate to get a licensed tech on site — clear diagnosis, upfront quote before we start work.{' '}
-              <strong style={{ color: 'rgba(255,255,255,0.95)' }}>That’s how we earn your trust.</strong>
-            </p>
-          </button>
           <h2 className="anim-fadeInUp anim-d3" style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.75rem, 3.6vw, 2.65rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.12, marginBottom: 22 }}>
             Your AC Went Down.<br />We're Already <span style={{ color: '#E0F2FE' }}>On Our Way.</span>
           </h2>
@@ -786,45 +1056,71 @@ const HomePage = ({ navigate }) => (
           className="hero-van-column"
           style={{
             display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'flex-start',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-end',
             paddingTop: 2,
             minHeight: 0,
+            gap: 16,
           }}
         >
-          <div
-            className="hero-van-photo"
-            style={{
-              position: 'relative',
-              width: '100%',
-              maxWidth: 400,
-              borderRadius: 22,
-              overflow: 'hidden',
-              boxShadow: '0 22px 56px rgba(0,0,0,0.42), 0 0 0 1px rgba(255,255,255,0.08) inset',
-              border: '1px solid rgba(255,255,255,0.1)',
-              aspectRatio: '4 / 5',
-              maxHeight: 'min(480px, 58vh)',
-            }}
-          >
-            <img
-              src={HERO_VAN_PHOTO}
-              alt="All Star Refrigeration service van — Phoenix metro"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center 42%',
-                display: 'block',
-              }}
-            />
+          <div style={{ width: '100%', maxWidth: 540, display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div
+              className="hero-van-photo"
               style={{
-                position: 'absolute',
-                inset: 0,
-                pointerEvents: 'none',
-                background: 'linear-gradient(180deg, transparent 50%, rgba(13,27,42,0.4) 100%)',
+                position: 'relative',
+                width: '100%',
+                borderRadius: 22,
+                overflow: 'hidden',
+                boxShadow: '0 22px 56px rgba(0,0,0,0.42), 0 0 0 1px rgba(255,255,255,0.08) inset',
+                border: '1px solid rgba(255,255,255,0.1)',
+                background: 'rgba(13,27,42,0.35)',
               }}
-            />
+            >
+              <img
+                src={HERO_VAN_PHOTO}
+                alt="All Star Refrigeration service van — Phoenix metro"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  display: 'block',
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  pointerEvents: 'none',
+                  background: 'linear-gradient(180deg, transparent 50%, rgba(13,27,42,0.4) 100%)',
+                }}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => navigate('contact', { scrollToForm: true })}
+              className="anim-fadeInUp anim-d2"
+              aria-label="Book a service call — open scheduling form"
+              style={{
+                padding: '16px 20px',
+                borderRadius: 18,
+                background: 'linear-gradient(135deg, rgba(212,165,57,0.18) 0%, rgba(196,30,36,0.14) 55%, rgba(21,101,160,0.1) 100%)',
+                border: '1px solid rgba(212,165,57,0.45)',
+                boxShadow: '0 12px 40px rgba(0,0,0,0.25)',
+                width: '100%',
+                cursor: 'pointer',
+                textAlign: 'left',
+                fontFamily: 'inherit',
+              }}
+            >
+              <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.65rem, 3.2vw, 2.35rem)', color: 'var(--gold)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>
+                {SERVICE_CALL_PRICE}{' '}
+                <span style={{ color: 'rgba(248,250,252,0.98)', fontSize: '0.52em', fontWeight: 700, fontFamily: "'DM Sans', sans-serif", letterSpacing: '0.02em', verticalAlign: 'middle' }}>service call</span>
+              </div>
+              <p style={{ margin: '10px 0 0', fontSize: '0.92rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.55, fontWeight: 500 }}>
+                Flat rate to get a licensed tech on site — clear diagnosis, upfront quote before we start work.{' '}
+                <strong style={{ color: 'rgba(255,255,255,0.95)' }}>That’s how we earn your trust.</strong>
+              </p>
+            </button>
           </div>
         </div>
       </div>
@@ -841,15 +1137,15 @@ const HomePage = ({ navigate }) => (
           }
           .hero-van-column {
             justify-content: center !important;
+            align-items: center !important;
             padding-top: 0 !important;
           }
           .hero-van-photo {
             max-width: 100% !important;
-            aspect-ratio: 16 / 10 !important;
-            max-height: 300px !important;
           }
           .hero-van-photo img {
-            object-position: center 38% !important;
+            width: 100% !important;
+            height: auto !important;
           }
         }
       `}</style>
@@ -897,7 +1193,7 @@ const HomePage = ({ navigate }) => (
               className="photo-strip__item"
               style={{ backgroundImage: `url('${photo.src}')` }}
               role="img"
-              aria-label={photo.title}
+              aria-label={`${photo.title} ${photo.subtitle}`}
             >
               <div className="photo-strip__label">
                 <span>{photo.title}</span>
@@ -929,21 +1225,34 @@ const HomePage = ({ navigate }) => (
               gap: 14,
             }}
           >
-            {OWNER_GALLERY_PHOTOS.map((file, i) => (
-              <img
-                key={file}
-                src={`/photos/${file}`}
-                alt={`All Star Refrigeration work photo ${i + 1}`}
-                loading="lazy"
-                style={{
-                  width: "100%",
-                  aspectRatio: "4 / 3",
-                  objectFit: "cover",
-                  borderRadius: 16,
-                  boxShadow: "0 4px 18px rgba(15,23,42,0.12)",
-                }}
-              />
-            ))}
+            {OWNER_GALLERY_PHOTOS.map((file, i) => {
+              const useContain = GALLERY_CONTAIN_FILENAMES.includes(file);
+              const alt =
+                file === "image0.jpeg"
+                  ? "Better Business Bureau Accredited — All Star Refrigeration"
+                  : file === "image12.jpeg"
+                    ? "Heating and HVAC service — All Star Refrigeration"
+                    : `All Star Refrigeration work photo ${i + 1}`;
+              return (
+                <img
+                  key={file}
+                  src={`/photos/${file}`}
+                  alt={alt}
+                  loading="lazy"
+                  style={{
+                    width: "100%",
+                    aspectRatio: "4 / 3",
+                    objectFit: useContain ? "contain" : "cover",
+                    objectPosition: "center",
+                    background: useContain ? "var(--warm-white)" : undefined,
+                    padding: useContain ? 8 : 0,
+                    boxSizing: "border-box",
+                    borderRadius: 16,
+                    boxShadow: "0 4px 18px rgba(15,23,42,0.12)",
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
       </section>
@@ -1248,59 +1557,214 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
   const svc = SERVICES.find(s => s.id === serviceId);
   if (!svc) return <div style={{ padding: 80, textAlign: 'center', fontFamily: "'DM Sans', sans-serif" }}>Service not found. <button onClick={() => navigate('services')}>Back to services</button></div>;
 
+  const isRepairPage = serviceId === REPAIR_SERVICE_ID;
+  const isInstallPage = serviceId === AC_INSTALL_SERVICE_ID;
+  const isHeatingPage = serviceId === HEATING_SERVICE_ID;
+  const isMaintenancePage = serviceId === MAINTENANCE_SERVICE_ID;
+  const hasServiceHeroPhoto =
+    isRepairPage || isInstallPage || isHeatingPage || isMaintenancePage;
+
+  const serviceHeroInner = (
+    <>
+      <button onClick={() => navigate('services')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem', cursor: 'pointer', marginBottom: 10, fontFamily: "'DM Sans', sans-serif", display: 'flex', alignItems: 'center', gap: 6 }}>
+        ← All Services
+      </button>
+      <div style={{ width: 52, height: 52, borderRadius: 14, background: `${svc.color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: svc.bgColor, marginBottom: 14 }}>
+        <svc.icon />
+      </div>
+      <h1 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.5rem, 3.8vw, 2.35rem)', color: 'white', lineHeight: 1.12, marginBottom: 10 }}>{svc.hero}</h1>
+      <p style={{ fontSize: '0.98rem', color: 'rgba(255,255,255,0.62)', lineHeight: 1.5, maxWidth: 520 }}>{svc.heroSub}</p>
+      <div style={{ marginTop: 18, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+        <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--flame)', color: 'white', padding: '11px 20px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem', boxShadow: '0 6px 25px rgba(196,30,36,0.35)', fontFamily: "'DM Sans', sans-serif" }}>
+          <PhoneIcon /> Call — {SERVICE_CALL_SHORT}
+        </a>
+        <button onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'none', color: 'rgba(255,255,255,0.7)', padding: '11px 18px', borderRadius: 60, border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', fontWeight: 600, fontSize: '0.92rem', fontFamily: "'DM Sans', sans-serif" }}>
+          Schedule Online
+        </button>
+      </div>
+    </>
+  );
+
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif" }}>
-      {/* Hero */}
-      <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--midnight)', position: 'relative', overflow: 'hidden' }}>
+      {/* Hero — compact padding + type on all service detail pages */}
+      <section className="service-detail-hero-section" style={{ background: 'var(--midnight)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 80% 20%, ${svc.color}15 0%, transparent 50%)` }} />
-        <div style={{ maxWidth: 800, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <button onClick={() => navigate('services')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', cursor: 'pointer', marginBottom: 24, fontFamily: "'DM Sans', sans-serif", display: 'flex', alignItems: 'center', gap: 6 }}>
-            ← All Services
-          </button>
-          <div style={{ width: 64, height: 64, borderRadius: 18, background: `${svc.color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: svc.bgColor, marginBottom: 24 }}>
-            <svc.icon />
-          </div>
-          <h1 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 5vw, 3rem)', color: 'white', lineHeight: 1.08, marginBottom: 18 }}>{svc.hero}</h1>
-          <p style={{ fontSize: '1.15rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, maxWidth: 600 }}>{svc.heroSub}</p>
-          <div style={{ marginTop: 32, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-            <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '16px 32px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1.05rem', boxShadow: '0 6px 25px rgba(196,30,36,0.35)', fontFamily: "'DM Sans', sans-serif" }}>
-              <PhoneIcon /> Call — {SERVICE_CALL_SHORT}
-            </a>
-            <button onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'none', color: 'rgba(255,255,255,0.7)', padding: '16px 24px', borderRadius: 60, border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', fontWeight: 600, fontFamily: "'DM Sans', sans-serif" }}>
-              Schedule Online
-            </button>
-          </div>
+        <div style={{ maxWidth: hasServiceHeroPhoto ? 1100 : 800, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          {isRepairPage ? (
+            <div className="service-detail-hero-grid">
+              <div style={{ minWidth: 0 }}>{serviceHeroInner}</div>
+              <div className="service-detail-van-photo">
+                <img src={REPAIR_PAGE_VAN_PHOTO} alt="All Star Refrigeration service van — on the way to your home" />
+              </div>
+            </div>
+          ) : isInstallPage ? (
+            <div className="service-detail-hero-grid">
+              <div style={{ minWidth: 0 }}>{serviceHeroInner}</div>
+              <div className="service-detail-van-photo">
+                <img src={INSTALL_PAGE_HERO_PHOTO} alt="New AC system installation — equipment sized and installed for your home" />
+              </div>
+            </div>
+          ) : isHeatingPage ? (
+            <div className="service-detail-hero-grid">
+              <div style={{ minWidth: 0 }}>{serviceHeroInner}</div>
+              <div className="service-detail-van-photo">
+                <img src={HEATING_PAGE_HERO_PHOTO} alt="Heating service — heat pumps, furnaces, and winter comfort in Phoenix" />
+              </div>
+            </div>
+          ) : isMaintenancePage ? (
+            <div className="service-detail-hero-grid">
+              <div style={{ minWidth: 0 }}>{serviceHeroInner}</div>
+              <div className="service-detail-van-photo">
+                <img src={MAINTENANCE_PAGE_HERO_PHOTO} alt="Seasonal HVAC maintenance — tune-ups and system care in Phoenix" />
+              </div>
+            </div>
+          ) : (
+            <>{serviceHeroInner}</>
+          )}
         </div>
       </section>
 
       {/* What's Included */}
-      <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--warm-white)' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 50 }}>
-          <div>
-            <SectionTag>What's included</SectionTag>
-            <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '1.8rem', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 24 }}>What You Get</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {svc.details.map((d, i) => (
-                <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                  <div style={{ color: 'var(--cool)', marginTop: 2, flexShrink: 0 }}><CheckIcon /></div>
-                  <span style={{ fontSize: '1rem', color: '#4A5568', lineHeight: 1.55 }}>{d}</span>
+      <section style={{ padding: isRepairPage || isInstallPage || isHeatingPage || isMaintenancePage ? 'clamp(36px, 5vw, 64px) clamp(24px, 4vw, 80px)' : 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--warm-white)' }}>
+        {isRepairPage ? (
+          <div className="repair-included-section repair-included-stack">
+            <div style={{ minWidth: 0, textAlign: 'left' }}>
+              <SectionTag>What's included</SectionTag>
+              <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {svc.details.map((d, i) => (
+                  <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                    <div style={{ color: 'var(--cool)', marginTop: 2, flexShrink: 0 }}><CheckIcon /></div>
+                    <span style={{ fontSize: '0.94rem', color: '#4A5568', lineHeight: 1.45 }}>{d}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: 28 }}>
+                <SectionTag>Common scenarios</SectionTag>
+                <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {svc.scenarios.map((s, i) => (
+                    <div key={i} style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid rgba(0,0,0, 0.04)' }}>
+                      <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.9rem', marginBottom: 3 }}>{s.title}</div>
+                      <div style={{ fontSize: '0.86rem', color: '#718096', lineHeight: 1.45 }}>{s.desc}</div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+            </div>
+            <aside className="repair-photos-stack" aria-label="Emergency repair and installation photos">
+              <div className="repair-photo-tile repair-photo-tile--pair">
+                <img src={REPAIR_PAGE_WORK_PHOTO} alt="All Star technician performing HVAC repair and installation work" />
+              </div>
+              <div className="repair-photo-tile repair-photo-tile--pair">
+                <img src={REPAIR_PAGE_SIDE_PHOTO} alt="All Star HVAC electrical and control work on location" />
+              </div>
+              <div className="repair-photo-tile repair-photo-tile--pair">
+                <img src={REPAIR_PAGE_WHEN_TO_CALL_PHOTO} alt="HVAC service and equipment — same quality work you see on every All Star job" />
+              </div>
+            </aside>
+          </div>
+        ) : isInstallPage ? (
+          <div className="repair-included-section repair-included-paired-rows install-pair-rows">
+            <div className="repair-left-what" style={{ minWidth: 0, textAlign: 'left' }}>
+              <SectionTag>What's included</SectionTag>
+              <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {svc.details.map((d, i) => (
+                  <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                    <div style={{ color: 'var(--cool)', marginTop: 2, flexShrink: 0 }}><CheckIcon /></div>
+                    <span style={{ fontSize: '0.94rem', color: '#4A5568', lineHeight: 1.45 }}>{d}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <aside className="repair-right-p1 repair-pair-right" aria-label="Installation — equipment on site">
+              <div className="install-pair-photo-grid__item">
+                <img src={INSTALL_PAGE_PHOTO_GRID_LEFT} alt="HVAC replacement and new equipment on site" />
+              </div>
+            </aside>
+            <div className="repair-left-when" style={{ minWidth: 0, textAlign: 'left' }}>
+              <SectionTag>Common scenarios</SectionTag>
+              <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {svc.scenarios.map((s, i) => (
+                  <div key={i} style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid rgba(0,0,0,0.04)' }}>
+                    <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.9rem', marginBottom: 3 }}>{s.title}</div>
+                    <div style={{ fontSize: '0.86rem', color: '#718096', lineHeight: 1.45 }}>{s.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <aside className="repair-right-p2 repair-pair-right" aria-label="Installation — lifts and commercial work">
+              <div className="install-pair-photo-grid__item">
+                <img src={INSTALL_PAGE_PHOTO_CRANE} alt="Commercial HVAC — lifts and installs for heavy equipment" />
+              </div>
+            </aside>
+          </div>
+        ) : isMaintenancePage ? (
+          <div className="repair-included-section">
+            <div style={{ minWidth: 0, textAlign: 'left' }}>
+              <SectionTag>What's included</SectionTag>
+              <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {svc.details.map((d, i) => (
+                  <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                    <div style={{ color: 'var(--cool)', marginTop: 2, flexShrink: 0 }}><CheckIcon /></div>
+                    <span style={{ fontSize: '0.94rem', color: '#4A5568', lineHeight: 1.45 }}>{d}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: 28 }}>
+                <SectionTag>Common scenarios</SectionTag>
+                <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {svc.scenarios.map((s, i) => (
+                    <div key={i} style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid rgba(0,0,0,0.04)' }}>
+                      <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.9rem', marginBottom: 3 }}>{s.title}</div>
+                      <div style={{ fontSize: '0.86rem', color: '#718096', lineHeight: 1.45 }}>{s.desc}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <aside className="repair-section-photos" aria-label="Maintenance service photos">
+              <div className="repair-photo-tile">
+                <img src={MAINTENANCE_PAGE_SIDEBAR_PHOTO} alt="Seasonal tune-up and maintenance — keeping your system efficient" />
+              </div>
+              <p style={{ fontSize: '0.82rem', color: '#718096', lineHeight: 1.45, fontStyle: 'italic', margin: 0, textAlign: 'right' }}>
+                Tune-ups and inspections — stay ahead of breakdowns before the Phoenix heat hits.
+              </p>
+            </aside>
+          </div>
+        ) : (
+          <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 40 }}>
+            <div>
+              <SectionTag>What's included</SectionTag>
+              <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {svc.details.map((d, i) => (
+                  <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                    <div style={{ color: 'var(--cool)', marginTop: 2, flexShrink: 0 }}><CheckIcon /></div>
+                    <span style={{ fontSize: '0.94rem', color: '#4A5568', lineHeight: 1.45 }}>{d}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <SectionTag>Common scenarios</SectionTag>
+              <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {svc.scenarios.map((s, i) => (
+                  <div key={i} style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid rgba(0,0,0,0.04)' }}>
+                    <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.9rem', marginBottom: 3 }}>{s.title}</div>
+                    <div style={{ fontSize: '0.86rem', color: '#718096', lineHeight: 1.45 }}>{s.desc}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-          <div>
-            <SectionTag>Common scenarios</SectionTag>
-            <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '1.8rem', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 24 }}>When to Call Us</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              {svc.scenarios.map((s, i) => (
-                <div key={i} style={{ background: 'white', borderRadius: 14, padding: '20px 22px', border: '1px solid rgba(0,0,0,0.04)' }}>
-                  <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem', marginBottom: 4 }}>{s.title}</div>
-                  <div style={{ fontSize: '0.9rem', color: '#718096', lineHeight: 1.55 }}>{s.desc}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        )}
       </section>
 
       <CTABanner navigate={navigate} />
@@ -1404,12 +1868,47 @@ const ReviewsPage = ({ navigate }) => (
 
 // ========== CONTACT ==========
 const ContactPage = ({ navigate }) => {
-  const [form, setForm] = useState({ name: '', phone: '', email: '', service: '', urgency: '', message: '' });
+  const [form, setForm] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    service: '',
+    urgency: '',
+    message: '',
+    company: '',
+  });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitError('');
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          email: form.email,
+          service: form.service,
+          urgency: form.urgency,
+          message: form.message,
+          company: form.company,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || 'Could not send. Please try again or call us.');
+      }
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(err.message || 'Something went wrong. Please call or email us.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const inputStyle = {
@@ -1487,9 +1986,21 @@ const ContactPage = ({ navigate }) => {
                 <p style={{ color: '#4A5568', lineHeight: 1.6 }}>We'll be in touch within the hour. If it's urgent, don't wait — call us directly at <a href={PHONE_HREF} style={{ color: 'var(--flame)', fontWeight: 700 }}>{PHONE}</a>.</p>
               </div>
             ) : (
-              <form id="contact-form" onSubmit={handleSubmit} style={{ background: 'white', borderRadius: 20, padding: 'clamp(24px, 4vw, 40px)', border: '1px solid rgba(0,0,0,0.06)', scrollMarginTop: 96 }}>
+              <form id="contact-form" onSubmit={handleSubmit} style={{ position: 'relative', background: 'white', borderRadius: 20, padding: 'clamp(24px, 4vw, 40px)', border: '1px solid rgba(0,0,0,0.06)', scrollMarginTop: 96 }}>
                 <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '1.4rem', color: 'var(--midnight)', marginBottom: 6 }}>Request Service</h3>
                 <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: 24 }}>Fill this out and we'll call you back within an hour.</p>
+
+                {/* Honeypot — leave hidden; bots often fill this */}
+                <div style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }} aria-hidden="true">
+                  <label htmlFor="contact-company">Company</label>
+                  <input id="contact-company" type="text" tabIndex={-1} autoComplete="off" value={form.company} onChange={e => setForm({ ...form, company: e.target.value })} />
+                </div>
+
+                {submitError && (
+                  <div style={{ marginBottom: 16, padding: '12px 14px', borderRadius: 12, background: '#FEF2F2', color: '#B91C1C', fontSize: '0.9rem', fontWeight: 600 }}>
+                    {submitError}
+                  </div>
+                )}
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                   <div>
@@ -1535,11 +2046,15 @@ const ContactPage = ({ navigate }) => {
                   <textarea style={{...inputStyle, minHeight: 100, resize: 'vertical'}} value={form.message} onChange={e => setForm({...form, message: e.target.value})} placeholder="Tell us what's happening — weird noises, no cold air, thermostat reading, anything helps..." />
                 </div>
 
-                <button type="submit" style={{
-                  width: '100%', padding: '16px', background: 'var(--flame)', color: 'white', border: 'none',
-                  borderRadius: 14, fontSize: '1.05rem', fontWeight: 700, cursor: 'pointer', fontFamily: "'DM Sans', sans-serif",
-                  boxShadow: '0 4px 15px rgba(196,30,36,0.3)', transition: 'all 0.3s'
-                }}>Send Request</button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  style={{
+                    width: '100%', padding: '16px', background: submitting ? '#9CA3AF' : 'var(--flame)', color: 'white', border: 'none',
+                    borderRadius: 14, fontSize: '1.05rem', fontWeight: 700, cursor: submitting ? 'not-allowed' : 'pointer', fontFamily: "'DM Sans', sans-serif",
+                    boxShadow: '0 4px 15px rgba(196,30,36,0.3)', transition: 'all 0.3s'
+                  }}
+                >{submitting ? 'Sending…' : 'Send Request'}</button>
 
                 <p style={{ textAlign: 'center', marginTop: 14, fontSize: '0.82rem', color: '#A0AEC0' }}>
                   Need help now? Skip the form — <a href={PHONE_HREF} style={{ color: 'var(--flame)', fontWeight: 600 }}>call us directly</a>.
@@ -1550,8 +2065,8 @@ const ContactPage = ({ navigate }) => {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section style={{ padding: 'clamp(60px, 8vw, 80px) clamp(24px, 4vw, 80px)', background: 'white' }}>
+      {/* FAQ — anchor: #contact-faq for direct links */}
+      <section id="contact-faq" style={{ scrollMarginTop: 96, padding: 'clamp(60px, 8vw, 80px) clamp(24px, 4vw, 80px)', background: 'white' }}>
         <div style={{ maxWidth: 750, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <SectionTag>FAQ</SectionTag>
@@ -1590,6 +2105,8 @@ const FAQItem = ({ q, a }) => {
 // --------------- ROUTER ---------------
 export default function AllStarWebsite() {
   const [page, setPage] = useState('home');
+  /** When on contact page: which nav intent — highlights Contact vs FAQ ('top' | 'form' | 'faq') */
+  const [contactNavTarget, setContactNavTarget] = useState(null);
   const pageRef = useRef(page);
   pageRef.current = page;
 
@@ -1607,16 +2124,36 @@ export default function AllStarWebsite() {
     document.title = titles[page] || base;
   }, [page]);
 
+  const clearUrlHash = () => {
+    if (typeof history === 'undefined') return;
+    const path = window.location.pathname + window.location.search;
+    if (window.location.hash) history.replaceState(null, '', path);
+  };
+
   const navigate = (p, opts) => {
     const prev = pageRef.current;
     const willChange = prev !== p;
     setPage(p);
+    if (p === 'contact') {
+      if (opts?.scrollToForm) setContactNavTarget('form');
+      else if (opts?.scrollToFaq) setContactNavTarget('faq');
+      else setContactNavTarget('top');
+    } else {
+      setContactNavTarget(null);
+    }
     if (opts?.scrollToForm) {
+      clearUrlHash();
       setTimeout(() => {
         document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, willChange ? 280 : 80);
+    } else if (opts?.scrollToFaq) {
+      setTimeout(() => {
+        document.getElementById('contact-faq')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (typeof history !== 'undefined') history.replaceState(null, '', `${window.location.pathname}${window.location.search}#contact-faq`);
+      }, willChange ? 280 : 80);
     } else {
       queueMicrotask(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+      queueMicrotask(() => clearUrlHash());
     }
   };
 
@@ -1633,7 +2170,7 @@ export default function AllStarWebsite() {
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--charcoal)', background: 'var(--warm-white)', minHeight: '100vh' }}>
       <EmergencyBar navigate={navigate} />
-      <Header currentPage={page} navigate={navigate} />
+      <Header currentPage={page} navigate={navigate} contactNavTarget={contactNavTarget} />
       {renderPage()}
       <Footer navigate={navigate} />
       <div className="allstar-mobile-cta">

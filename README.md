@@ -14,6 +14,21 @@ npm run dev
 
 Open **http://localhost:5173**.
 
+### Contact form (serverless email)
+
+The form **POSTs to `/api/contact`** on Vercel. **Nothing is emailed** (including to the business inbox) until you turn it on.
+
+1. **`CONTACT_EMAIL_ENABLED`** — set to **`true`** in Vercel when you’re ready to receive lead emails. If unset or not `true`, submissions still show “We got it!” but **no mail is sent** (no Resend call; visitors are **not** emailed either).
+
+2. When **`CONTACT_EMAIL_ENABLED=true`**, add **[Resend](https://resend.com)**:
+   - **`RESEND_API_KEY`**
+   - **`CONTACT_TO_EMAIL`** (optional; defaults to `allstarrefrigeration@gmail.com`)
+   - **`CONTACT_FROM`** — e.g. `All Star Website <onboarding@resend.dev>` until your domain is verified in Resend.
+
+3. Copy **`.env.example`** → **`.env`** for local **`npx vercel dev`** testing.
+
+4. Plain **`npm run dev`** does not run `/api/*`; use **`vercel dev`** for full-stack local tests.
+
 ## Deploy on Vercel (owner can view + you can edit)
 
 1. **Put the project in Git** (if it isn’t already):
