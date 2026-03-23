@@ -129,6 +129,30 @@ const injectStyles = () => {
       --charcoal: #1A1A1A;
       --gold: #D4A547;
     }
+    .skip-to-content {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      z-index: 9999;
+      background: var(--midnight);
+      color: white;
+      padding: 12px 24px;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 0 0 8px 0;
+      text-decoration: none;
+    }
+    .skip-to-content:focus {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: auto;
+      height: auto;
+      overflow: visible;
+    }
     
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(25px); }
@@ -279,18 +303,74 @@ const injectStyles = () => {
       gap: 10px;
       text-decoration: none;
     }
+    .footer-contact-block {
+      min-width: 0;
+    }
     .footer-contact-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      max-width: 100%;
       color: rgba(255,255,255,0.78);
       text-decoration: none;
-      font-size: 0.9rem;
-      margin-bottom: 10px;
-      padding: 8px 0;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      padding: 10px 0;
       min-height: 44px;
       box-sizing: border-box;
       transition: color 0.2s ease;
+      line-height: 1.45;
+    }
+    .footer-contact-link svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .footer-contact-link__text {
+      flex: 1;
+      min-width: 0;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .footer-address-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+    .footer-address-line svg {
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    .footer-address-line span {
+      flex: 1;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+    @media (max-width: 520px) {
+      .footer-contact-link {
+        font-size: 1rem;
+        padding: 12px 0;
+      }
+    }
+    .footer-cta-call {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      max-width: 100%;
+      flex-wrap: wrap;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    @media (max-width: 400px) {
+      .footer-cta-call {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        font-size: 0.95rem !important;
+      }
     }
     .footer-contact-link:hover {
       color: #fff;
@@ -311,6 +391,40 @@ const injectStyles = () => {
     @media (max-width: 480px) {
       .form-row-2col { grid-template-columns: 1fr; }
     }
+    .hero-van-photo-inner {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      max-height: min(440px, 52vh);
+      overflow: hidden;
+    }
+    .hero-van-photo-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 42%;
+      display: block;
+    }
+    .home-trust-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(10px, 2vw, 24px);
+      font-family: 'DM Sans', sans-serif;
+    }
+    .home-trust-bar__item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.88);
+      font-size: clamp(0.78rem, 1.5vw, 0.9rem);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    @media (max-width: 520px) {
+      .home-trust-bar__item { white-space: normal; text-align: center; max-width: 140px; justify-content: center; }
+    }
     @media (max-width: 768px) {
       .pricing-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
       .about-values-grid { grid-template-columns: repeat(2, 1fr) !important; }
@@ -326,6 +440,9 @@ const injectStyles = () => {
     }
     @media (max-width: 899px) {
       .allstar-mobile-cta { display: flex; }
+      .allstar-app-root {
+        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+      }
     }
 
     .photo-strip {
@@ -622,17 +739,17 @@ const SERVICE_CALL_PRICE = "$89";
 const SERVICE_CALL_SHORT = `${SERVICE_CALL_PRICE} service call`;
 
 /** Home hero image beside headline; change filename to swap. */
-const HERO_VAN_FILENAME = "image3.jpeg";
+const HERO_VAN_FILENAME = "IMG_1826.jpeg";
 const HERO_VAN_PHOTO = `/photos/${HERO_VAN_FILENAME}`;
 
 /** Emergency AC Repair service page — van + on-the-job (not shown on home gallery). */
 const REPAIR_SERVICE_ID = "emergency-ac-repair";
-const REPAIR_PAGE_VAN_PHOTO = "/photos/image3.jpeg";
+const REPAIR_PAGE_VAN_PHOTO = HERO_VAN_PHOTO;
 const REPAIR_PAGE_WORK_PHOTO = "/photos/image10.jpeg";
 const REPAIR_PAGE_SIDE_PHOTO = "/photos/image13.jpeg";
 /** Second row beside “When to Call Us” — also on home strip (`image8`). */
 const REPAIR_PAGE_WHEN_TO_CALL_PHOTO = "/photos/image8.jpeg";
-/** Electrical / control shot stays off the home gallery. Tech shot (image10) is on the home strip + repair page; van (image3) in gallery. */
+/** Electrical / control shot stays off the home gallery. Tech shot (image10) is on the home strip + repair page. Hero van is next to headline only — not duplicated in gallery. */
 const REPAIR_PAGE_GALLERY_EXCLUDE = ["image13.jpeg"];
 
 /** AC Installation & Replacement service page — hero + supporting shots (not in home gallery). */
@@ -659,7 +776,7 @@ const MAINTENANCE_PAGE_GALLERY_EXCLUDE = ["image7.jpeg"];
 const OWNER_PHOTO_FILES = [
   "image0.jpeg",
   "image1.jpeg",
-  "image3.jpeg",
+  "IMG_1826.jpeg",
   "image4.jpeg",
   "image5.jpeg",
   "image6.jpeg",
@@ -698,10 +815,10 @@ const PHOTO_STRIP_FILENAMES = ["image10.jpeg", "image1.jpeg", "image8.jpeg"];
 /** “Our work” tiles that use `object-fit: contain` so logos or full equipment aren’t cropped. */
 const GALLERY_CONTAIN_FILENAMES = ["image0.jpeg"];
 
-/** Excluded from home “Our work” only (files may still appear on service pages). */
-const HOME_GALLERY_EXCLUDE = ["image11.jpeg", "image15.jpeg"];
+/** Excluded from home “Our work” only (files may still appear on service pages). Hero van (`HERO_VAN_FILENAME`) shown beside headline only — not in gallery. */
+const HOME_GALLERY_EXCLUDE = ["image11.jpeg", "image15.jpeg", HERO_VAN_FILENAME];
 
-/** Owner photos for “Our work” gallery (hero image may appear here too; strip & service-detail-only shots still excluded). */
+/** Owner photos for “Our work” gallery (strip & service-detail-only + hero van excluded). */
 const OWNER_GALLERY_PHOTOS = OWNER_PHOTO_FILES.filter(
   (f) =>
     !PHOTO_STRIP_FILENAMES.includes(f) &&
@@ -921,7 +1038,7 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
       </div>
 
       {/* Desktop Nav */}
-      <nav style={{ display: 'flex', alignItems: 'center', gap: 6 }} className="desktop-nav">
+      <nav aria-label="Main navigation" style={{ display: 'flex', alignItems: 'center', gap: 6 }} className="desktop-nav">
         {navItems.map(item => (
           <div key={item.label} style={{ position: 'relative' }}
             onMouseEnter={() => item.dropdown && setServicesOpen(true)}
@@ -992,7 +1109,7 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div style={{
+        <nav aria-label="Mobile navigation" style={{
           position: 'fixed', top: 72, left: 0, right: 0, bottom: 0, background: 'white', zIndex: 89,
           padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 4,
           overflowY: 'auto'
@@ -1021,7 +1138,7 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
               )}
             </div>
           ))}
-        </div>
+        </nav>
       )}
 
       <style>{`
@@ -1040,8 +1157,8 @@ const Footer = ({ navigate }) => (
     {/* Mini CTA */}
     <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center', marginBottom: 48, paddingBottom: 40, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
       <h4 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.4rem, 3vw, 1.8rem)', color: 'white', marginBottom: 16 }}>Ready to Stop Sweating?</h4>
-      <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '14px 32px', borderRadius: 50, fontWeight: 700, textDecoration: 'none', fontSize: '1rem', boxShadow: '0 4px 18px rgba(196,30,36,0.35)', transition: 'all 0.3s', fontFamily: "'DM Sans', sans-serif" }}>
-        <PhoneIcon /> {PHONE}
+      <a href={PHONE_HREF} className="footer-cta-call" style={{ background: 'var(--flame)', color: 'white', padding: '14px 32px', borderRadius: 50, fontWeight: 700, textDecoration: 'none', fontSize: '1rem', boxShadow: '0 4px 18px rgba(196,30,36,0.35)', transition: 'all 0.3s', fontFamily: "'DM Sans', sans-serif" }}>
+        <PhoneIcon /> <span style={{ lineHeight: 1.3 }}>{PHONE}</span>
       </a>
     </div>
     <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'clamp(24px, 4vw, 40px)' }}>
@@ -1079,24 +1196,27 @@ const Footer = ({ navigate }) => (
           </div>
         ))}
       </div>
-      <div>
+      <div className="footer-contact-block">
         <div style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 16 }}>Contact</div>
         <a href={PHONE_HREF} className="footer-contact-link" aria-label={`Call ${PHONE}`}>
           <PhoneIcon />
-          <span>{PHONE}</span>
+          <span className="footer-contact-link__text">{PHONE}</span>
         </a>
         <a href={EMAIL_HREF} className="footer-contact-link" aria-label={`Email ${EMAIL}`}>
           <MailIcon />
-          <span style={{ overflowWrap: 'anywhere' }}>{EMAIL}</span>
+          <span className="footer-contact-link__text">{EMAIL}</span>
         </a>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>
-          <MapPinIcon /> 16227 N 28th Pl, Phoenix, AZ 85032
+        <div className="footer-address-line">
+          <MapPinIcon />
+          <span>16227 N 28th Pl, Phoenix, AZ 85032</span>
         </div>
       </div>
     </div>
-    <div style={{ maxWidth: 1100, margin: '30px auto 0', paddingTop: 20, borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10, fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)' }}>
-      <span>© 2026 All Star Refrigeration. All rights reserved.</span>
-      <div style={{ display: 'flex', gap: 20 }}>
+    <div style={{ maxWidth: 1100, margin: '24px auto 0', paddingTop: 18, borderTop: '1px solid rgba(255,255,255,0.06)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.32)', lineHeight: 1.6, textAlign: 'center' }}>
+      <p style={{ margin: '0 0 8px' }}>Proudly serving {SERVICE_AREAS.join(', ')} and surrounding communities in the Phoenix metro area.</p>
+      <p style={{ margin: '0 0 8px' }}>AC repair · AC installation · heating repair · heat pump service · seasonal maintenance · refrigeration</p>
+      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '6px 20px', marginTop: 10 }}>
+        <span>© 2026 All Star Refrigeration. All rights reserved.</span>
         <span>ROC Licensed</span><span>Fully Insured</span><span>Phoenix, AZ</span>
       </div>
     </div>
@@ -1182,38 +1302,24 @@ const HomePage = ({ navigate }) => (
         <div style={{ minWidth: 0, paddingTop: 2 }}>
           <div className="anim-fadeInUp anim-d2" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(196,30,36,0.15)', border: '1px solid rgba(196,30,36,0.3)', color: '#E88A8D', padding: '8px 18px', borderRadius: 30, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.04em', marginBottom: 16 }}>
             <span style={{ width: 8, height: 8, background: 'var(--flame)', borderRadius: '50%', animation: 'dotPulse 1.5s ease-in-out infinite' }} />
-            It's already 82° inside. It's going to be 110° today.
+            Same-day service · Phoenix metro
           </div>
-          <h1 className="anim-fadeInUp anim-d3" style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 5.5vw, 4rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.06, marginBottom: 26 }}>
-            Your AC Went Down.<br />We're Already <span style={{ color: '#E0F2FE' }}>On Our Way.</span>
+          <h1 className="anim-fadeInUp anim-d3" style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 5.5vw, 4rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.06, marginBottom: 14 }}>
+            Fast, Reliable <span style={{ color: '#E0F2FE' }}>AC Repair</span> in Phoenix
           </h1>
-          <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(1rem, 2vw, 1.18rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, marginBottom: 32, maxWidth: 560 }}>
-            You woke up sweating. The dog's panting. The thermostat reads a number that makes your stomach drop. You don't need a sales pitch — <span style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>you need someone who picks up the phone and shows up.</span>
+          <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(1.02rem, 2.1vw, 1.2rem)', color: 'rgba(255,255,255,0.88)', fontWeight: 600, marginBottom: 12, letterSpacing: '0.02em' }}>
+            Same-day service · Residential & commercial
+          </p>
+          <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(0.98rem, 1.9vw, 1.08rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, marginBottom: 28, maxWidth: 560 }}>
+            Licensed techs. Upfront pricing. Real people who answer the phone — <span style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>because when your AC quits, you need action fast.</span>
           </p>
           <div className="anim-fadeInUp anim-d5" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-            <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '16px 32px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: "'DM Sans', sans-serif" }}>
-              <PhoneIcon /> Call — {SERVICE_CALL_SHORT}
+            <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '16px 28px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: "'DM Sans', sans-serif" }}>
+              <PhoneIcon /> Call Now
             </a>
-            <button onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', background: 'none', border: '1px solid rgba(255,255,255,0.2)', padding: '16px 24px', borderRadius: 60, cursor: 'pointer', fontWeight: 600, fontSize: '1rem', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.3s' }}>
-              Schedule for later →
+            <button type="button" onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.92)', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.28)', padding: '16px 24px', borderRadius: 60, cursor: 'pointer', fontWeight: 700, fontSize: '1rem', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.3s' }}>
+              Schedule Service
             </button>
-          </div>
-          <div className="anim-fadeInUp anim-d7" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 32, rowGap: 12, marginTop: 44, paddingTop: 28, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.88rem' }}>
-              <span style={{ color: 'var(--gold)' }}><ClockIcon /></span>
-              <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>Same-day service</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', fontSize: '0.88rem' }}>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
-                <span style={{ color: 'var(--gold)' }}><ShieldIcon /></span>
-                <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>Licensed & insured</span>
-              </span>
-              <span style={{ color: 'rgba(255,255,255,0.3)', fontWeight: 400 }} aria-hidden>·</span>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
-                <span style={{ color: 'var(--gold)' }}><StarIcon /></span>
-                <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>5-star rated</span>
-              </span>
-            </div>
           </div>
         </div>
         <div
@@ -1238,24 +1344,21 @@ const HomePage = ({ navigate }) => (
                 overflow: 'hidden',
                 boxShadow: '0 22px 56px rgba(0,0,0,0.42), 0 0 0 1px rgba(255,255,255,0.08) inset',
                 border: '1px solid rgba(255,255,255,0.1)',
-                background: 'rgba(13,27,42,0.35)',
+                background: 'rgba(13,27,42,0.45)',
               }}
             >
-              <img
-                src={HERO_VAN_PHOTO}
-                alt="All Star Refrigeration service van — Phoenix metro"
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  display: 'block',
-                }}
-              />
+              <div className="hero-van-photo-inner">
+                <img
+                  src={HERO_VAN_PHOTO}
+                  alt="All Star Refrigeration service van — Phoenix metro"
+                />
+              </div>
               <div
                 style={{
                   position: 'absolute',
                   inset: 0,
                   pointerEvents: 'none',
-                  background: 'linear-gradient(180deg, transparent 50%, rgba(13,27,42,0.4) 100%)',
+                  background: 'linear-gradient(165deg, rgba(13,27,42,0.45) 0%, transparent 42%, rgba(13,27,42,0.25) 55%, rgba(13,27,42,0.65) 100%)',
                 }}
               />
             </div>
@@ -1307,12 +1410,86 @@ const HomePage = ({ navigate }) => (
           .hero-van-photo {
             max-width: 100% !important;
           }
-          .hero-van-photo img {
-            width: 100% !important;
-            height: auto !important;
+          .hero-van-photo-inner {
+            max-height: min(360px, 48vh) !important;
+            aspect-ratio: 4 / 3 !important;
           }
         }
       `}</style>
+    </section>
+
+    {/* Trust bar — conversion strip directly under hero */}
+    <section aria-label="Trust and credentials" style={{ background: 'linear-gradient(90deg, rgba(13,27,42,0.98) 0%, rgba(21,101,160,0.35) 50%, rgba(13,27,42,0.98) 100%)', borderTop: '1px solid rgba(255,255,255,0.07)', borderBottom: '1px solid rgba(255,255,255,0.07)', padding: 'clamp(16px, 2.8vw, 22px) clamp(16px, 4vw, 40px)' }}>
+      <div className="home-trust-bar" style={{ maxWidth: 1180, margin: '0 auto' }}>
+        {[
+          { icon: <StarIcon />, label: 'A+ BBB Rated' },
+          { icon: <ClockIcon />, label: '10+ Years Experience' },
+          { icon: <SnowflakeIcon />, label: 'Same-Day Service' },
+          { icon: <UsersIcon />, label: 'Residential & Commercial' },
+        ].map((item, i) => (
+          <span key={i} className="home-trust-bar__item">
+            <span style={{ color: 'var(--gold)', display: 'flex', flexShrink: 0 }}>{item.icon}</span>
+            {item.label}
+          </span>
+        ))}
+      </div>
+    </section>
+
+    {/* Problem-based conversion block + pricing hook */}
+    <section style={{ padding: 'clamp(56px, 8vw, 96px) clamp(24px, 4vw, 80px)', background: 'white', fontFamily: "'DM Sans', sans-serif" }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
+        <SectionTag>Don&apos;t wait — it only gets hotter</SectionTag>
+        <h2 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.65rem, 3.8vw, 2.35rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 12 }}>AC Not Cooling?</h2>
+        <p style={{ fontSize: '1.05rem', color: '#5a6f83', lineHeight: 1.6, marginBottom: 28, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
+          Same-day appointments when available. Tell us what you&apos;re seeing — we&apos;ll prioritize emergencies.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: 14, marginBottom: 28, textAlign: 'left' }}>
+          {[
+            { t: 'Warm or hot air at the vents', d: 'Blowing but not cold — could be refrigerant, compressor, or airflow.' },
+            { t: 'Weak or no airflow', d: 'Frozen coil, clogged filter, or duct issue — we diagnose on site.' },
+            { t: "Won't turn on", d: 'Electrical, thermostat, or motor — we get you a clear answer fast.' },
+            { t: 'Burning smell or loud noises', d: 'Shut it off and call — we treat safety issues as urgent.' },
+          ].map((row, i) => (
+            <div key={i} style={{ background: 'var(--warm-white)', borderRadius: 14, padding: '16px 18px', border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 2px 12px rgba(15,23,42,0.04)' }}>
+              <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem', marginBottom: 6 }}>{row.t}</div>
+              <div style={{ fontSize: '0.86rem', color: '#718096', lineHeight: 1.5 }}>{row.d}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 16, marginBottom: 22 }}>
+          <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 3vw, 1.75rem)', color: 'var(--cool-deep)' }}>
+            Service calls starting at {SERVICE_CALL_PRICE}
+          </div>
+          <p style={{ fontSize: '0.9rem', color: '#718096', margin: 0 }}>Flat diagnostic visit · written quote before optional repairs</p>
+        </div>
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--flame)', color: 'white', padding: '14px 26px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1rem', fontFamily: "'DM Sans', sans-serif", boxShadow: '0 6px 22px rgba(196,30,36,0.35)' }}>
+            <PhoneIcon /> Call Now
+          </a>
+          <button type="button" onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'white', color: 'var(--cool-deep)', padding: '14px 26px', borderRadius: 60, border: '2px solid var(--cool)', cursor: 'pointer', fontWeight: 700, fontSize: '1rem', fontFamily: "'DM Sans', sans-serif" }}>
+            Schedule Service
+          </button>
+        </div>
+      </div>
+    </section>
+
+    {/* Lightweight social proof — above the fold scroll */}
+    <section style={{ padding: '0 clamp(24px, 4vw, 80px) clamp(48px, 6vw, 72px)', background: 'var(--sand)', fontFamily: "'DM Sans', sans-serif" }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <p style={{ textAlign: 'center', fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--cool)', marginBottom: 10 }}>Real Phoenix homeowners</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: 16 }}>
+          {REVIEWS.slice(0, 2).map((r, i) => (
+            <div key={i} style={{ background: 'white', borderRadius: 16, padding: '22px 22px 20px', borderLeft: '4px solid var(--gold)', boxShadow: '0 4px 20px rgba(15,23,42,0.06)' }}>
+              <div style={{ display: 'flex', gap: 3, marginBottom: 10 }}>{[...Array(5)].map((_, j) => <StarIcon key={j} />)}</div>
+              <p style={{ fontSize: '0.92rem', lineHeight: 1.65, color: '#4A5568', fontStyle: 'italic', margin: '0 0 14px' }}>&ldquo;{r.text.slice(0, 180)}{r.text.length > 180 ? '…' : ''}&rdquo;</p>
+              <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.88rem' }}>{r.name} · {r.area}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ textAlign: 'center', marginTop: 18 }}>
+          <button type="button" onClick={() => navigate('reviews')} style={{ background: 'none', border: 'none', color: 'var(--cool)', fontWeight: 700, fontSize: '0.92rem', cursor: 'pointer', textDecoration: 'underline', fontFamily: "'DM Sans', sans-serif" }}>Read more reviews</button>
+        </div>
+      </div>
     </section>
 
     {/* Empathy Section */}
@@ -2274,15 +2451,50 @@ export default function AllStarWebsite() {
   useEffect(() => { injectStyles(); }, []);
 
   useEffect(() => {
-    const base = "All Star Refrigeration | Phoenix Heating, Cooling & Refrigeration";
-    const titles = {
-      home: base,
-      services: "Services | All Star Refrigeration – AC, Heating & Maintenance",
-      about: "About | All Star Refrigeration – Phoenix, AZ",
-      reviews: "Reviews | All Star Refrigeration – Trusted by Phoenix Homeowners",
-      contact: "Contact | All Star Refrigeration – Schedule Service",
+    const base = "All Star Refrigeration | Fast AC Repair Phoenix AZ — Same-Day Service";
+    const seoMap = {
+      home: {
+        title: base,
+        desc: "All Star Refrigeration provides fast, honest AC repair, heating, and refrigeration services across the Phoenix metro area. Same-day service, $89 diagnostic, licensed techs. Call (602) 763-7600.",
+      },
+      services: {
+        title: "AC Repair, Installation & Maintenance Services — All Star Refrigeration Phoenix",
+        desc: "Emergency AC repair, new system installation, heating service and seasonal maintenance across Phoenix, Scottsdale, Tempe, Mesa, Gilbert and Chandler. $89 service call.",
+      },
+      about: {
+        title: "About All Star Refrigeration — Locally Owned HVAC in Phoenix, AZ",
+        desc: "Locally owned and operated HVAC company serving the Phoenix metro. 10+ years experience, A+ BBB rated, licensed and insured. Meet the team behind All Star.",
+      },
+      reviews: {
+        title: "Reviews — Phoenix Homeowners Trust All Star Refrigeration",
+        desc: "Read real reviews from Phoenix, Scottsdale, Mesa, Gilbert and Chandler homeowners. See why families trust All Star Refrigeration for AC repair and installation.",
+      },
+      contact: {
+        title: "Contact All Star Refrigeration — Schedule AC Service in Phoenix",
+        desc: "Schedule your $89 service call or request a free estimate. Call (602) 763-7600 (9–5) or book online 24/7. Same-day appointments when available.",
+      },
     };
-    document.title = titles[page] || base;
+
+    let seo = seoMap[page];
+    if (page.startsWith('service-')) {
+      const svc = SERVICES.find(s => `service-${s.id}` === page);
+      if (svc) {
+        seo = {
+          title: `${svc.title} in Phoenix AZ — All Star Refrigeration`,
+          desc: `${svc.shortDesc} Same-day service, honest pricing. Call (602) 763-7600 or book online.`,
+        };
+      }
+    }
+    if (!seo) seo = seoMap.home;
+
+    document.title = seo.title;
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.content = seo.desc;
   }, [page]);
 
   const clearUrlHash = () => {
@@ -2329,10 +2541,13 @@ export default function AllStarWebsite() {
   };
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--charcoal)', background: 'var(--warm-white)', minHeight: '100vh' }}>
+    <div className="allstar-app-root" style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--charcoal)', background: 'var(--warm-white)', minHeight: '100vh' }}>
+      <a href="#main-content" className="skip-to-content">Skip to main content</a>
       <EmergencyBar navigate={navigate} />
       <Header currentPage={page} navigate={navigate} contactNavTarget={contactNavTarget} />
-      {renderPage()}
+      <main id="main-content">
+        {renderPage()}
+      </main>
       <Footer navigate={navigate} />
       <div className="allstar-mobile-cta">
         <a
@@ -2347,11 +2562,11 @@ export default function AllStarWebsite() {
           type="button"
           className="allstar-mobile-cta__request"
           onClick={() => navigate('contact', { scrollToForm: true })}
-          aria-label="Request service — open contact form"
+          aria-label="Schedule service — open contact form"
         >
           <MailIcon />
           <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.15, textAlign: 'left' }}>
-            <span>Request service</span>
+            <span>Schedule Service</span>
             <span style={{ fontSize: '0.72rem', fontWeight: 800, opacity: 0.92 }}>{SERVICE_CALL_PRICE}</span>
           </span>
         </button>
