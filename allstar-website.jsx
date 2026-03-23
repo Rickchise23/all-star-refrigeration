@@ -140,6 +140,72 @@ const injectStyles = () => {
     .anim-d7 { animation-delay: 0.7s; }
     .anim-d8 { animation-delay: 0.8s; }
 
+    /* "When to Call Us" scenario rows — secondary / outline button feel, stronger than flat white */
+    .scenario-card {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(180deg, #EAF2FA 0%, #D9E9F6 100%);
+      border: 1px solid rgba(21, 101, 160, 0.38);
+      border-radius: 14px;
+      padding: 15px 18px;
+      box-shadow: 0 2px 8px rgba(13, 27, 42, 0.07);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .scenario-card:hover {
+      box-shadow: 0 5px 16px rgba(13, 27, 42, 0.11);
+      transform: translateY(-1px);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .scenario-card { transition: none; }
+      .scenario-card:hover { transform: none; }
+    }
+    .scenario-card__title {
+      font-weight: 700;
+      color: var(--midnight);
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .scenario-card__desc {
+      font-size: 0.86rem;
+      color: #3d5266;
+      line-height: 1.45;
+    }
+    .scenario-card--row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+    }
+    .scenario-card--row .scenario-card__title {
+      font-size: 0.95rem;
+    }
+    .scenario-card__icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(21, 101, 160, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cool);
+      flex-shrink: 0;
+    }
+    a.scenario-card__title {
+      color: var(--cool-deep);
+      text-decoration: none;
+    }
+    a.scenario-card__title:hover {
+      text-decoration: underline;
+    }
+    .scenario-card--hours {
+      padding: 22px 24px;
+    }
+    .scenario-card--hours > .scenario-card__title:first-child {
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
     .allstar-mobile-cta {
       position: fixed;
       left: 0;
@@ -155,7 +221,8 @@ const injectStyles = () => {
       font-family: 'DM Sans', sans-serif;
       box-shadow: 0 -6px 20px rgba(0,0,0,0.25);
     }
-    .allstar-mobile-cta button {
+    .allstar-mobile-cta button,
+    .allstar-mobile-cta a {
       flex: 1;
       border-radius: 999px;
       padding: 12px 18px;
@@ -163,6 +230,18 @@ const injectStyles = () => {
       font-weight: 700;
       font-size: 0.95rem;
       cursor: pointer;
+      text-align: center;
+    }
+    .allstar-mobile-cta__call {
+      background: var(--flame);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      font-family: 'DM Sans', sans-serif;
+      box-shadow: 0 2px 10px rgba(196,30,36,0.35);
     }
     .allstar-mobile-cta__request {
       background: #ffffff;
@@ -172,9 +251,15 @@ const injectStyles = () => {
       justify-content: center;
       gap: 10px;
       text-decoration: none;
-      max-width: 420px;
-      margin: 0 auto;
-      width: 100%;
+    }
+    .form-row-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 480px) {
+      .form-row-2col { grid-template-columns: 1fr; }
     }
     @media (min-width: 900px) {
       .allstar-mobile-cta { display: none; }
@@ -1020,9 +1105,9 @@ const HomePage = ({ navigate }) => (
             <span style={{ width: 8, height: 8, background: 'var(--flame)', borderRadius: '50%', animation: 'dotPulse 1.5s ease-in-out infinite' }} />
             It's already 82° inside. It's going to be 110° today.
           </div>
-          <h2 className="anim-fadeInUp anim-d3" style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.75rem, 3.6vw, 2.65rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.12, marginBottom: 22 }}>
+          <h1 className="anim-fadeInUp anim-d3" style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.75rem, 3.6vw, 2.65rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.12, marginBottom: 22 }}>
             Your AC Went Down.<br />We're Already <span style={{ color: '#E0F2FE' }}>On Our Way.</span>
-          </h2>
+          </h1>
           <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(1rem, 2vw, 1.18rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, marginBottom: 32, maxWidth: 560 }}>
             You woke up sweating. The dog's panting. The thermostat reads a number that makes your stomach drop. You don't need a sales pitch — <span style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>you need someone who picks up the phone and shows up.</span>
           </p>
@@ -1035,19 +1120,19 @@ const HomePage = ({ navigate }) => (
             </button>
           </div>
           <div className="anim-fadeInUp anim-d7" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 32, rowGap: 12, marginTop: 44, paddingTop: 28, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.45)', fontSize: '0.88rem', fontWeight: 500 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.88rem' }}>
               <span style={{ color: 'var(--gold)' }}><ClockIcon /></span>
-              <span><strong style={{ color: 'rgba(255,255,255,0.85)' }}>Same-day</strong> service</span>
+              <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>Same-day service</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'nowrap', color: 'rgba(255,255,255,0.45)', fontSize: '0.88rem', fontWeight: 500 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'nowrap', fontSize: '0.88rem' }}>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
                 <span style={{ color: 'var(--gold)' }}><ShieldIcon /></span>
-                <span><strong style={{ color: 'rgba(255,255,255,0.85)' }}>Licensed</strong> & insured</span>
+                <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>Licensed & insured</span>
               </span>
               <span style={{ color: 'rgba(255,255,255,0.3)', fontWeight: 400 }} aria-hidden>·</span>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
                 <span style={{ color: 'var(--gold)' }}><StarIcon /></span>
-                <span><strong style={{ color: 'rgba(255,255,255,0.85)' }}>5-star</strong> rated</span>
+                <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>5-star rated</span>
               </span>
             </div>
           </div>
@@ -1645,9 +1730,9 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
                 <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {svc.scenarios.map((s, i) => (
-                    <div key={i} style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid rgba(0,0,0, 0.04)' }}>
-                      <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.9rem', marginBottom: 3 }}>{s.title}</div>
-                      <div style={{ fontSize: '0.86rem', color: '#718096', lineHeight: 1.45 }}>{s.desc}</div>
+                    <div key={i} className="scenario-card">
+                      <div className="scenario-card__title">{s.title}</div>
+                      <div className="scenario-card__desc">{s.desc}</div>
                     </div>
                   ))}
                 </div>
@@ -1689,9 +1774,9 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
               <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {svc.scenarios.map((s, i) => (
-                  <div key={i} style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid rgba(0,0,0,0.04)' }}>
-                    <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.9rem', marginBottom: 3 }}>{s.title}</div>
-                    <div style={{ fontSize: '0.86rem', color: '#718096', lineHeight: 1.45 }}>{s.desc}</div>
+                  <div key={i} className="scenario-card">
+                    <div className="scenario-card__title">{s.title}</div>
+                    <div className="scenario-card__desc">{s.desc}</div>
                   </div>
                 ))}
               </div>
@@ -1720,9 +1805,9 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
                 <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {svc.scenarios.map((s, i) => (
-                    <div key={i} style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid rgba(0,0,0,0.04)' }}>
-                      <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.9rem', marginBottom: 3 }}>{s.title}</div>
-                      <div style={{ fontSize: '0.86rem', color: '#718096', lineHeight: 1.45 }}>{s.desc}</div>
+                    <div key={i} className="scenario-card">
+                      <div className="scenario-card__title">{s.title}</div>
+                      <div className="scenario-card__desc">{s.desc}</div>
                     </div>
                   ))}
                 </div>
@@ -1756,9 +1841,9 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
               <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {svc.scenarios.map((s, i) => (
-                  <div key={i} style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid rgba(0,0,0,0.04)' }}>
-                    <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.9rem', marginBottom: 3 }}>{s.title}</div>
-                    <div style={{ fontSize: '0.86rem', color: '#718096', lineHeight: 1.45 }}>{s.desc}</div>
+                  <div key={i} className="scenario-card">
+                    <div className="scenario-card__title">{s.title}</div>
+                    <div className="scenario-card__desc">{s.desc}</div>
                   </div>
                 ))}
               </div>
@@ -1927,7 +2012,7 @@ const ContactPage = ({ navigate }) => {
             <SectionTag>Get in touch</SectionTag>
             <h1 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 4vw, 2.6rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 18 }}>Let's Get You <span style={{ color: 'var(--cool)' }}>Comfortable.</span></h1>
             <p style={{ fontSize: '1.05rem', color: '#4A5568', lineHeight: 1.7, marginBottom: 36 }}>
-              Whether it's an emergency or you're planning ahead, we're here. Ask about our <strong>{SERVICE_CALL_SHORT}</strong> — then call us for the fastest response, or fill out the form and we'll get back to you within the hour.
+              Whether it's an emergency or you're planning ahead, we're here. Ask about our <strong>{SERVICE_CALL_SHORT}</strong> — then call us for the fastest response, or fill out the form and we'll call you back within an hour during business hours (next business day if you reach us after hours).
             </p>
 
             {/* Quick contact cards */}
@@ -1943,34 +2028,34 @@ const ContactPage = ({ navigate }) => {
                   <div style={{ fontSize: '0.88rem', opacity: 0.8 }}>Talk to a real person during business hours.</div>
                 </div>
               </a>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16, background: 'white', padding: '18px 24px', borderRadius: 16, border: '1px solid rgba(0,0,0,0.06)' }}>
-                <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--ice)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cool)' }}><MailIcon /></div>
-                <div>
-                  <a href={EMAIL_HREF} style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem', textDecoration: 'none' }}>{EMAIL}</a>
-                  <div style={{ fontSize: '0.85rem', color: '#718096' }}>We respond within 1 hour</div>
+              <div className="scenario-card scenario-card--row">
+                <div className="scenario-card__icon" aria-hidden><MailIcon /></div>
+                <div style={{ minWidth: 0 }}>
+                  <a href={EMAIL_HREF} className="scenario-card__title" style={{ display: 'block', wordBreak: 'break-word' }}>{EMAIL}</a>
+                  <div className="scenario-card__desc">We respond within an hour during business hours</div>
                 </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16, background: 'white', padding: '18px 24px', borderRadius: 16, border: '1px solid rgba(0,0,0,0.06)' }}>
-                <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--ice)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cool)' }}><MapPinIcon /></div>
-                <div>
-                  <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem' }}>16227 N 28th Pl, Phoenix, AZ 85032</div>
-                  <div style={{ fontSize: '0.85rem', color: '#718096' }}>Serving homes and businesses across the Phoenix metro area</div>
+              <div className="scenario-card scenario-card--row">
+                <div className="scenario-card__icon" aria-hidden><MapPinIcon /></div>
+                <div style={{ minWidth: 0 }}>
+                  <div className="scenario-card__title">16227 N 28th Pl, Phoenix, AZ 85032</div>
+                  <div className="scenario-card__desc">Serving homes and businesses across the Phoenix metro area</div>
                 </div>
               </div>
             </div>
 
             {/* Hours */}
-            <div style={{ background: 'white', borderRadius: 16, padding: '24px 28px', border: '1px solid rgba(0,0,0,0.06)' }}>
-              <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem', marginBottom: 12 }}>Hours of Operation</div>
+            <div className="scenario-card scenario-card--hours">
+              <div className="scenario-card__title">Hours of Operation</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {[
                   { day: 'Phone support', hours: 'Mon–Sat, 9AM–5PM', highlight: true },
                   { day: 'On-site appointments', hours: 'Mon–Sat, 8AM–7PM' },
                   { day: 'Online booking', hours: '24/7', highlight: false },
                 ].map((h, i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}>
-                    <span style={{ color: h.highlight ? 'var(--flame)' : '#4A5568', fontWeight: h.highlight ? 700 : 400 }}>{h.day}</span>
-                    <span style={{ color: h.highlight ? 'var(--flame)' : 'var(--midnight)', fontWeight: 600 }}>{h.hours}</span>
+                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: '0.9rem' }}>
+                    <span style={{ color: h.highlight ? 'var(--flame)' : '#3d5266', fontWeight: h.highlight ? 700 : 400 }}>{h.day}</span>
+                    <span style={{ color: h.highlight ? 'var(--flame)' : 'var(--midnight)', fontWeight: 600, textAlign: 'right' }}>{h.hours}</span>
                   </div>
                 ))}
               </div>
@@ -1983,12 +2068,12 @@ const ContactPage = ({ navigate }) => {
               <div style={{ background: 'white', borderRadius: 20, padding: 48, textAlign: 'center', border: '1px solid rgba(0,0,0,0.06)' }}>
                 <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#D1FAE5', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#059669', margin: '0 auto 20px' }}><CheckIcon /></div>
                 <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '1.5rem', color: 'var(--midnight)', marginBottom: 10 }}>We Got It!</h3>
-                <p style={{ color: '#4A5568', lineHeight: 1.6 }}>We'll be in touch within the hour. If it's urgent, don't wait — call us directly at <a href={PHONE_HREF} style={{ color: 'var(--flame)', fontWeight: 700 }}>{PHONE}</a>.</p>
+                <p style={{ color: '#4A5568', lineHeight: 1.6 }}>We'll call you within an hour during business hours, or the next business day if you submitted after hours. If it's urgent, don't wait — call us directly at <a href={PHONE_HREF} style={{ color: 'var(--flame)', fontWeight: 700 }}>{PHONE}</a>.</p>
               </div>
             ) : (
               <form id="contact-form" onSubmit={handleSubmit} style={{ position: 'relative', background: 'white', borderRadius: 20, padding: 'clamp(24px, 4vw, 40px)', border: '1px solid rgba(0,0,0,0.06)', scrollMarginTop: 96 }}>
                 <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '1.4rem', color: 'var(--midnight)', marginBottom: 6 }}>Request Service</h3>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: 24 }}>Fill this out and we'll call you back within an hour.</p>
+                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: 24 }}>Fill this out and we'll call you back within an hour during business hours — or the next business day if you reach us after hours.</p>
 
                 {/* Honeypot — leave hidden; bots often fill this */}
                 <div style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }} aria-hidden="true">
@@ -2002,7 +2087,7 @@ const ContactPage = ({ navigate }) => {
                   </div>
                 )}
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                <div className="form-row-2col">
                   <div>
                     <label style={labelStyle}>Your Name</label>
                     <input style={inputStyle} value={form.name} onChange={e => setForm({...form, name: e.target.value})} placeholder="John Smith" required />
@@ -2018,7 +2103,7 @@ const ContactPage = ({ navigate }) => {
                   <input style={inputStyle} value={form.email} onChange={e => setForm({...form, email: e.target.value})} placeholder="john@email.com" type="email" />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                <div className="form-row-2col">
                   <div>
                     <label style={labelStyle}>Service Needed</label>
                     <select style={{...inputStyle, cursor: 'pointer', appearance: 'auto'}} value={form.service} onChange={e => setForm({...form, service: e.target.value})} required>
@@ -2174,6 +2259,14 @@ export default function AllStarWebsite() {
       {renderPage()}
       <Footer navigate={navigate} />
       <div className="allstar-mobile-cta">
+        <a
+          href={PHONE_HREF}
+          className="allstar-mobile-cta__call"
+          aria-label={`Call now — ${PHONE}`}
+        >
+          <PhoneIcon />
+          <span>Call Now</span>
+        </a>
         <button
           type="button"
           className="allstar-mobile-cta__request"
@@ -2183,7 +2276,7 @@ export default function AllStarWebsite() {
           <MailIcon />
           <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.15, textAlign: 'left' }}>
             <span>Request service</span>
-            <span style={{ fontSize: '0.72rem', fontWeight: 800, opacity: 0.92 }}>{SERVICE_CALL_PRICE} · we’ll call you back</span>
+            <span style={{ fontSize: '0.72rem', fontWeight: 800, opacity: 0.92 }}>{SERVICE_CALL_PRICE}</span>
           </span>
         </button>
       </div>
