@@ -782,9 +782,14 @@ const PHONE_HREF = "tel:+16027637600";
 const EMAIL = "allstarrefrigeration@gmail.com";
 const EMAIL_HREF = "mailto:allstarrefrigeration@gmail.com";
 
-/** Lead magnet — promoted sitewide */
+/** Lead magnet. Promoted sitewide. */
 const SERVICE_CALL_PRICE = "$89";
 const SERVICE_CALL_SHORT = `${SERVICE_CALL_PRICE} service call`;
+
+/** Shared light-blue background for Why choose us + How it works. */
+const LIGHT_BLUE_SECTION_BG = "linear-gradient(180deg, #EAF3FA 0%, #D6E9F8 100%)";
+/** Review card left border (navy accent). */
+const REVIEW_BORDER_ACCENT = "#1e3a5f";
 
 /** Home hero image beside headline; change filename to swap. */
 const HERO_VAN_FILENAME = "IMG_1826.jpeg";
@@ -861,10 +866,13 @@ const PHOTO_STRIP = [
 const PHOTO_STRIP_FILENAMES = ["image10.jpeg", "image1.jpeg", "image8.jpeg"];
 
 /** “Our work” tiles that use `object-fit: contain` so logos or full equipment aren’t cropped. */
-const GALLERY_CONTAIN_FILENAMES = ["image0.jpeg"];
+const GALLERY_CONTAIN_FILENAMES = [];
 
-/** Excluded from home “Our work” only (files may still appear on service pages). Hero van (`HERO_VAN_FILENAME`) shown beside headline only — not in gallery. */
+/** Excluded from home “Our work” only (files may still appear on service pages). Hero van (`HERO_VAN_FILENAME`) shown beside headline only. Not duplicated in gallery. */
 const HOME_GALLERY_EXCLUDE = ["image11.jpeg", "image15.jpeg", HERO_VAN_FILENAME];
+
+/** BBB badge image. Shown in footer trust, not in “On the job in Phoenix” grid. */
+const OWNER_GALLERY_EXCLUDE = ["image0.jpeg"];
 
 /** Owner photos for “Our work” gallery (strip & service-detail-only + hero van excluded). */
 const OWNER_GALLERY_PHOTOS = OWNER_PHOTO_FILES.filter(
@@ -874,18 +882,19 @@ const OWNER_GALLERY_PHOTOS = OWNER_PHOTO_FILES.filter(
     !INSTALL_PAGE_GALLERY_EXCLUDE.includes(f) &&
     !HEATING_PAGE_GALLERY_EXCLUDE.includes(f) &&
     !MAINTENANCE_PAGE_GALLERY_EXCLUDE.includes(f) &&
-    !HOME_GALLERY_EXCLUDE.includes(f)
+    !HOME_GALLERY_EXCLUDE.includes(f) &&
+    !OWNER_GALLERY_EXCLUDE.includes(f)
 );
 
 const SERVICES = [
   {
     id: "emergency-ac-repair",
-    title: "Emergency AC Repair",
+    title: "Emergency AC repair",
     shortDesc: "Same-day emergency service when your system goes down and the heat won't wait.",
     icon: ThermIcon,
     color: "#C41E24",
     bgColor: "#FDEAEA",
-    hero: "Your AC Died. We're Already Loading the Truck.",
+    hero: "Your AC died. We're already loading the truck.",
     heroSub: "In Phoenix, a broken AC isn't an inconvenience. It's an emergency. We treat it like one.",
     details: [
       "Same-day emergency response during business hours, often within 2 hours",
@@ -905,12 +914,12 @@ const SERVICES = [
   },
   {
     id: "ac-installation",
-    title: "AC Installation & Replacement",
+    title: "AC installation & replacement",
     shortDesc: "New system sized right for your home and budget. No overselling, no undersizing.",
     icon: FanIcon,
     color: "#1565A0",
     bgColor: "#E3F0FA",
-    hero: "Time for a New System? Let's Do This Right.",
+    hero: "Time for a new system? Let's do this right.",
     heroSub: "A properly sized, properly installed system is the difference between comfort and regret. We get it right the first time.",
     details: [
       "Manual J load calculation. We size to your actual home, not a guess",
@@ -930,12 +939,12 @@ const SERVICES = [
   },
   {
     id: "heating-repair",
-    title: "Heating Repair & Install",
+    title: "Heating repair & install",
     shortDesc: "Yes, Phoenix gets cold. Heat pumps, furnaces, and everything in between.",
     icon: SunIcon,
     color: "#D97706",
     bgColor: "#FEF3C7",
-    hero: "Phoenix Winters Are No Joke.",
+    hero: "Phoenix winters are no joke.",
     heroSub: "When your heat pump or furnace quits on a January morning, you remember real fast that the desert gets cold too.",
     details: [
       "Heat pump repair and replacement",
@@ -955,12 +964,12 @@ const SERVICES = [
   },
   {
     id: "maintenance",
-    title: "Seasonal Maintenance",
+    title: "Seasonal maintenance",
     shortDesc: "Pre-summer tune-ups that catch problems before they become emergencies.",
     icon: ChartIcon,
     color: "#059669",
     bgColor: "#D1FAE5",
-    hero: `The Smartest ${SERVICE_CALL_PRICE} You'll Spend All Year.`,
+    hero: `The smartest ${SERVICE_CALL_PRICE} you'll spend all year.`,
     heroSub: "A spring tune-up catches the small stuff before it becomes a $2,000 problem in July. Every year we save people from breakdowns they never saw coming.",
     details: [
       "Full system inspection: electrical, mechanical, refrigerant",
@@ -1205,7 +1214,7 @@ const Footer = ({ navigate }) => (
   <footer style={{ background: 'var(--midnight)', padding: 'clamp(48px, 8vw, 80px) clamp(20px, 4vw, 40px) clamp(24px, 3vw, 30px)', fontFamily: fonts.body }}>
     {/* Mini CTA */}
     <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center', marginBottom: 48, paddingBottom: 40, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-      <h4 style={{ fontFamily: fonts.display, fontWeight: 600, letterSpacing: '-0.01em', fontSize: 'clamp(1.55rem, 3.3vw, 2rem)', color: 'white', marginBottom: 16 }}>Ready to Stop Sweating?</h4>
+      <h4 style={{ fontFamily: fonts.display, fontWeight: 600, letterSpacing: '-0.01em', fontSize: 'clamp(1.55rem, 3.3vw, 2rem)', color: 'white', marginBottom: 16 }}>Ready to stop sweating?</h4>
       <a href={PHONE_HREF} className="footer-cta-call" style={{ background: 'var(--flame)', color: 'white', padding: '14px 32px', borderRadius: 50, fontWeight: 600, letterSpacing: '0.04em', textDecoration: 'none', fontSize: '1rem', boxShadow: '0 4px 18px rgba(196,30,36,0.35)', transition: 'all 0.3s', fontFamily: fonts.body }}>
         <PhoneIcon /> <span className="footer-phone-num" style={{ lineHeight: 1.3 }}>{PHONE}</span>
       </a>
@@ -1276,8 +1285,8 @@ const SectionTag = ({ children, light }) => (
   <div
     style={{
       ...typography.sectionLabel,
-      fontSize: '11px',
-      color: light ? '#93C5FD' : '#3B82F6',
+      lineHeight: 1.45,
+      color: light ? 'rgba(255,255,255,0.72)' : '#5a6f83',
       marginBottom: 16,
     }}
   >
@@ -1296,22 +1305,22 @@ const CTABanner = ({ navigate }) => (
         aria-label="Book service. Go to request form"
         style={{
           display: 'inline-block',
-          background: 'linear-gradient(180deg, #FBBF24 0%, #D97706 100%)',
-          color: '#0f172a',
+          background: 'transparent',
+          color: 'white',
           padding: '8px 18px',
           borderRadius: 999,
           fontWeight: 600,
           fontSize: '0.85rem',
           letterSpacing: '0.08em',
           marginBottom: 16,
-          border: 'none',
+          border: '1px solid rgba(255,255,255,1)',
           cursor: 'pointer',
           fontFamily: fonts.body,
         }}
       >
         {SERVICE_CALL_SHORT.toUpperCase()}
       </button>
-      <h3 style={{ fontFamily: fonts.display, fontWeight: 600, letterSpacing: '-0.01em', fontSize: 'clamp(2.2rem, 5.5vw, 3.35rem)', color: 'white', lineHeight: 1.08, marginBottom: 16 }}>Don&apos;t Sweat It. Start With {SERVICE_CALL_PRICE}.</h3>
+      <h3 style={{ fontFamily: fonts.display, fontWeight: 600, letterSpacing: '-0.01em', fontSize: 'clamp(2.2rem, 5.5vw, 3.35rem)', color: 'white', lineHeight: 1.08, marginBottom: 16 }}>Don&apos;t sweat it. Start with {SERVICE_CALL_PRICE}.</h3>
       <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.55)', marginBottom: 36, lineHeight: 1.6 }}>One call between 9–5 (or book online 24/7). A real tech, a clear diagnosis, and pricing you&apos;ll see in writing, starting with our flat {SERVICE_CALL_SHORT}.</p>
       <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
         <a href={PHONE_HREF} style={{
@@ -1350,23 +1359,30 @@ const HomePage = ({ navigate }) => (
           maxWidth: 1180,
           margin: '0 auto',
           padding: 'clamp(32px, 5vw, 80px) clamp(24px, 4vw, 48px)',
-          display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1.05fr) minmax(280px, 1fr)',
-          gap: 'clamp(36px, 5vw, 56px)',
-          alignItems: 'start',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'clamp(22px, 3.5vw, 32px)',
         }}
-        className="hero-home-grid"
       >
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1.05fr) minmax(280px, 1fr)',
+            gap: 'clamp(36px, 5vw, 56px)',
+            alignItems: 'start',
+          }}
+          className="hero-home-grid"
+        >
         <div style={{ minWidth: 0, paddingTop: 2 }}>
           <div className="anim-fadeInUp anim-d2" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(196,30,36,0.15)', border: '1px solid rgba(196,30,36,0.3)', color: '#E88A8D', padding: '8px 18px', borderRadius: 30, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.04em', marginBottom: 16 }}>
             <span style={{ width: 8, height: 8, background: 'var(--flame)', borderRadius: '50%', animation: 'dotPulse 1.5s ease-in-out infinite' }} />
             Same-day service · Phoenix metro
           </div>
           <h1 className="anim-fadeInUp anim-d3" style={{ fontFamily: fonts.display, fontWeight: 600, letterSpacing: '-0.01em', fontSize: 'clamp(2.2rem, 5.8vw, 4.25rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.08, marginBottom: 14 }}>
-            <span style={{ display: 'block' }}>Your AC Quit.</span>
+            <span style={{ display: 'block' }}>Your AC quit.</span>
             <span style={{ display: 'block', marginTop: 4 }}>
-              We&apos;re Already{' '}
-              <span style={{ color: '#3B82F6', fontWeight: 700 }}>On Our Way</span>.
+              We&apos;re already{' '}
+              <span style={{ color: '#3B82F6', fontWeight: 700 }}>on our way</span>.
             </span>
           </h1>
           <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(1.02rem, 2.1vw, 1.2rem)', color: 'rgba(255,255,255,0.88)', fontWeight: 600, marginBottom: 12, letterSpacing: '0.02em' }}>
@@ -1384,34 +1400,6 @@ const HomePage = ({ navigate }) => (
               Schedule Service
             </button>
           </div>
-          <button
-            type="button"
-            onClick={() => navigate('contact', { scrollToForm: true })}
-            className="anim-fadeInUp anim-d5"
-            aria-label="Book a service call. Open scheduling form."
-            style={{
-              marginTop: 24,
-              width: '100%',
-              maxWidth: 560,
-              padding: '16px 20px',
-              borderRadius: 12,
-              background: 'linear-gradient(135deg, rgba(212,165,57,0.18) 0%, rgba(196,30,36,0.14) 55%, rgba(21,101,160,0.1) 100%)',
-              border: '1px solid rgba(212,165,57,0.45)',
-              boxShadow: '0 12px 40px rgba(0,0,0,0.25)',
-              cursor: 'pointer',
-              textAlign: 'left',
-              fontFamily: 'inherit',
-            }}
-          >
-            <div style={{ fontFamily: fonts.display, fontSize: 'clamp(1.85rem, 3.6vw, 2.65rem)', color: 'var(--gold)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>
-              {SERVICE_CALL_PRICE}{' '}
-              <span style={{ color: 'rgba(248,250,252,0.98)', fontSize: '0.52em', fontWeight: 600, fontFamily: fonts.body, letterSpacing: '0.02em', verticalAlign: 'middle' }}>service call</span>
-            </div>
-            <p style={{ margin: '10px 0 0', fontSize: '0.92rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.55, fontWeight: 500 }}>
-              Flat rate to get a licensed tech on site. Clear diagnosis, upfront quote before we start work.{' '}
-              <strong style={{ color: 'rgba(255,255,255,0.95)' }}>That’s how we earn your trust.</strong>
-            </p>
-          </button>
         </div>
         <div
           className="hero-van-column"
@@ -1455,6 +1443,34 @@ const HomePage = ({ navigate }) => (
             </div>
           </div>
         </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => navigate('contact', { scrollToForm: true })}
+          className="anim-fadeInUp anim-d5 hero-service-call-cta"
+          aria-label="Book a service call. Open scheduling form."
+          style={{
+            width: '100%',
+            padding: '16px 22px',
+            borderRadius: 12,
+            background: 'linear-gradient(135deg, rgba(212,165,57,0.18) 0%, rgba(196,30,36,0.14) 55%, rgba(21,101,160,0.1) 100%)',
+            border: '1px solid rgba(212,165,57,0.45)',
+            boxShadow: '0 12px 40px rgba(0,0,0,0.25)',
+            cursor: 'pointer',
+            textAlign: 'left',
+            fontFamily: 'inherit',
+            boxSizing: 'border-box',
+          }}
+        >
+          <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.85rem, 3.6vw, 2.65rem)', color: 'var(--gold)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>
+            {SERVICE_CALL_PRICE}{' '}
+            <span style={{ color: 'rgba(248,250,252,0.98)', fontSize: '0.52em', fontWeight: 600, fontFamily: fonts.body, letterSpacing: '0.02em', verticalAlign: 'middle' }}>service call</span>
+          </div>
+          <p style={{ margin: '10px 0 0', fontSize: '0.92rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.55, fontWeight: 500 }}>
+            Flat rate to get a licensed tech on site. Clear diagnosis, upfront quote before we start work.{' '}
+            <strong style={{ color: 'rgba(255,255,255,0.95)' }}>That’s how we earn your trust.</strong>
+          </p>
+        </button>
       </div>
       <style>{`
         @media (min-width: 901px) {
@@ -1605,7 +1621,7 @@ const HomePage = ({ navigate }) => (
           ))}
         </div>
         <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 16, marginBottom: 22 }}>
-          <div style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.3vw, 1.95rem)', color: 'var(--cool-deep)' }}>
+          <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.5rem, 3.3vw, 1.95rem)', color: 'var(--cool-deep)' }}>
             Service calls starting at {SERVICE_CALL_PRICE}
           </div>
           <p style={{ fontSize: '0.9rem', color: '#718096', margin: 0 }}>Flat diagnostic visit · written quote before optional repairs</p>
@@ -1625,13 +1641,15 @@ const HomePage = ({ navigate }) => (
     <section style={{ padding: '0 clamp(24px, 4vw, 80px) clamp(48px, 6vw, 72px)', background: 'var(--sand)', fontFamily: fonts.body }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <Reveal>
-          <p style={{ textAlign: 'center', fontFamily: fonts.mono, fontSize: '11px', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#3B82F6', marginBottom: 10 }}>Real Phoenix homeowners</p>
+          <div style={{ textAlign: 'center' }}>
+            <SectionTag>Real Phoenix homeowners</SectionTag>
+          </div>
         </Reveal>
         <div className="interaction-card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: 16 }}>
           {REVIEWS.slice(0, 2).map((r, i) => (
             <Reveal key={i} delay={i * 80}>
               <MagneticCard>
-                <div style={{ background: 'white', borderRadius: 16, padding: '22px 22px 20px', borderLeft: '4px solid var(--gold)', boxShadow: '0 4px 20px rgba(15,23,42,0.06)', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box' }}>
+                <div style={{ background: 'white', borderRadius: 16, padding: '22px 22px 20px', borderLeft: `4px solid ${REVIEW_BORDER_ACCENT}`, boxShadow: '0 4px 20px rgba(15,23,42,0.06)', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box' }}>
                   <div style={{ display: 'flex', gap: 3, marginBottom: 10 }}>{[...Array(5)].map((_, j) => <StarIcon key={j} />)}</div>
                   <p style={{ fontSize: '0.92rem', lineHeight: 1.65, color: '#4A5568', fontStyle: 'italic', margin: '0 0 14px', flex: 1 }}>&ldquo;{r.text.slice(0, 180)}{r.text.length > 180 ? '…' : ''}&rdquo;</p>
                   <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.88rem' }}>{r.name} · {r.area}</div>
@@ -1652,7 +1670,7 @@ const HomePage = ({ navigate }) => (
         <div>
           <Reveal>
             <SectionTag>We get it</SectionTag>
-            <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4.4vw, 2.75rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 22 }}>We've Lived This <span style={{ color: 'var(--flame)' }}>Nightmare</span> Too.</h3>
+            <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.95rem, 4.4vw, 2.75rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 22 }}>We&apos;ve lived this <span style={{ color: 'var(--flame)', fontWeight: 600 }}>nightmare</span> too.</h3>
           </Reveal>
           <div style={{ fontSize: '1.05rem', lineHeight: 1.8, color: '#4A5568' }}>
             <p style={{ marginBottom: 14 }}>We're not a call center in another state. We're your neighbors. We live in this heat. We know what it feels like when the AC quits on a Friday in July and every big company tells you <strong style={{ color: 'var(--midnight)' }}>"earliest we can get there is Tuesday."</strong></p>
@@ -1661,9 +1679,9 @@ const HomePage = ({ navigate }) => (
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {[
-            { icon: <ThermIcon />, iconBg: '#FDEAEA', iconColor: 'var(--flame)', title: "The 3AM Wake-Up", desc: "House is 86°. Kids can't sleep. You need someone now, not a voicemail." },
-            { icon: <SnowflakeIcon />, iconBg: '#E3F0FA', iconColor: 'var(--cool)', title: "The Weekend Emergency", desc: "It's Saturday, 112° outside. Big companies charge double. We don't." },
-            { icon: <HeartIcon />, iconBg: '#FEF3C7', iconColor: '#D97706', title: "The New Homeowner", desc: "Just moved to Phoenix. Old unit looks sketchy. You need honest answers, not an upsell." }
+            { icon: <ThermIcon />, iconBg: '#FDEAEA', iconColor: 'var(--flame)', title: "The 3AM wake-up", desc: "House is 86°. Kids can't sleep. You need someone now, not a voicemail." },
+            { icon: <SnowflakeIcon />, iconBg: '#E3F0FA', iconColor: 'var(--cool)', title: "The weekend emergency", desc: "It's Saturday, 112° outside. Big companies charge double. We don't." },
+            { icon: <HeartIcon />, iconBg: '#FEF3C7', iconColor: '#D97706', title: "The new homeowner", desc: "Just moved to Phoenix. Old unit looks sketchy. You need honest answers, not an upsell." }
           ].map((s, i) => (
             <Reveal key={i} delay={i * 80}>
               <MagneticCard>
@@ -1673,7 +1691,7 @@ const HomePage = ({ navigate }) => (
                 >
                   <div style={{ width: 48, height: 48, borderRadius: 14, background: s.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.iconColor, flexShrink: 0 }}>{s.icon}</div>
                   <div>
-                    <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.98rem', marginBottom: 3 }}>{s.title}</div>
+                    <div style={{ fontWeight: 600, color: 'var(--midnight)', fontSize: '0.98rem', marginBottom: 3 }}>{s.title}</div>
                     <div style={{ fontSize: '0.88rem', color: '#718096', lineHeight: 1.5 }}>{s.desc}</div>
                   </div>
                 </div>
@@ -1713,7 +1731,7 @@ const HomePage = ({ navigate }) => (
           <div style={{ textAlign: 'center', marginBottom: 32 }}>
             <Reveal>
               <SectionTag>Our work</SectionTag>
-              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.8rem, 3.9vw, 2.35rem)', color: 'var(--midnight)', lineHeight: 1.15, marginBottom: 8 }}>
+              <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.8rem, 3.9vw, 2.35rem)', color: 'var(--midnight)', lineHeight: 1.15, marginBottom: 8 }}>
                 On the job in Phoenix
               </h3>
               <p style={{ fontSize: '0.98rem', color: '#718096', maxWidth: 520, margin: '0 auto' }}>
@@ -1724,18 +1742,19 @@ const HomePage = ({ navigate }) => (
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+              width: "100%",
+              /* auto-fit (not auto-fill) collapses empty tracks so a short row stays centered and columns share width evenly */
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 200px), 1fr))",
               gap: 14,
+              justifyContent: "center",
             }}
           >
             {OWNER_GALLERY_PHOTOS.map((file, i) => {
               const useContain = GALLERY_CONTAIN_FILENAMES.includes(file);
               const alt =
-                file === "image0.jpeg"
-                  ? "Better Business Bureau Accredited. All Star Refrigeration"
-                  : file === "image12.jpeg"
-                    ? "Heating and HVAC service. All Star Refrigeration"
-                    : `All Star Refrigeration work photo ${i + 1}`;
+                file === "image12.jpeg"
+                  ? "Heating and HVAC service. All Star Refrigeration"
+                  : `All Star Refrigeration work photo ${i + 1}`;
               return (
                 <img
                   key={file}
@@ -1762,13 +1781,13 @@ const HomePage = ({ navigate }) => (
     )}
 
     {/* Why Choose All Star */}
-    <section style={{ padding: 'clamp(60px, 8vw, 90px) clamp(24px, 4vw, 80px)', background: 'var(--sand)', fontFamily: fonts.body }}>
+    <section style={{ padding: 'clamp(60px, 8vw, 90px) clamp(24px, 4vw, 80px)', background: LIGHT_BLUE_SECTION_BG, fontFamily: fonts.body }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <Reveal>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <SectionTag>Why choose us</SectionTag>
-            <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4.4vw, 2.65rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 10 }}>
-              The HVAC Company You Call First.
+            <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.95rem, 4.4vw, 2.65rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 10 }}>
+              The HVAC company you call first.
             </h3>
             <p style={{ fontSize: '1.02rem', color: '#4A5568', maxWidth: 620, margin: '0 auto' }}>
               Inspired by the best in the Valley, built for Phoenix families and small businesses who want straight answers, fast service, and work that actually lasts.
@@ -1779,32 +1798,32 @@ const HomePage = ({ navigate }) => (
           {[
             {
               icon: <StarIcon />,
-              title: "100% Satisfaction Focused",
+              title: "100% satisfaction focused",
               desc: "From the first call to the final walkthrough, we do the job the way we’d want it done in our own homes."
             },
             {
               icon: <ShieldIcon />,
-              title: "Licensed, Insured, Background-Checked",
-              desc: "ROC licensed, fully insured, and techs you’re comfortable having in your home — day or night."
+              title: "Licensed, insured, background-checked",
+              desc: "ROC licensed, fully insured, and techs you’re comfortable having in your home, day or night."
             },
             {
               icon: <ThumbsUpIcon />,
-              title: "Honest, Straightforward Pricing",
+              title: "Honest, straightforward pricing",
               desc: "We diagnose, explain, and quote before we start. No surprise invoices, no mysterious line items."
             },
             {
               icon: <UsersIcon />,
-              title: "Local, Phoenix-Rooted Team",
+              title: "Local, Phoenix-rooted team",
               desc: "We live here, we work here, and our reputation with your neighbors matters more than billboards."
             }
           ].map((item, i) => (
             <Reveal key={i} delay={i * 80}>
               <MagneticCard>
-                <div style={{ background: 'linear-gradient(180deg, var(--ice) 0%, white 100%)', borderRadius: 18, padding: '32px 24px', border: '1px solid rgba(21,101,160,0.12)', textAlign: 'center', boxShadow: '0 4px 20px rgba(15,23,42,0.05)', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box' }}>
+                <div style={{ background: 'white', borderRadius: 18, padding: '32px 24px', border: '1px solid rgba(0,0,0,0.06)', textAlign: 'center', boxShadow: '0 4px 20px rgba(15,23,42,0.05)', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box' }}>
                   <div style={{ width: 52, height: 52, borderRadius: 14, background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cool)', margin: '0 auto 16px', boxShadow: '0 2px 8px rgba(21,101,160,0.1)' }}>
                     {item.icon}
                   </div>
-                  <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.96rem', marginBottom: 6 }}>{item.title}</div>
+                  <div style={{ fontWeight: 600, color: 'var(--midnight)', fontSize: '0.96rem', marginBottom: 6 }}>{item.title}</div>
                   <div style={{ fontSize: '0.9rem', color: '#5a6f83', lineHeight: 1.6, flex: 1 }}>{item.desc}</div>
                 </div>
               </MagneticCard>
@@ -1820,7 +1839,7 @@ const HomePage = ({ navigate }) => (
         <Reveal>
           <div style={{ textAlign: 'center', marginBottom: 50 }}>
             <SectionTag light>What we do</SectionTag>
-            <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4.4vw, 2.75rem)', color: 'white', lineHeight: 1.1 }}>Heating, Cooling & Refrigeration <span style={{ color: 'var(--ice)' }}>Done Right.</span></h3>
+            <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.95rem, 4.4vw, 2.75rem)', color: 'white', lineHeight: 1.1 }}>Heating, cooling & refrigeration <span style={{ color: 'var(--ice)', fontWeight: 600 }}>done right.</span></h3>
           </div>
         </Reveal>
         <div className="interaction-card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 22 }}>
@@ -1839,7 +1858,7 @@ const HomePage = ({ navigate }) => (
                   <div style={{ width: 52, height: 52, borderRadius: 15, background: 'rgba(21,101,160,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ice)', marginBottom: 18 }}>
                     <svc.icon />
                   </div>
-                  <div style={{ fontFamily: fonts.display, fontSize: '1.08rem', color: 'white', marginBottom: 8 }}>{svc.title}</div>
+                  <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: '1.08rem', color: 'white', marginBottom: 8 }}>{svc.title}</div>
                   <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: 16, flex: 1 }}>{svc.shortDesc}</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--ice)', fontSize: '0.88rem', fontWeight: 600, marginTop: 'auto' }}>
                     Learn more <ArrowRightIcon />
@@ -1853,30 +1872,30 @@ const HomePage = ({ navigate }) => (
     </section>
 
     {/* How It Works */}
-    <section style={{ padding: 'clamp(60px, 8vw, 90px) clamp(24px, 4vw, 80px)', background: 'linear-gradient(180deg, #EAF3FA 0%, #D6E9F8 100%)', fontFamily: fonts.body }}>
+    <section style={{ padding: 'clamp(60px, 8vw, 90px) clamp(24px, 4vw, 80px)', background: LIGHT_BLUE_SECTION_BG, fontFamily: fonts.body }}>
       <div style={{ maxWidth: 1000, margin: '0 auto' }}>
         <Reveal>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <SectionTag>How it works</SectionTag>
-            <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4.4vw, 2.65rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 10 }}>From Panic to Cool Air in Three Steps.</h3>
-            <p style={{ fontSize: '1.02rem', color: '#4A5568', maxWidth: 560, margin: '0 auto' }}>We keep the process simple so you can focus on your family, your tenants, or your business — not your AC.</p>
+            <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.95rem, 4.4vw, 2.65rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 10 }}>From panic to cool air in three steps.</h3>
+            <p style={{ fontSize: '1.02rem', color: '#4A5568', maxWidth: 560, margin: '0 auto' }}>We keep the process simple so you can focus on your family, your tenants, or your business instead of your AC.</p>
           </div>
         </Reveal>
         <div className="interaction-card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
           {[
             {
               icon: <PhoneIcon />,
-              title: "1. Call or Tap Schedule",
+              title: "1. Call or tap schedule",
               desc: "A real person in Phoenix picks up the phone. We ask a few quick questions and slot you for the fastest available arrival."
             },
             {
               icon: <WrenchIcon />,
-              title: "2. Diagnose & Explain",
-              desc: "Your tech shows up on time, inspects the system, and walks you through what’s wrong — with clear options and upfront pricing."
+              title: "2. Diagnose & explain",
+              desc: "Your tech shows up on time, inspects the system, and walks you through what’s wrong, with clear options and upfront pricing."
             },
             {
               icon: <CheckIcon />,
-              title: "3. Fix It the Right Way",
+              title: "3. Fix it the right way",
               desc: "Most repairs are handled on the first visit. We document our work, answer questions, and leave your space cleaner than we found it."
             }
           ].map((step, i) => (
@@ -1886,7 +1905,7 @@ const HomePage = ({ navigate }) => (
                   <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--cool)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: fonts.display, fontSize: '1.15rem', marginBottom: 16, boxShadow: '0 4px 14px rgba(21,101,160,0.25)' }}>
                     {i + 1}
                   </div>
-                  <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.98rem', marginBottom: 6 }}>{step.title.replace(/^\d+\.\s*/, '')}</div>
+                  <div style={{ fontWeight: 600, color: 'var(--midnight)', fontSize: '0.98rem', marginBottom: 6 }}>{step.title.replace(/^\d+\.\s*/, '')}</div>
                   <div style={{ fontSize: '0.9rem', color: '#5a6f83', lineHeight: 1.6, flex: 1 }}>{step.desc}</div>
                 </div>
               </MagneticCard>
@@ -1901,13 +1920,13 @@ const HomePage = ({ navigate }) => (
       <div className="pricing-grid" style={{ maxWidth: 1050, margin: '0 auto', display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 1fr)', gap: 'clamp(24px, 4vw, 40px)' }}>
         <div>
           <SectionTag>No games, just numbers</SectionTag>
-          <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(2.05rem, 4.4vw, 2.75rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 18 }}>
-            Transparent Pricing You Can Actually See.
+          <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(2.05rem, 4.4vw, 2.75rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 18 }}>
+            Transparent pricing you can actually see.
           </h3>
           <button
             type="button"
             onClick={() => navigate('contact', { scrollToForm: true })}
-            aria-label="Request service — open scheduling form"
+            aria-label="Request service. Open scheduling form"
             style={{
               fontSize: '1.05rem',
               color: '#4A5568',
@@ -1924,10 +1943,10 @@ const HomePage = ({ navigate }) => (
               fontFamily: fonts.body,
             }}
           >
-            <strong style={{ color: 'var(--midnight)', fontSize: '1.15em' }}>{SERVICE_CALL_SHORT}</strong> is our standard way to get rolling: a tech on site, full diagnostic, and a written quote before optional repairs — <strong>no “free estimate” games that turn into pressure.</strong>
+            <strong style={{ color: 'var(--midnight)', fontSize: '1.15em' }}>{SERVICE_CALL_SHORT}</strong> is our standard way to get rolling: a tech on site, full diagnostic, and a written quote before optional repairs. <strong>No “free estimate” games that turn into pressure.</strong>
           </button>
           <p style={{ fontSize: '1.02rem', color: '#4A5568', lineHeight: 1.7, marginBottom: 16 }}>
-            Tired of “call for pricing” and mystery invoices? So are we. You get clear numbers up front — before anyone turns a wrench.
+            Tired of “call for pricing” and mystery invoices? So are we. You get clear numbers up front before anyone turns a wrench.
           </p>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
             {[
@@ -1950,7 +1969,7 @@ const HomePage = ({ navigate }) => (
           <button
             type="button"
             onClick={() => navigate('contact', { scrollToForm: true })}
-            aria-label="Book a service call — open scheduling form"
+            aria-label="Book a service call. Open scheduling form"
             style={{
               textAlign: 'center',
               padding: '18px 16px',
@@ -1964,14 +1983,14 @@ const HomePage = ({ navigate }) => (
             }}
           >
             <div style={{ fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--cool)', textTransform: 'uppercase', marginBottom: 6 }}>Lead with clarity</div>
-            <div style={{ fontFamily: fonts.display, fontSize: 'clamp(2.2rem, 4.4vw, 3rem)', color: 'var(--midnight)', lineHeight: 1 }}>
+            <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(2.2rem, 4.4vw, 3rem)', color: 'var(--midnight)', lineHeight: 1 }}>
               {SERVICE_CALL_PRICE}
             </div>
-            <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem', marginTop: 4 }}>service call</div>
+            <div style={{ fontWeight: 600, color: 'var(--midnight)', fontSize: '0.95rem', marginTop: 4 }}>service call</div>
             <div style={{ fontSize: '0.82rem', color: '#718096', marginTop: 8, lineHeight: 1.45 }}>Diagnostic + written quote before repairs</div>
           </button>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.98rem' }}>More typical ranges</div>
+            <div style={{ fontWeight: 600, color: 'var(--midnight)', fontSize: '0.98rem' }}>More typical ranges</div>
             <div style={{ fontSize: '0.78rem', color: '#A0AEC0' }}>Most homes ~2,000 sq ft</div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -1984,12 +2003,12 @@ const HomePage = ({ navigate }) => (
             ].map((row, i) => (
               <div key={i} style={{ display: 'flex', justifyContent: 'space-between', gap: 10, padding: '8px 0', borderBottom: i === 4 ? 'none' : '1px solid #EDF2F7', fontSize: '0.92rem' }}>
                 <span style={{ color: '#4A5568' }}>{row.label}</span>
-                <span style={{ fontWeight: 700, color: 'var(--midnight)', whiteSpace: 'nowrap' }}>{row.range}</span>
+                <span style={{ fontWeight: 600, color: 'var(--midnight)', whiteSpace: 'nowrap' }}>{row.range}</span>
               </div>
             ))}
           </div>
           <p style={{ fontSize: '0.8rem', color: '#A0AEC0', marginTop: 10 }}>
-            *Every home is different. We size and quote systems based on your actual layout, insulation, and comfort goals — never “one-size-fits-all” pricing.
+            *Every home is different. We size and quote systems based on your actual layout, insulation, and comfort goals. We never use “one-size-fits-all” pricing.
           </p>
         </div>
       </div>
@@ -2001,14 +2020,14 @@ const HomePage = ({ navigate }) => (
         <Reveal>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <SectionTag>From your neighbors</SectionTag>
-            <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4.4vw, 2.55rem)', color: 'var(--midnight)', lineHeight: 1.1 }}>Phoenix Families Trust All Star</h3>
+            <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.95rem, 4.4vw, 2.55rem)', color: 'var(--midnight)', lineHeight: 1.1 }}>Phoenix families trust All Star</h3>
           </div>
         </Reveal>
         <div className="interaction-card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 22 }}>
           {REVIEWS.slice(0, 3).map((r, i) => (
             <Reveal key={i} delay={i * 80}>
               <MagneticCard>
-                <div style={{ background: 'var(--warm-white)', borderRadius: 20, padding: 30, borderLeft: '4px solid var(--gold)', border: '1px solid rgba(0,0,0,0.06)', borderLeftWidth: 4, borderLeftColor: 'var(--gold)', boxShadow: '0 6px 28px rgba(15,23,42,0.07)', display: 'flex', flexDirection: 'column', height: '100%' }}>
+                <div style={{ background: 'var(--warm-white)', borderRadius: 20, padding: 30, borderLeft: `4px solid ${REVIEW_BORDER_ACCENT}`, border: '1px solid rgba(0,0,0,0.06)', borderLeftWidth: 4, borderLeftColor: REVIEW_BORDER_ACCENT, boxShadow: '0 6px 28px rgba(15,23,42,0.07)', display: 'flex', flexDirection: 'column', height: '100%' }}>
                   <div style={{ display: 'flex', gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <StarIcon key={j} />)}</div>
                   <p style={{ fontSize: '0.95rem', lineHeight: 1.7, color: '#4A5568', fontStyle: 'italic', marginBottom: 18, flex: 1 }}>"{r.text}"</p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -2043,8 +2062,8 @@ const ServicesPage = ({ navigate }) => (
       <div style={{ maxWidth: 1000, margin: '0 auto' }}>
         <Reveal>
           <SectionTag>Our services</SectionTag>
-          <h2 style={{ fontFamily: fonts.display, fontSize: 'clamp(2.2rem, 5.5vw, 3.35rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 16 }}>Everything Your Home or Business Needs to Stay Comfortable.</h2>
-          <p style={{ fontSize: '1.1rem', color: '#4A5568', lineHeight: 1.7, maxWidth: 650, marginBottom: 50 }}>From emergency repairs to full system installations, we handle it all — for single-family homes, rentals, and small businesses. Every job gets the same thing: a real person, honest pricing, and work done right the first time.</p>
+          <h2 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(2.2rem, 5.5vw, 3.35rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 16 }}>Everything your home or business needs to stay comfortable.</h2>
+          <p style={{ fontSize: '1.1rem', color: '#4A5568', lineHeight: 1.7, maxWidth: 650, marginBottom: 50 }}>From emergency repairs to full system installations, we handle it all for single-family homes, rentals, and small businesses. Every job gets the same thing: a real person, honest pricing, and work done right the first time.</p>
         </Reveal>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {SERVICES.map((svc, si) => (
@@ -2065,7 +2084,7 @@ const ServicesPage = ({ navigate }) => (
                     <svc.icon />
                   </div>
                   <div>
-                    <div style={{ fontFamily: fonts.display, fontSize: '1.15rem', color: 'var(--midnight)', marginBottom: 6 }}>{svc.title}</div>
+                    <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: '1.15rem', color: 'var(--midnight)', marginBottom: 6 }}>{svc.title}</div>
                     <div style={{ color: '#718096', fontSize: '0.95rem', lineHeight: 1.55 }}>{svc.shortDesc}</div>
                   </div>
                   <div className="services-list-details" style={{ color: 'var(--cool)', display: 'flex', alignItems: 'center', gap: 4, fontWeight: 600, fontSize: '0.9rem', whiteSpace: 'nowrap' }}>
@@ -2102,11 +2121,11 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
       <div style={{ width: 52, height: 52, borderRadius: 14, background: `${svc.color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: svc.bgColor, marginBottom: 14 }}>
         <svc.icon />
       </div>
-      <h1 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.7rem, 4.2vw, 2.65rem)', color: 'white', lineHeight: 1.12, marginBottom: 10 }}>{svc.hero}</h1>
+      <h1 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.7rem, 4.2vw, 2.65rem)', color: 'white', lineHeight: 1.12, marginBottom: 10 }}>{svc.hero}</h1>
       <p style={{ fontSize: '0.98rem', color: 'rgba(255,255,255,0.62)', lineHeight: 1.5, maxWidth: 520 }}>{svc.heroSub}</p>
       <div style={{ marginTop: 18, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
         <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--flame)', color: 'white', padding: '11px 20px', borderRadius: 60, textDecoration: 'none', fontWeight: 600, letterSpacing: '0.04em', fontSize: '0.95rem', boxShadow: '0 6px 25px rgba(196,30,36,0.35)', fontFamily: fonts.body }}>
-          <PhoneIcon /> Call — {SERVICE_CALL_SHORT}
+          <PhoneIcon /> Call for {SERVICE_CALL_SHORT}
         </a>
         <button onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'none', color: 'rgba(255,255,255,0.7)', padding: '11px 18px', borderRadius: 60, border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', fontWeight: 600, fontSize: '0.92rem', fontFamily: fonts.body }}>
           Schedule Online
@@ -2125,28 +2144,28 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
             <div className="service-detail-hero-grid">
               <div style={{ minWidth: 0 }}>{serviceHeroInner}</div>
               <div className="service-detail-van-photo">
-                <img src={REPAIR_PAGE_VAN_PHOTO} alt="All Star Refrigeration service van — on the way to your home" />
+                <img src={REPAIR_PAGE_VAN_PHOTO} alt="All Star Refrigeration service van on the way to your home" />
               </div>
             </div>
           ) : isInstallPage ? (
             <div className="service-detail-hero-grid">
               <div style={{ minWidth: 0 }}>{serviceHeroInner}</div>
               <div className="service-detail-van-photo">
-                <img src={INSTALL_PAGE_HERO_PHOTO} alt="New AC system installation — equipment sized and installed for your home" />
+                <img src={INSTALL_PAGE_HERO_PHOTO} alt="New AC system installation. Equipment sized and installed for your home" />
               </div>
             </div>
           ) : isHeatingPage ? (
             <div className="service-detail-hero-grid">
               <div style={{ minWidth: 0 }}>{serviceHeroInner}</div>
               <div className="service-detail-van-photo">
-                <img src={HEATING_PAGE_HERO_PHOTO} alt="Heating service — heat pumps, furnaces, and winter comfort in Phoenix" />
+                <img src={HEATING_PAGE_HERO_PHOTO} alt="Heating service. Heat pumps, furnaces, and winter comfort in Phoenix" />
               </div>
             </div>
           ) : isMaintenancePage ? (
             <div className="service-detail-hero-grid">
               <div style={{ minWidth: 0 }}>{serviceHeroInner}</div>
               <div className="service-detail-van-photo">
-                <img src={MAINTENANCE_PAGE_HERO_PHOTO} alt="Seasonal HVAC maintenance — tune-ups and system care in Phoenix" />
+                <img src={MAINTENANCE_PAGE_HERO_PHOTO} alt="Seasonal HVAC maintenance. Tune-ups and system care in Phoenix" />
               </div>
             </div>
           ) : (
@@ -2161,7 +2180,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
           <div className="repair-included-section repair-included-stack">
             <div style={{ minWidth: 0, textAlign: 'left' }}>
               <SectionTag>What's included</SectionTag>
-              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
+              <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What you get</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {svc.details.map((d, i) => (
                   <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
@@ -2172,7 +2191,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
               </div>
               <div style={{ marginTop: 28 }}>
                 <SectionTag>Common scenarios</SectionTag>
-                <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
+                <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to call us</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {svc.scenarios.map((s, i) => (
                     <Reveal key={i} delay={i * 80}>
@@ -2195,7 +2214,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
                 <img src={REPAIR_PAGE_SIDE_PHOTO} alt="All Star HVAC electrical and control work on location" />
               </div>
               <div className="repair-photo-tile repair-photo-tile--pair">
-                <img src={REPAIR_PAGE_WHEN_TO_CALL_PHOTO} alt="HVAC service and equipment — same quality work you see on every All Star job" />
+                <img src={REPAIR_PAGE_WHEN_TO_CALL_PHOTO} alt="HVAC service and equipment. Same quality work you see on every All Star job" />
               </div>
             </aside>
           </div>
@@ -2203,7 +2222,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
           <div className="repair-included-section repair-included-paired-rows install-pair-rows">
             <div className="repair-left-what" style={{ minWidth: 0, textAlign: 'left' }}>
               <SectionTag>What's included</SectionTag>
-              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
+              <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What you get</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {svc.details.map((d, i) => (
                   <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
@@ -2213,14 +2232,14 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
                 ))}
               </div>
             </div>
-            <aside className="repair-right-p1 repair-pair-right" aria-label="Installation — equipment on site">
+            <aside className="repair-right-p1 repair-pair-right" aria-label="Installation. Equipment on site">
               <div className="install-pair-photo-grid__item">
                 <img src={INSTALL_PAGE_PHOTO_GRID_LEFT} alt="HVAC replacement and new equipment on site" />
               </div>
             </aside>
             <div className="repair-left-when" style={{ minWidth: 0, textAlign: 'left' }}>
               <SectionTag>Common scenarios</SectionTag>
-              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
+              <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to call us</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {svc.scenarios.map((s, i) => (
                   <Reveal key={i} delay={i * 80}>
@@ -2234,9 +2253,9 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
                 ))}
               </div>
             </div>
-            <aside className="repair-right-p2 repair-pair-right" aria-label="Installation — lifts and commercial work">
+            <aside className="repair-right-p2 repair-pair-right" aria-label="Installation. Lifts and commercial work">
               <div className="install-pair-photo-grid__item">
-                <img src={INSTALL_PAGE_PHOTO_CRANE} alt="Commercial HVAC — lifts and installs for heavy equipment" />
+                <img src={INSTALL_PAGE_PHOTO_CRANE} alt="Commercial HVAC. Lifts and installs for heavy equipment" />
               </div>
             </aside>
           </div>
@@ -2244,7 +2263,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
           <div className="repair-included-section">
             <div style={{ minWidth: 0, textAlign: 'left' }}>
               <SectionTag>What's included</SectionTag>
-              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
+              <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What you get</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {svc.details.map((d, i) => (
                   <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
@@ -2255,7 +2274,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
               </div>
               <div style={{ marginTop: 28 }}>
                 <SectionTag>Common scenarios</SectionTag>
-                <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
+                <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to call us</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {svc.scenarios.map((s, i) => (
                     <Reveal key={i} delay={i * 80}>
@@ -2272,10 +2291,10 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
             </div>
             <aside className="repair-section-photos" aria-label="Maintenance service photos">
               <div className="repair-photo-tile">
-                <img src={MAINTENANCE_PAGE_SIDEBAR_PHOTO} alt="Seasonal tune-up and maintenance — keeping your system efficient" />
+                <img src={MAINTENANCE_PAGE_SIDEBAR_PHOTO} alt="Seasonal tune-up and maintenance. Keeping your system efficient" />
               </div>
               <p style={{ fontSize: '0.82rem', color: '#718096', lineHeight: 1.45, fontStyle: 'italic', margin: 0, textAlign: 'right' }}>
-                Tune-ups and inspections — stay ahead of breakdowns before the Phoenix heat hits.
+                Tune-ups and inspections. Stay ahead of breakdowns before the Phoenix heat hits.
               </p>
             </aside>
           </div>
@@ -2283,7 +2302,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
           <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 40 }}>
             <div>
               <SectionTag>What's included</SectionTag>
-              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
+              <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What you get</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {svc.details.map((d, i) => (
                   <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
@@ -2295,7 +2314,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
             </div>
             <div>
               <SectionTag>Common scenarios</SectionTag>
-              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
+              <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to call us</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {svc.scenarios.map((s, i) => (
                   <Reveal key={i} delay={i * 80}>
@@ -2324,7 +2343,7 @@ const AboutPage = ({ navigate }) => (
     <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--sand)' }}>
       <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
         <SectionTag>Our story</SectionTag>
-        <h1 style={{ fontFamily: fonts.display, fontSize: 'clamp(2.2rem, 5.5vw, 3.35rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 24 }}>Built on Frustration.<br />Fueled by <span style={{ color: 'var(--flame)' }}>Doing It Right.</span></h1>
+        <h1 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(2.2rem, 5.5vw, 3.35rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 24 }}>Built on frustration.<br />Fueled by <span style={{ color: 'var(--flame)', fontWeight: 600 }}>doing it right.</span></h1>
         <div style={{ width: 120, height: 120, borderRadius: '50%', background: 'var(--cool)', margin: '0 auto 32px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 30px rgba(21,101,160,0.2)', position: 'relative', color: 'white', fontFamily: fonts.display, fontSize: '2rem' }}>
           <div style={{ position: 'absolute', inset: -6, border: '2px dashed rgba(21,101,160,0.3)', borderRadius: '50%' }} />
           JD
@@ -2333,16 +2352,16 @@ const AboutPage = ({ navigate }) => (
           "I didn't start this company to get rich. I started it because I got tired of watching big outfits charge my neighbors a fortune and still make them wait three days in a hot house."
         </blockquote>
         <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '1.05rem' }}>Joe David</div>
-        <div style={{ color: 'var(--cool)', fontSize: '0.88rem', fontWeight: 500, marginBottom: 36 }}>Owner, All Star Refrigeration — Phoenix, AZ</div>
+        <div style={{ color: 'var(--cool)', fontSize: '0.88rem', fontWeight: 500, marginBottom: 36 }}>Owner, All Star Refrigeration, Phoenix, AZ</div>
       </div>
     </section>
 
     <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--warm-white)' }}>
       <div style={{ maxWidth: 750, margin: '0 auto' }}>
         <div style={{ fontSize: '1.08rem', lineHeight: 1.85, color: '#4A5568' }}>
-          <p style={{ marginBottom: 20 }}>All Star Refrigeration was born out of frustration — the kind you feel when you're on hold for 45 minutes with a company that has 200 trucks but can't get one to your house before next week. The kind you feel when a tech shows up, spends 10 minutes, and hands you a $1,200 bill for a $40 capacitor.</p>
-          <p style={{ marginBottom: 20 }}>We saw how the big companies operated: volume over quality, upsells over honesty, shareholders over customers. And we thought — <strong style={{ color: 'var(--midnight)' }}>what if someone just did this the right way?</strong></p>
-          <p style={{ marginBottom: 20 }}>That's All Star. We show up fast, we tell you the truth, and we charge you fair. We don't have a marketing department or a fleet of 100 trucks. What we have is a crew that genuinely cares about the people we serve — because they're our neighbors, our friends, the families we see at the grocery store and the little league field.</p>
+          <p style={{ marginBottom: 20 }}>All Star Refrigeration was born out of frustration. The kind you feel when you're on hold for 45 minutes with a company that has 200 trucks but can't get one to your house before next week. The kind you feel when a tech shows up, spends 10 minutes, and hands you a $1,200 bill for a $40 capacitor.</p>
+          <p style={{ marginBottom: 20 }}>We saw how the big companies operated: volume over quality, upsells over honesty, shareholders over customers. And we thought: <strong style={{ color: 'var(--midnight)' }}>what if someone just did this the right way?</strong></p>
+          <p style={{ marginBottom: 20 }}>That's All Star. We show up fast, we tell you the truth, and we charge you fair. We don't have a marketing department or a fleet of 100 trucks. What we have is a crew that genuinely cares about the people we serve because they're our neighbors, our friends, the families we see at the grocery store and the little league field.</p>
           <p style={{ marginBottom: 20 }}>Every job, whether it's a $150 capacitor swap or a $10,000 system install, gets the same treatment: <strong style={{ color: 'var(--midnight)' }}>honest diagnosis, upfront pricing, and work done right the first time.</strong> If we wouldn't do it to our own mother's house, we won't do it to yours.</p>
           <p>We're not trying to be the biggest HVAC company in Phoenix. We're trying to be the one you tell your friends about.</p>
         </div>
@@ -2368,7 +2387,7 @@ const AboutPage = ({ navigate }) => (
     <section style={{ padding: 'clamp(60px, 8vw, 80px) clamp(24px, 4vw, 80px)', background: 'white' }}>
       <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
         <SectionTag>Serving all of Phoenix metro</SectionTag>
-        <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4vw, 2.2rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 30 }}>Service Areas</h3>
+        <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.95rem, 4vw, 2.2rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 30 }}>Service areas</h3>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
           {SERVICE_AREAS.map(area => (
             <span key={area} style={{ background: 'var(--ice)', color: 'var(--cool-deep)', padding: '8px 20px', borderRadius: 30, fontWeight: 600, fontSize: '0.9rem' }}>{area}</span>
@@ -2389,7 +2408,7 @@ const ReviewsPage = ({ navigate }) => (
         <Reveal>
           <div style={{ textAlign: 'center', marginBottom: 50 }}>
             <SectionTag>Real reviews from real neighbors</SectionTag>
-            <h1 style={{ fontFamily: fonts.display, fontSize: 'clamp(2.2rem, 5.5vw, 3.05rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 14 }}>What Phoenix Says About All Star</h1>
+            <h1 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(2.2rem, 5.5vw, 3.05rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 14 }}>What Phoenix says about All Star</h1>
             <p style={{ fontSize: '1.05rem', color: '#4A5568', maxWidth: 550, margin: '0 auto' }}>We don't run ads with actors. We let our work speak. Here's what our neighbors have to say.</p>
           </div>
         </Reveal>
@@ -2477,9 +2496,9 @@ const ContactPage = ({ navigate }) => {
           {/* Contact Info */}
           <div>
             <SectionTag>Get in touch</SectionTag>
-            <h1 style={{ fontFamily: fonts.display, fontSize: 'clamp(2.2rem, 4.4vw, 2.85rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 18 }}>Let's Get You <span style={{ color: 'var(--cool)' }}>Comfortable.</span></h1>
+            <h1 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(2.2rem, 4.4vw, 2.85rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 18 }}>Let&apos;s get you <span style={{ color: 'var(--cool)', fontWeight: 700 }}>comfortable.</span></h1>
             <p style={{ fontSize: '1.05rem', color: '#4A5568', lineHeight: 1.7, marginBottom: 36 }}>
-              Whether it's an emergency or you're planning ahead, we're here. Ask about our <strong>{SERVICE_CALL_SHORT}</strong> — then call us for the fastest response, or fill out the form and we'll call you back within an hour during business hours (next business day if you reach us after hours).
+              Whether it's an emergency or you're planning ahead, we're here. Ask about our <strong>{SERVICE_CALL_SHORT}</strong>. Then call us for the fastest response, or fill out the form and we'll call you back within an hour during business hours (next business day if you reach us after hours).
             </p>
 
             {/* Quick contact cards */}
@@ -2491,7 +2510,7 @@ const ContactPage = ({ navigate }) => {
               }}>
                 <div style={{ width: 48, height: 48, borderRadius: 14, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><PhoneIcon /></div>
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Call 9–5 — {PHONE}</div>
+                  <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Call 9–5. {PHONE}</div>
                   <div style={{ fontSize: '0.88rem', opacity: 0.8 }}>Talk to a real person during business hours.</div>
                 </div>
               </a>
@@ -2534,13 +2553,13 @@ const ContactPage = ({ navigate }) => {
             {submitted ? (
               <div style={{ background: 'white', borderRadius: 20, padding: 48, textAlign: 'center', border: '1px solid rgba(0,0,0,0.06)' }}>
                 <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#D1FAE5', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#059669', margin: '0 auto 20px' }}><CheckIcon /></div>
-                <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.65rem, 3.2vw, 1.85rem)', color: 'var(--midnight)', marginBottom: 10 }}>We Got It!</h3>
-                <p style={{ color: '#4A5568', lineHeight: 1.6 }}>We'll call you within an hour during business hours, or the next business day if you submitted after hours. If it's urgent, don't wait — call us directly at <a href={PHONE_HREF} style={{ color: 'var(--flame)', fontWeight: 700 }}>{PHONE}</a>.</p>
+                <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.65rem, 3.2vw, 1.85rem)', color: 'var(--midnight)', marginBottom: 10 }}>We got it!</h3>
+                <p style={{ color: '#4A5568', lineHeight: 1.6 }}>We'll call you within an hour during business hours, or the next business day if you submitted after hours. If it's urgent, don't wait. Call us directly at <a href={PHONE_HREF} style={{ color: 'var(--flame)', fontWeight: 700 }}>{PHONE}</a>.</p>
               </div>
             ) : (
               <form id="contact-form" onSubmit={handleSubmit} style={{ position: 'relative', background: 'white', borderRadius: 20, padding: 'clamp(24px, 4vw, 40px)', border: '1px solid rgba(0,0,0,0.06)', scrollMarginTop: 96 }}>
-                <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.55rem, 3vw, 1.7rem)', color: 'var(--midnight)', marginBottom: 6 }}>Request Service</h3>
-                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: 24 }}>Fill this out and we'll call you back within an hour during business hours — or the next business day if you reach us after hours.</p>
+                <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.55rem, 3vw, 1.7rem)', color: 'var(--midnight)', marginBottom: 6 }}>Request service</h3>
+                <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: 24 }}>Fill this out and we'll call you back within an hour during business hours, or the next business day if you reach us after hours.</p>
 
                 {/* Honeypot — leave hidden; bots often fill this */}
                 <div style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }} aria-hidden="true">
@@ -2586,8 +2605,8 @@ const ContactPage = ({ navigate }) => {
                     <label style={labelStyle}>How Urgent?</label>
                     <select style={{...inputStyle, cursor: 'pointer', appearance: 'auto'}} value={form.urgency} onChange={e => setForm({...form, urgency: e.target.value})} required>
                       <option value="">Select...</option>
-                      <option>🔴 Emergency — AC is down now</option>
-                      <option>🟡 Soon — within a few days</option>
+                      <option>🔴 Emergency. AC is down now</option>
+                      <option>🟡 Soon. Within a few days</option>
                       <option>🟢 Planning ahead</option>
                     </select>
                   </div>
@@ -2595,7 +2614,7 @@ const ContactPage = ({ navigate }) => {
 
                 <div style={{ marginBottom: 24 }}>
                   <label style={labelStyle}>What's Going On?</label>
-                  <textarea style={{...inputStyle, minHeight: 100, resize: 'vertical'}} value={form.message} onChange={e => setForm({...form, message: e.target.value})} placeholder="Tell us what's happening — weird noises, no cold air, thermostat reading, anything helps..." />
+                  <textarea style={{...inputStyle, minHeight: 100, resize: 'vertical'}} value={form.message} onChange={e => setForm({...form, message: e.target.value})} placeholder="Tell us what's happening. Weird noises, no cold air, thermostat reading, anything helps..." />
                 </div>
 
                 <button
@@ -2609,7 +2628,7 @@ const ContactPage = ({ navigate }) => {
                 >{submitting ? 'Sending…' : 'Send Request'}</button>
 
                 <p style={{ textAlign: 'center', marginTop: 14, fontSize: '0.82rem', color: '#A0AEC0' }}>
-                  Need help now? Skip the form — <a href={PHONE_HREF} style={{ color: 'var(--flame)', fontWeight: 600 }}>call us directly</a>.
+                  Need help now? Skip the form. <a href={PHONE_HREF} style={{ color: 'var(--flame)', fontWeight: 600 }}>Call us directly</a>.
                 </p>
               </form>
             )}
@@ -2622,7 +2641,7 @@ const ContactPage = ({ navigate }) => {
         <div style={{ maxWidth: 750, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <SectionTag>FAQ</SectionTag>
-            <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4vw, 2.2rem)', color: 'var(--midnight)', lineHeight: 1.1 }}>Common Questions</h3>
+            <h3 style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 'clamp(1.95rem, 4vw, 2.2rem)', color: 'var(--midnight)', lineHeight: 1.1 }}>Common questions</h3>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {FAQS.map((faq, i) => (
@@ -2642,7 +2661,7 @@ const FAQItem = ({ q, a }) => {
       <button onClick={() => setOpen(!open)} style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%',
         padding: '18px 24px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
-        fontFamily: fonts.body, fontWeight: 700, fontSize: '1rem', color: 'var(--midnight)'
+        fontFamily: fonts.body, fontWeight: 600, fontSize: '1rem', color: 'var(--midnight)'
       }}>
         {q}
         <span style={{ transform: open ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s', flexShrink: 0, marginLeft: 12 }}><ChevronDown /></span>
@@ -2665,26 +2684,26 @@ export default function AllStarWebsite() {
   useEffect(() => { injectStyles(); }, []);
 
   useEffect(() => {
-    const base = "All Star Refrigeration | Fast AC Repair Phoenix AZ — Same-Day Service";
+    const base = "All Star Refrigeration | Fast AC Repair Phoenix AZ. Same-day service.";
     const seoMap = {
       home: {
         title: base,
         desc: "All Star Refrigeration provides fast, honest AC repair, heating, and refrigeration services across the Phoenix metro area. Same-day service, $89 diagnostic, licensed techs. Call (602) 763-7600.",
       },
       services: {
-        title: "AC Repair, Installation & Maintenance Services — All Star Refrigeration Phoenix",
+        title: "AC Repair, Installation & Maintenance Services | All Star Refrigeration Phoenix",
         desc: "Emergency AC repair, new system installation, heating service and seasonal maintenance across Phoenix, Scottsdale, Tempe, Mesa, Gilbert and Chandler. $89 service call.",
       },
       about: {
-        title: "About All Star Refrigeration — Locally Owned HVAC in Phoenix, AZ",
+        title: "About All Star Refrigeration | Locally Owned HVAC in Phoenix, AZ",
         desc: "Locally owned and operated HVAC company serving the Phoenix metro. 10+ years experience, A+ BBB rated, licensed and insured. Meet the team behind All Star.",
       },
       reviews: {
-        title: "Reviews — Phoenix Homeowners Trust All Star Refrigeration",
+        title: "Reviews | Phoenix Homeowners Trust All Star Refrigeration",
         desc: "Read real reviews from Phoenix, Scottsdale, Mesa, Gilbert and Chandler homeowners. See why families trust All Star Refrigeration for AC repair and installation.",
       },
       contact: {
-        title: "Contact All Star Refrigeration — Schedule AC Service in Phoenix",
+        title: "Contact All Star Refrigeration | Schedule AC Service in Phoenix",
         desc: "Schedule your $89 service call or request a free estimate. Call (602) 763-7600 (9–5) or book online 24/7. Same-day appointments when available.",
       },
     };
@@ -2694,7 +2713,7 @@ export default function AllStarWebsite() {
       const svc = SERVICES.find(s => `service-${s.id}` === page);
       if (svc) {
         seo = {
-          title: `${svc.title} in Phoenix AZ — All Star Refrigeration`,
+          title: `${svc.title} in Phoenix AZ | All Star Refrigeration`,
           desc: `${svc.shortDesc} Same-day service, honest pricing. Call (602) 763-7600 or book online.`,
         };
       }
@@ -2767,7 +2786,7 @@ export default function AllStarWebsite() {
         <a
           href={PHONE_HREF}
           className="allstar-mobile-cta__call"
-          aria-label={`Call now — ${PHONE}`}
+          aria-label={`Call now. ${PHONE}`}
         >
           <PhoneIcon />
           <span>Call Now</span>
@@ -2776,7 +2795,7 @@ export default function AllStarWebsite() {
           type="button"
           className="allstar-mobile-cta__request"
           onClick={() => navigate('contact', { scrollToForm: true })}
-          aria-label="Schedule service — open contact form"
+          aria-label="Schedule service. Open contact form"
         >
           <MailIcon />
           <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.15, textAlign: 'left' }}>

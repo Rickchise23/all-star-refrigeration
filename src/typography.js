@@ -35,12 +35,13 @@ export const typography = {
     fontWeight: 600,
     letterSpacing: "-0.01em",
   },
+  /** Eyebrow / section label: body font, muted, sentence case (no mono / all-caps). */
   sectionLabel: {
-    fontFamily: fonts.mono,
-    fontWeight: 400,
-    fontSize: 11,
-    letterSpacing: "0.12em",
-    textTransform: "uppercase",
+    fontFamily: fonts.body,
+    fontWeight: 500,
+    fontSize: 13,
+    letterSpacing: "0.02em",
+    textTransform: "none",
   },
   button: {
     fontFamily: fonts.body,
