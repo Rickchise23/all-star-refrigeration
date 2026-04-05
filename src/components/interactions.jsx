@@ -83,17 +83,22 @@ export function Reveal({ children, delay = 0, style: extraStyle, className }) {
   const ref = useRef(null);
 
   useEffect(() => {
+    let revealTimeoutId;
     const obs = new IntersectionObserver(
       ([e]) => {
         if (e.isIntersecting) {
-          setTimeout(() => setVisible(true), delay);
+          revealTimeoutId = setTimeout(() => setVisible(true), delay);
           obs.disconnect();
         }
       },
       { threshold: 0.1 }
     );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
+    const el = ref.current;
+    if (el) obs.observe(el);
+    return () => {
+      obs.disconnect();
+      if (revealTimeoutId !== undefined) clearTimeout(revealTimeoutId);
+    };
   }, [delay]);
 
   const y = useSpring(visible ? 0 : 24, REVEAL_Y);
