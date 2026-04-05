@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react";
+import { MagneticCard, Reveal } from "@/components/interactions.jsx";
+import { FONT_IMPORT_CSS, fonts, fontsCss, typography } from "@/typography.js";
 
 // ============================================================================
 // ALL STAR REFRIGERATION — Full Multi-Page Business Website
 // Design: Warm industrial — honest, grounded, Phoenix-rooted
-// Typography: Archivo Black (display) + DM Sans (body)
+// Typography: Outfit (display) + Inter (body) + JetBrains Mono (labels / data)
 // Palette: Midnight navy, flame orange, cooling teal, desert sand
 // ============================================================================
 
@@ -75,38 +77,11 @@ const LogoImg = ({ height = 52, dark = false }) => {
         </g>
       </svg>
       <div style={{ lineHeight: 1.05 }}>
-        <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: height * 0.36, color: dark ? '#fff' : '#B91C1C', whiteSpace: 'nowrap' }}>All Star</div>
-        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: height * 0.17, fontWeight: 700, color: dark ? 'rgba(255,255,255,0.55)' : '#1D4ED8', letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 2 }}>Refrigeration</div>
+        <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: height * 0.36, color: dark ? '#fff' : '#B91C1C', whiteSpace: 'nowrap' }}>All Star</div>
+        <div style={{ fontFamily: fonts.body, fontSize: height * 0.17, fontWeight: 600, color: dark ? 'rgba(255,255,255,0.55)' : '#1D4ED8', letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 2 }}>Refrigeration</div>
       </div>
     </div>
   );
-};
-
-// --------------- SCROLL REVEAL HOOK ---------------
-const useReveal = (delay = 0) => {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.12 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-  const style = {
-    opacity: visible ? 1 : 0,
-    transform: visible ? 'translateY(0)' : 'translateY(28px)',
-    transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}s, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}s`,
-  };
-  return { ref, style };
-};
-
-const Reveal = ({ children, delay = 0, style: extraStyle, className }) => {
-  const { ref, style } = useReveal(delay);
-  return <div ref={ref} style={{ ...style, ...extraStyle }} className={className}>{children}</div>;
 };
 
 // --------------- STYLES ---------------
@@ -115,9 +90,11 @@ const injectStyles = () => {
   const style = document.createElement('style');
   style.id = 'allstar-styles';
   style.textContent = `
-    @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
-    
+${FONT_IMPORT_CSS}
     :root {
+      --font-display: ${fontsCss.display};
+      --font-body: ${fontsCss.body};
+      --font-mono: ${fontsCss.mono};
       --flame: #C41E24;
       --flame-dark: #A01A1F;
       --cool: #1565A0;
@@ -193,7 +170,7 @@ const injectStyles = () => {
 
     /* "When to Call Us" scenario rows — secondary / outline button feel, stronger than flat white */
     .scenario-card {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       background: linear-gradient(180deg, #EAF2FA 0%, #D9E9F6 100%);
       border: 1px solid rgba(21, 101, 160, 0.38);
       border-radius: 14px;
@@ -210,7 +187,8 @@ const injectStyles = () => {
       .scenario-card:hover { transform: none; }
     }
     .scenario-card__title {
-      font-weight: 700;
+      font-family: var(--font-display);
+      font-weight: 600;
       color: var(--midnight);
       font-size: 0.9rem;
       margin-bottom: 4px;
@@ -269,7 +247,7 @@ const injectStyles = () => {
       justify-content: center;
       gap: 10px;
       z-index: 120;
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       box-shadow: 0 -6px 20px rgba(0,0,0,0.25);
     }
     .allstar-mobile-cta button,
@@ -291,7 +269,7 @@ const injectStyles = () => {
       justify-content: center;
       gap: 8px;
       text-decoration: none;
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       box-shadow: 0 2px 10px rgba(196,30,36,0.35);
     }
     .allstar-mobile-cta__request {
@@ -302,6 +280,19 @@ const injectStyles = () => {
       justify-content: center;
       gap: 10px;
       text-decoration: none;
+    }
+    /* Footer columns: default stacks like cards; wide screens give Contact extra width for email/address */
+    .footer-main-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: clamp(24px, 4vw, 40px);
+    }
+    @media (min-width: 1024px) {
+      .footer-main-grid {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(300px, 1.45fr);
+      }
     }
     .footer-contact-block {
       min-width: 0;
@@ -328,8 +319,8 @@ const injectStyles = () => {
     .footer-contact-link__text {
       flex: 1;
       min-width: 0;
-      overflow-wrap: anywhere;
-      word-break: break-word;
+      overflow-wrap: break-word;
+      word-break: normal;
     }
     .footer-address-line {
       display: flex;
@@ -347,7 +338,8 @@ const injectStyles = () => {
     .footer-address-line span {
       flex: 1;
       min-width: 0;
-      overflow-wrap: anywhere;
+      overflow-wrap: break-word;
+      word-break: normal;
     }
     @media (max-width: 520px) {
       .footer-contact-link {
@@ -382,6 +374,16 @@ const injectStyles = () => {
       outline-offset: 3px;
       border-radius: 4px;
     }
+    /* Phone numbers: match CTA buttons (Inter), not mono */
+    .footer-phone-num {
+      font-family: var(--font-body);
+      font-weight: inherit;
+    }
+    .footer-legal-meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+    }
     .form-row-2col {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -390,6 +392,30 @@ const injectStyles = () => {
     }
     @media (max-width: 480px) {
       .form-row-2col { grid-template-columns: 1fr; }
+    }
+    /* Equal-height rows when cards are wrapped in Reveal + MagneticCard */
+    .interaction-card-grid {
+      display: grid;
+      align-items: stretch;
+    }
+    .interaction-card-grid > * {
+      min-height: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .interaction-card-grid > * > * {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .interaction-card-grid > * > * > * {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+      box-sizing: border-box;
     }
     .hero-van-photo-inner {
       position: relative;
@@ -411,15 +437,19 @@ const injectStyles = () => {
       justify-content: center;
       align-items: center;
       gap: clamp(10px, 2vw, 24px);
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
     .home-trust-bar__item {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       color: rgba(255,255,255,0.88);
-      font-size: clamp(0.78rem, 1.5vw, 0.9rem);
-      font-weight: 600;
+      font-size: clamp(0.75rem, 1.4vw, 0.8rem);
+      font-weight: 500;
       white-space: nowrap;
     }
     @media (max-width: 520px) {
@@ -475,7 +505,7 @@ const injectStyles = () => {
       bottom: 14px;
       z-index: 1;
       color: #F9FAFB;
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-weight: 600;
       font-size: 0.9rem;
       display: flex;
@@ -957,7 +987,7 @@ const FAQS = [
 // --------------- SHARED COMPONENTS ---------------
 
 const EmergencyBar = ({ navigate }) => (
-  <div style={{ background: 'var(--flame)', color: 'white', padding: '10px 18px', textAlign: 'center', fontWeight: 700, fontSize: '0.88rem', letterSpacing: '0.02em', position: 'relative', overflow: 'hidden', zIndex: 100, fontFamily: "'DM Sans', sans-serif" }}>
+  <div style={{ background: 'var(--flame)', color: 'white', padding: '10px 18px', textAlign: 'center', fontWeight: 600, fontSize: '0.88rem', letterSpacing: '0.02em', position: 'relative', overflow: 'hidden', zIndex: 100, fontFamily: fonts.body }}>
     <div style={{ position: 'absolute', top: 0, left: '-100%', width: '100%', height: '100%', background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)', animation: 'heatPulse 3s ease-in-out infinite' }} />
     <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '10px 14px' }}>
       <button
@@ -972,12 +1002,12 @@ const EmergencyBar = ({ navigate }) => (
           padding: '9px 16px',
           borderRadius: 999,
           fontSize: '0.88rem',
-          fontWeight: 800,
+          fontWeight: 600,
           letterSpacing: '0.04em',
           boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
           border: 'none',
           cursor: 'pointer',
-          fontFamily: "'DM Sans', sans-serif",
+          fontFamily: fonts.body,
         }}
       >
         {SERVICE_CALL_SHORT.toUpperCase()}
@@ -985,7 +1015,7 @@ const EmergencyBar = ({ navigate }) => (
       <span style={{ opacity: 0.85 }}>🌡️ Phoenix Heat Alert</span>
       <span>
         AC down? 9–5 calls · 24/7 online booking.{' '}
-        <a href={PHONE_HREF} style={{ color: 'white', textDecoration: 'none', borderBottom: '2px solid rgba(255,255,255,0.5)', fontWeight: 800 }}>{PHONE}</a>
+        <a href={PHONE_HREF} className="footer-phone-num" style={{ color: 'white', textDecoration: 'none', borderBottom: '2px solid rgba(255,255,255,0.5)', fontWeight: 600 }}>{PHONE}</a>
       </span>
     </div>
   </div>
@@ -1030,7 +1060,7 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
       zIndex: 90,
       boxShadow: scrolled ? '0 4px 20px rgba(0,0,0,0.12)' : '0 1px 4px rgba(0,0,0,0.04)',
       transition: 'box-shadow 0.3s',
-      fontFamily: "'DM Sans', sans-serif",
+      fontFamily: fonts.body,
       height: 72,
     }}>
       <div onClick={() => navigate('home')} style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
@@ -1054,7 +1084,7 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
                 background: 'none', border: 'none', cursor: 'pointer',
                 padding: '8px 16px', borderRadius: 8, fontSize: '0.92rem', fontWeight: 500,
                 color: isActive(item) ? 'var(--cool)' : 'var(--charcoal)',
-                fontFamily: "'DM Sans', sans-serif",
+                fontFamily: fonts.body,
                 display: 'flex', alignItems: 'center', gap: 4,
                 transition: 'color 0.2s',
               }}
@@ -1073,7 +1103,7 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
                     style={{
                       display: 'flex', alignItems: 'center', gap: 12, padding: '12px 20px', width: '100%',
                       background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
-                      fontFamily: "'DM Sans', sans-serif", transition: 'background 0.2s',
+                      fontFamily: fonts.body, transition: 'background 0.2s',
                     }}
                     onMouseEnter={e => e.currentTarget.style.background = '#f7f7f7'}
                     onMouseLeave={e => e.currentTarget.style.background = 'none'}
@@ -1097,10 +1127,10 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
         <a href={PHONE_HREF} style={{
           display: 'flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white',
           padding: '10px 22px', borderRadius: 50, textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem',
-          transition: 'all 0.3s', boxShadow: '0 4px 15px rgba(196,30,36,0.3)', fontFamily: "'DM Sans', sans-serif"
+          transition: 'all 0.3s', boxShadow: '0 4px 15px rgba(196,30,36,0.3)', fontFamily: fonts.body
         }}>
           <span style={{ animation: 'phoneRing 2s ease-in-out infinite', display: 'inline-flex' }}><PhoneIcon /></span>
-          <span className="phone-label">{PHONE}</span>
+          <span className="phone-label footer-phone-num">{PHONE}</span>
         </a>
         <button onClick={() => setMobileOpen(!mobileOpen)} style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer', padding: 6 }} className="mobile-menu-btn">
           {mobileOpen ? <XIcon /> : <MenuIcon />}
@@ -1123,7 +1153,7 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
               }} style={{
                 display: 'block', width: '100%', textAlign: 'left', background: 'none', border: 'none',
                 padding: '16px 0', fontSize: '1.15rem', fontWeight: 600, color: 'var(--midnight)',
-                borderBottom: '1px solid #eee', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif"
+                borderBottom: '1px solid #eee', cursor: 'pointer', fontFamily: fonts.body
               }}>{item.label}</button>
               {item.dropdown && (
                 <div style={{ paddingLeft: 16 }}>
@@ -1131,7 +1161,7 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
                     <button key={svc.id} onClick={() => { navigate(`service-${svc.id}`); setMobileOpen(false); }} style={{
                       display: 'block', width: '100%', textAlign: 'left', background: 'none', border: 'none',
                       padding: '14px 0', fontSize: '0.95rem', fontWeight: 500, color: '#4A5568',
-                      borderBottom: '1px solid #f5f5f5', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif"
+                      borderBottom: '1px solid #f5f5f5', cursor: 'pointer', fontFamily: fonts.body
                     }}>{svc.title}</button>
                   ))}
                 </div>
@@ -1153,24 +1183,24 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
 };
 
 const Footer = ({ navigate }) => (
-  <footer style={{ background: 'var(--midnight)', padding: 'clamp(48px, 8vw, 80px) clamp(20px, 4vw, 40px) clamp(24px, 3vw, 30px)', fontFamily: "'DM Sans', sans-serif" }}>
+  <footer style={{ background: 'var(--midnight)', padding: 'clamp(48px, 8vw, 80px) clamp(20px, 4vw, 40px) clamp(24px, 3vw, 30px)', fontFamily: fonts.body }}>
     {/* Mini CTA */}
     <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center', marginBottom: 48, paddingBottom: 40, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-      <h4 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.4rem, 3vw, 1.8rem)', color: 'white', marginBottom: 16 }}>Ready to Stop Sweating?</h4>
-      <a href={PHONE_HREF} className="footer-cta-call" style={{ background: 'var(--flame)', color: 'white', padding: '14px 32px', borderRadius: 50, fontWeight: 700, textDecoration: 'none', fontSize: '1rem', boxShadow: '0 4px 18px rgba(196,30,36,0.35)', transition: 'all 0.3s', fontFamily: "'DM Sans', sans-serif" }}>
+      <h4 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.55rem, 3.3vw, 2rem)', color: 'white', marginBottom: 16 }}>Ready to Stop Sweating?</h4>
+      <a href={PHONE_HREF} className="footer-cta-call" style={{ background: 'var(--flame)', color: 'white', padding: '14px 32px', borderRadius: 50, fontWeight: 700, textDecoration: 'none', fontSize: '1rem', boxShadow: '0 4px 18px rgba(196,30,36,0.35)', transition: 'all 0.3s', fontFamily: fonts.body }}>
         <PhoneIcon /> <span style={{ lineHeight: 1.3 }}>{PHONE}</span>
       </a>
     </div>
-    <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'clamp(24px, 4vw, 40px)' }}>
+    <div className="footer-main-grid">
       <div>
-      <div style={{ fontFamily: "'Archivo Black', sans-serif", color: 'white', fontSize: '1.1rem', marginBottom: 12 }}>
+      <div style={{ fontFamily: fonts.display, color: 'white', fontSize: '1.1rem', marginBottom: 12 }}>
           <LogoImg height={42} dark={true} />
         </div>
         <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.9rem', lineHeight: 1.7, maxWidth: 280 }}>
           Locally owned AC repair and installation serving the Phoenix metro area. Your neighbors, not a corporation.
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 16 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: 8, background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', fontFamily: "'Archivo Black', sans-serif", fontSize: '0.95rem', color: '#22C55E', lineHeight: 1 }}>A+</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: 8, background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', fontFamily: fonts.display, fontSize: '0.95rem', color: '#22C55E', lineHeight: 1 }}>A+</div>
           <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.82rem', lineHeight: 1.35 }}>BBB Accredited<br />Since 2017</span>
         </div>
       </div>
@@ -1178,7 +1208,7 @@ const Footer = ({ navigate }) => (
         <div style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 16 }}>Services</div>
         {SERVICES.map(svc => (
           <div key={svc.id} style={{ marginBottom: 10 }}>
-            <button onClick={() => navigate(`service-${svc.id}`)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', cursor: 'pointer', padding: '8px 0', fontFamily: "'DM Sans', sans-serif", transition: 'color 0.2s' }}
+            <button onClick={() => navigate(`service-${svc.id}`)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', cursor: 'pointer', padding: '8px 0', fontFamily: fonts.body, transition: 'color 0.2s' }}
               onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.85)'}
               onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}
             >{svc.title}</button>
@@ -1189,7 +1219,7 @@ const Footer = ({ navigate }) => (
         <div style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 16 }}>Company</div>
         {[{ label: 'About Us', page: 'about' }, { label: 'Reviews', page: 'reviews' }, { label: 'Contact', page: 'contact' }, { label: 'FAQ', page: 'contact', scrollToFaq: true }].map(item => (
           <div key={item.label} style={{ marginBottom: 10 }}>
-            <button onClick={() => (item.scrollToFaq ? navigate('contact', { scrollToFaq: true }) : navigate(item.page))} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', cursor: 'pointer', padding: '8px 0', fontFamily: "'DM Sans', sans-serif", transition: 'color 0.2s' }}
+            <button onClick={() => (item.scrollToFaq ? navigate('contact', { scrollToFaq: true }) : navigate(item.page))} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', cursor: 'pointer', padding: '8px 0', fontFamily: fonts.body, transition: 'color 0.2s' }}
               onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.85)'}
               onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}
             >{item.label}</button>
@@ -1200,7 +1230,7 @@ const Footer = ({ navigate }) => (
         <div style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 16 }}>Contact</div>
         <a href={PHONE_HREF} className="footer-contact-link" aria-label={`Call ${PHONE}`}>
           <PhoneIcon />
-          <span className="footer-contact-link__text">{PHONE}</span>
+          <span className="footer-contact-link__text footer-phone-num">{PHONE}</span>
         </a>
         <a href={EMAIL_HREF} className="footer-contact-link" aria-label={`Email ${EMAIL}`}>
           <MailIcon />
@@ -1215,7 +1245,7 @@ const Footer = ({ navigate }) => (
     <div style={{ maxWidth: 1100, margin: '24px auto 0', paddingTop: 18, borderTop: '1px solid rgba(255,255,255,0.06)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.32)', lineHeight: 1.6, textAlign: 'center' }}>
       <p style={{ margin: '0 0 8px' }}>Proudly serving {SERVICE_AREAS.join(', ')} and surrounding communities in the Phoenix metro area.</p>
       <p style={{ margin: '0 0 8px' }}>AC repair · AC installation · heating repair · heat pump service · seasonal maintenance · refrigeration</p>
-      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '6px 20px', marginTop: 10 }}>
+      <div className="footer-legal-meta" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '6px 20px', marginTop: 10 }}>
         <span>© 2026 All Star Refrigeration. All rights reserved.</span>
         <span>ROC Licensed</span><span>Fully Insured</span><span>Phoenix, AZ</span>
       </div>
@@ -1223,12 +1253,24 @@ const Footer = ({ navigate }) => (
   </footer>
 );
 
-const SectionTag = ({ children, light }) => (
-  <div style={{ fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: light ? 'var(--gold)' : 'var(--cool)', marginBottom: 16 }}>{children}</div>
+const SectionTag = ({ children, light, emphasize }) => (
+  <div
+    style={{
+      ...typography.sectionLabel,
+      fontSize: emphasize ? '0.95rem' : '0.85rem',
+      fontWeight: emphasize ? 600 : 500,
+      fontFamily: emphasize ? fonts.display : fonts.mono,
+      letterSpacing: emphasize ? '0.11em' : typography.sectionLabel.letterSpacing,
+      color: light ? 'var(--gold)' : emphasize ? 'var(--cool-deep)' : 'var(--cool)',
+      marginBottom: 16,
+    }}
+  >
+    {children}
+  </div>
 );
 
 const CTABanner = ({ navigate }) => (
-  <section style={{ padding: 'clamp(80px, 12vw, 140px) clamp(24px, 4vw, 80px)', background: 'linear-gradient(135deg, #0D1B2A 0%, var(--cool-deep) 50%, #0D1B2A 100%)', textAlign: 'center', position: 'relative', overflow: 'hidden', fontFamily: "'DM Sans', sans-serif" }}>
+  <section style={{ padding: 'clamp(80px, 12vw, 140px) clamp(24px, 4vw, 80px)', background: 'linear-gradient(135deg, #0D1B2A 0%, var(--cool-deep) 50%, #0D1B2A 100%)', textAlign: 'center', position: 'relative', overflow: 'hidden', fontFamily: fonts.body }}>
     <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
     <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 100%, rgba(214,239,248,0.1) 0%, transparent 55%)' }} />
     <div style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto' }}>
@@ -1248,25 +1290,25 @@ const CTABanner = ({ navigate }) => (
           marginBottom: 16,
           border: 'none',
           cursor: 'pointer',
-          fontFamily: "'DM Sans', sans-serif",
+          fontFamily: fonts.body,
         }}
       >
         {SERVICE_CALL_SHORT.toUpperCase()}
       </button>
-      <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 5vw, 3rem)', color: 'white', lineHeight: 1.08, marginBottom: 16 }}>Don't Sweat It — Start With {SERVICE_CALL_PRICE}.</h3>
+      <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(2.2rem, 5.5vw, 3.35rem)', color: 'white', lineHeight: 1.08, marginBottom: 16 }}>Don't Sweat It — Start With {SERVICE_CALL_PRICE}.</h3>
       <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.55)', marginBottom: 36, lineHeight: 1.6 }}>One call between 9–5 (or book online 24/7). A real tech, a clear diagnosis, and pricing you’ll see in writing — starting with our flat {SERVICE_CALL_SHORT}.</p>
       <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
         <a href={PHONE_HREF} style={{
           display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white',
           padding: '18px 40px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1.15rem',
-          boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: "'DM Sans', sans-serif"
+          boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: fonts.body
         }}>
           <PhoneIcon /> {PHONE}
         </a>
         <button onClick={() => navigate('contact', { scrollToForm: true })} style={{
           display: 'inline-flex', alignItems: 'center', gap: 8, background: 'none', color: 'rgba(255,255,255,0.7)',
           padding: '18px 28px', borderRadius: 60, border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer',
-          fontWeight: 600, fontSize: '1rem', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.3s'
+          fontWeight: 600, fontSize: '1rem', fontFamily: fonts.body, transition: 'all 0.3s'
         }}>
           <CalendarIcon /> Schedule Online
         </button>
@@ -1282,7 +1324,7 @@ const CTABanner = ({ navigate }) => (
 const HomePage = ({ navigate }) => (
   <div>
     {/* Hero — copy + real service van */}
-    <section style={{ position: 'relative', minHeight: 'min(92vh, 900px)', display: 'flex', alignItems: 'center', background: 'var(--midnight)', overflow: 'hidden', fontFamily: "'DM Sans', sans-serif" }}>
+    <section style={{ position: 'relative', minHeight: 'min(92vh, 900px)', display: 'flex', alignItems: 'center', background: 'var(--midnight)', overflow: 'hidden', fontFamily: fonts.body }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 80%, rgba(196,30,36,0.22) 0%, transparent 55%), radial-gradient(ellipse at 80% 20%, rgba(21,101,160,0.16) 0%, transparent 45%), linear-gradient(180deg, rgba(13,27,42,0.97) 0%, rgba(13,27,42,0.82) 100%)', zIndex: 1 }} />
       <div
         style={{
@@ -1304,8 +1346,8 @@ const HomePage = ({ navigate }) => (
             <span style={{ width: 8, height: 8, background: 'var(--flame)', borderRadius: '50%', animation: 'dotPulse 1.5s ease-in-out infinite' }} />
             Same-day service · Phoenix metro
           </div>
-          <h1 className="anim-fadeInUp anim-d3" style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 5.5vw, 4rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.06, marginBottom: 14 }}>
-            Fast, Reliable <span style={{ color: '#E0F2FE' }}>AC Repair</span> in Phoenix
+          <h1 className="anim-fadeInUp anim-d3" style={{ fontFamily: fonts.display, fontWeight: 600, letterSpacing: '-0.01em', fontSize: 'clamp(2.2rem, 5.8vw, 4.25rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.06, marginBottom: 14 }}>
+            Fast, Reliable <span style={{ color: '#E0F2FE', fontWeight: 700 }}>AC Repair</span> in Phoenix
           </h1>
           <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(1.02rem, 2.1vw, 1.2rem)', color: 'rgba(255,255,255,0.88)', fontWeight: 600, marginBottom: 12, letterSpacing: '0.02em' }}>
             Same-day service · Residential & commercial
@@ -1314,10 +1356,10 @@ const HomePage = ({ navigate }) => (
             Licensed techs. Upfront pricing. Real people who answer the phone — <span style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>because when your AC quits, you need action fast.</span>
           </p>
           <div className="anim-fadeInUp anim-d5" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-            <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '16px 28px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: "'DM Sans', sans-serif" }}>
+            <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '16px 28px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: fonts.body }}>
               <PhoneIcon /> Call Now
             </a>
-            <button type="button" onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.92)', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.28)', padding: '16px 24px', borderRadius: 60, cursor: 'pointer', fontWeight: 700, fontSize: '1rem', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.3s' }}>
+            <button type="button" onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.92)', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.28)', padding: '16px 24px', borderRadius: 60, cursor: 'pointer', fontWeight: 700, fontSize: '1rem', fontFamily: fonts.body, transition: 'all 0.3s' }}>
               Schedule Service
             </button>
           </div>
@@ -1379,9 +1421,9 @@ const HomePage = ({ navigate }) => (
                 fontFamily: 'inherit',
               }}
             >
-              <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.65rem, 3.2vw, 2.35rem)', color: 'var(--gold)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>
+              <div style={{ fontFamily: fonts.display, fontSize: 'clamp(1.85rem, 3.6vw, 2.65rem)', color: 'var(--gold)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>
                 {SERVICE_CALL_PRICE}{' '}
-                <span style={{ color: 'rgba(248,250,252,0.98)', fontSize: '0.52em', fontWeight: 700, fontFamily: "'DM Sans', sans-serif", letterSpacing: '0.02em', verticalAlign: 'middle' }}>service call</span>
+                <span style={{ color: 'rgba(248,250,252,0.98)', fontSize: '0.52em', fontWeight: 700, fontFamily: fonts.body, letterSpacing: '0.02em', verticalAlign: 'middle' }}>service call</span>
               </div>
               <p style={{ margin: '10px 0 0', fontSize: '0.92rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.55, fontWeight: 500 }}>
                 Flat rate to get a licensed tech on site — clear diagnosis, upfront quote before we start work.{' '}
@@ -1418,8 +1460,17 @@ const HomePage = ({ navigate }) => (
       `}</style>
     </section>
 
-    {/* Trust bar — conversion strip directly under hero */}
-    <section aria-label="Trust and credentials" style={{ background: 'linear-gradient(90deg, rgba(13,27,42,0.98) 0%, rgba(21,101,160,0.35) 50%, rgba(13,27,42,0.98) 100%)', borderTop: '1px solid rgba(255,255,255,0.07)', borderBottom: '1px solid rgba(255,255,255,0.07)', padding: 'clamp(16px, 2.8vw, 22px) clamp(16px, 4vw, 40px)' }}>
+    {/* Trust bar — flat strip; subtle edge only (no horizontal “chrome” gradient) */}
+    <section
+      aria-label="Trust and credentials"
+      style={{
+        background: 'var(--midnight)',
+        borderTop: '1px solid rgba(255,255,255,0.07)',
+        borderBottom: '1px solid rgba(0,0,0,0.35)',
+        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.035)',
+        padding: 'clamp(16px, 2.8vw, 22px) clamp(16px, 4vw, 40px)',
+      }}
+    >
       <div className="home-trust-bar" style={{ maxWidth: 1180, margin: '0 auto' }}>
         {[
           { icon: <StarIcon />, label: 'A+ BBB Rated' },
@@ -1436,37 +1487,111 @@ const HomePage = ({ navigate }) => (
     </section>
 
     {/* Problem-based conversion block + pricing hook */}
-    <section style={{ padding: 'clamp(56px, 8vw, 96px) clamp(24px, 4vw, 80px)', background: 'white', fontFamily: "'DM Sans', sans-serif" }}>
+    <section style={{ padding: 'clamp(56px, 8vw, 96px) clamp(24px, 4vw, 80px)', background: 'white', fontFamily: fonts.body }}>
       <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
-        <SectionTag>Don&apos;t wait — it only gets hotter</SectionTag>
-        <h2 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.65rem, 3.8vw, 2.35rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 12 }}>AC Not Cooling?</h2>
-        <p style={{ fontSize: '1.05rem', color: '#5a6f83', lineHeight: 1.6, marginBottom: 28, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
-          Same-day appointments when available. Tell us what you&apos;re seeing — we&apos;ll prioritize emergencies.
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: 14, marginBottom: 28, textAlign: 'left' }}>
+        <Reveal>
+          <SectionTag emphasize>Don&apos;t wait — it only gets hotter</SectionTag>
+          <h2 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.85rem, 4.2vw, 2.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 12 }}>AC Not Cooling?</h2>
+          <p style={{ fontSize: '1.05rem', color: '#5a6f83', lineHeight: 1.6, marginBottom: 28, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
+            Same-day appointments when available. Tell us what you&apos;re seeing — we&apos;ll prioritize emergencies.
+          </p>
+        </Reveal>
+        <div className="interaction-card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: 14, marginBottom: 28, textAlign: 'left' }}>
           {[
-            { t: 'Warm or hot air at the vents', d: 'Blowing but not cold — could be refrigerant, compressor, or airflow.' },
-            { t: 'Weak or no airflow', d: 'Frozen coil, clogged filter, or duct issue — we diagnose on site.' },
-            { t: "Won't turn on", d: 'Electrical, thermostat, or motor — we get you a clear answer fast.' },
-            { t: 'Burning smell or loud noises', d: 'Shut it off and call — we treat safety issues as urgent.' },
+            {
+              t: 'Warm or hot air at the vents',
+              d: 'Blowing but not cold — could be refrigerant, compressor, or airflow.',
+              icon: <SunIcon />,
+              accent: 'var(--flame)',
+              iconBg: '#FDEAEA',
+              cardBg: 'linear-gradient(180deg, #FFFBFB 0%, #FFF5F5 100%)',
+              titleColor: 'var(--midnight)',
+              descColor: '#5B6578',
+            },
+            {
+              t: 'Weak or no airflow',
+              d: 'Frozen coil, clogged filter, or duct issue — we diagnose on site.',
+              icon: <FanIcon />,
+              accent: 'var(--cool)',
+              iconBg: '#E3F0FA',
+              cardBg: 'linear-gradient(180deg, #FAFCFF 0%, #F0F7FC 100%)',
+              titleColor: 'var(--cool-deep)',
+              descColor: '#4A5F75',
+            },
+            {
+              t: "Won't turn on",
+              d: 'Electrical, thermostat, or motor — we get you a clear answer fast.',
+              icon: <WrenchIcon />,
+              accent: 'var(--gold)',
+              iconBg: '#FEF3C7',
+              cardBg: 'linear-gradient(180deg, #FFFCF5 0%, #FDF8ED 100%)',
+              titleColor: 'var(--midnight)',
+              descColor: '#5B6578',
+            },
+            {
+              t: 'Burning smell or loud noises',
+              d: 'Shut it off and call — we treat safety issues as urgent.',
+              icon: <ShieldIcon />,
+              accent: 'var(--flame-dark)',
+              iconBg: '#FEE2E2',
+              cardBg: 'linear-gradient(180deg, #FFFAFA 0%, #FEF2F2 100%)',
+              titleColor: 'var(--flame-dark)',
+              descColor: '#5B6578',
+            },
           ].map((row, i) => (
-            <div key={i} style={{ background: 'var(--warm-white)', borderRadius: 14, padding: '16px 18px', border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 2px 12px rgba(15,23,42,0.04)' }}>
-              <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem', marginBottom: 6 }}>{row.t}</div>
-              <div style={{ fontSize: '0.86rem', color: '#718096', lineHeight: 1.5 }}>{row.d}</div>
-            </div>
+            <Reveal key={i} delay={i * 80}>
+              <MagneticCard>
+                <div
+                  style={{
+                    background: row.cardBg,
+                    borderRadius: 14,
+                    padding: '16px 18px',
+                    border: '1px solid rgba(0,0,0,0.06)',
+                    borderLeft: `4px solid ${row.accent}`,
+                    boxShadow: '0 2px 14px rgba(15,23,42,0.06)',
+                    display: 'flex',
+                    gap: 14,
+                    alignItems: 'flex-start',
+                    height: '100%',
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 42,
+                      height: 42,
+                      borderRadius: 12,
+                      background: row.iconBg,
+                      color: row.accent,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                    }}
+                    aria-hidden
+                  >
+                    {row.icon}
+                  </div>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div style={{ fontWeight: 700, color: row.titleColor, fontSize: '0.95rem', marginBottom: 6, lineHeight: 1.25 }}>{row.t}</div>
+                    <div style={{ fontSize: '0.86rem', color: row.descColor, lineHeight: 1.5 }}>{row.d}</div>
+                  </div>
+                </div>
+              </MagneticCard>
+            </Reveal>
           ))}
         </div>
         <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 16, marginBottom: 22 }}>
-          <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 3vw, 1.75rem)', color: 'var(--cool-deep)' }}>
+          <div style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.3vw, 1.95rem)', color: 'var(--cool-deep)' }}>
             Service calls starting at {SERVICE_CALL_PRICE}
           </div>
           <p style={{ fontSize: '0.9rem', color: '#718096', margin: 0 }}>Flat diagnostic visit · written quote before optional repairs</p>
         </div>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--flame)', color: 'white', padding: '14px 26px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1rem', fontFamily: "'DM Sans', sans-serif", boxShadow: '0 6px 22px rgba(196,30,36,0.35)' }}>
+          <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--flame)', color: 'white', padding: '14px 26px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1rem', fontFamily: fonts.body, boxShadow: '0 6px 22px rgba(196,30,36,0.35)' }}>
             <PhoneIcon /> Call Now
           </a>
-          <button type="button" onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'white', color: 'var(--cool-deep)', padding: '14px 26px', borderRadius: 60, border: '2px solid var(--cool)', cursor: 'pointer', fontWeight: 700, fontSize: '1rem', fontFamily: "'DM Sans', sans-serif" }}>
+          <button type="button" onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'white', color: 'var(--cool-deep)', padding: '14px 26px', borderRadius: 60, border: '2px solid var(--cool)', cursor: 'pointer', fontWeight: 700, fontSize: '1rem', fontFamily: fonts.body }}>
             Schedule Service
           </button>
         </div>
@@ -1474,30 +1599,38 @@ const HomePage = ({ navigate }) => (
     </section>
 
     {/* Lightweight social proof — above the fold scroll */}
-    <section style={{ padding: '0 clamp(24px, 4vw, 80px) clamp(48px, 6vw, 72px)', background: 'var(--sand)', fontFamily: "'DM Sans', sans-serif" }}>
+    <section style={{ padding: '0 clamp(24px, 4vw, 80px) clamp(48px, 6vw, 72px)', background: 'var(--sand)', fontFamily: fonts.body }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <p style={{ textAlign: 'center', fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--cool)', marginBottom: 10 }}>Real Phoenix homeowners</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: 16 }}>
+        <Reveal>
+          <p style={{ textAlign: 'center', fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--cool)', marginBottom: 10 }}>Real Phoenix homeowners</p>
+        </Reveal>
+        <div className="interaction-card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: 16 }}>
           {REVIEWS.slice(0, 2).map((r, i) => (
-            <div key={i} style={{ background: 'white', borderRadius: 16, padding: '22px 22px 20px', borderLeft: '4px solid var(--gold)', boxShadow: '0 4px 20px rgba(15,23,42,0.06)' }}>
-              <div style={{ display: 'flex', gap: 3, marginBottom: 10 }}>{[...Array(5)].map((_, j) => <StarIcon key={j} />)}</div>
-              <p style={{ fontSize: '0.92rem', lineHeight: 1.65, color: '#4A5568', fontStyle: 'italic', margin: '0 0 14px' }}>&ldquo;{r.text.slice(0, 180)}{r.text.length > 180 ? '…' : ''}&rdquo;</p>
-              <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.88rem' }}>{r.name} · {r.area}</div>
-            </div>
+            <Reveal key={i} delay={i * 80}>
+              <MagneticCard>
+                <div style={{ background: 'white', borderRadius: 16, padding: '22px 22px 20px', borderLeft: '4px solid var(--gold)', boxShadow: '0 4px 20px rgba(15,23,42,0.06)', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box' }}>
+                  <div style={{ display: 'flex', gap: 3, marginBottom: 10 }}>{[...Array(5)].map((_, j) => <StarIcon key={j} />)}</div>
+                  <p style={{ fontSize: '0.92rem', lineHeight: 1.65, color: '#4A5568', fontStyle: 'italic', margin: '0 0 14px', flex: 1 }}>&ldquo;{r.text.slice(0, 180)}{r.text.length > 180 ? '…' : ''}&rdquo;</p>
+                  <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.88rem' }}>{r.name} · {r.area}</div>
+                </div>
+              </MagneticCard>
+            </Reveal>
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: 18 }}>
-          <button type="button" onClick={() => navigate('reviews')} style={{ background: 'none', border: 'none', color: 'var(--cool)', fontWeight: 700, fontSize: '0.92rem', cursor: 'pointer', textDecoration: 'underline', fontFamily: "'DM Sans', sans-serif" }}>Read more reviews</button>
+          <button type="button" onClick={() => navigate('reviews')} style={{ background: 'none', border: 'none', color: 'var(--cool)', fontWeight: 700, fontSize: '0.92rem', cursor: 'pointer', textDecoration: 'underline', fontFamily: fonts.body }}>Read more reviews</button>
         </div>
       </div>
     </section>
 
     {/* Empathy Section */}
-    <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--warm-white)', fontFamily: "'DM Sans', sans-serif" }}>
-      <Reveal style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: 'clamp(28px, 5vw, 60px)', alignItems: 'center' }}>
+    <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--warm-white)', fontFamily: fonts.body }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: 'clamp(28px, 5vw, 60px)', alignItems: 'center' }}>
         <div>
-          <SectionTag>We get it</SectionTag>
-          <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 22 }}>We've Lived This <span style={{ color: 'var(--flame)' }}>Nightmare</span> Too.</h3>
+          <Reveal>
+            <SectionTag>We get it</SectionTag>
+            <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4.4vw, 2.75rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 22 }}>We've Lived This <span style={{ color: 'var(--flame)' }}>Nightmare</span> Too.</h3>
+          </Reveal>
           <div style={{ fontSize: '1.05rem', lineHeight: 1.8, color: '#4A5568' }}>
             <p style={{ marginBottom: 14 }}>We're not a call center in another state. We're your neighbors. We live in this heat. We know what it feels like when the AC quits on a Friday in July and every big company tells you <strong style={{ color: 'var(--midnight)' }}>"earliest we can get there is Tuesday."</strong></p>
             <p>That's why All Star exists. Not to be the biggest company — but to be the one that actually <strong style={{ color: 'var(--midnight)' }}>shows up when it matters.</strong></p>
@@ -1509,23 +1642,27 @@ const HomePage = ({ navigate }) => (
             { icon: <SnowflakeIcon />, iconBg: '#E3F0FA', iconColor: 'var(--cool)', title: "The Weekend Emergency", desc: "It's Saturday, 112° outside. Big companies charge double. We don't." },
             { icon: <HeartIcon />, iconBg: '#FEF3C7', iconColor: '#D97706', title: "The New Homeowner", desc: "Just moved to Phoenix. Old unit looks sketchy. You need honest answers, not an upsell." }
           ].map((s, i) => (
-            <div key={i} style={{ background: 'white', borderRadius: 16, padding: '24px 26px', display: 'flex', gap: 18, alignItems: 'flex-start', boxShadow: '0 2px 12px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)', transition: 'all 0.3s', cursor: 'default' }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateX(6px)'; e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.08)'; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translateX(0)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.04)'; }}
-            >
-              <div style={{ width: 48, height: 48, borderRadius: 14, background: s.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.iconColor, flexShrink: 0 }}>{s.icon}</div>
-              <div>
-                <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.98rem', marginBottom: 3 }}>{s.title}</div>
-                <div style={{ fontSize: '0.88rem', color: '#718096', lineHeight: 1.5 }}>{s.desc}</div>
-              </div>
-            </div>
+            <Reveal key={i} delay={i * 80}>
+              <MagneticCard>
+                <div style={{ background: 'white', borderRadius: 16, padding: '24px 26px', display: 'flex', gap: 18, alignItems: 'flex-start', boxShadow: '0 2px 12px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)', transition: 'all 0.3s', cursor: 'default' }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateX(6px)'; e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.08)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateX(0)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.04)'; }}
+                >
+                  <div style={{ width: 48, height: 48, borderRadius: 14, background: s.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.iconColor, flexShrink: 0 }}>{s.icon}</div>
+                  <div>
+                    <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.98rem', marginBottom: 3 }}>{s.title}</div>
+                    <div style={{ fontSize: '0.88rem', color: '#718096', lineHeight: 1.5 }}>{s.desc}</div>
+                  </div>
+                </div>
+              </MagneticCard>
+            </Reveal>
           ))}
         </div>
-      </Reveal>
+      </div>
     </section>
 
     {/* Photo strip — images from public/photos/ (see PHOTO_STRIP + public/photos/README.md) */}
-    <section style={{ padding: '0 clamp(24px, 4vw, 80px) 70px', background: 'var(--warm-white)', fontFamily: "'DM Sans', sans-serif" }}>
+    <section style={{ padding: '0 clamp(24px, 4vw, 80px) 70px', background: 'var(--warm-white)', fontFamily: fonts.body }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div className="photo-strip">
           {PHOTO_STRIP.map((photo, i) => (
@@ -1548,16 +1685,18 @@ const HomePage = ({ navigate }) => (
 
     {/* Owner photo gallery */}
     {OWNER_GALLERY_PHOTOS.length > 0 && (
-      <section style={{ padding: '0 clamp(24px, 4vw, 80px) clamp(60px, 8vw, 90px)', background: 'var(--warm-white)', fontFamily: "'DM Sans', sans-serif" }}>
+      <section style={{ padding: '0 clamp(24px, 4vw, 80px) clamp(60px, 8vw, 90px)', background: 'var(--warm-white)', fontFamily: fonts.body }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 32 }}>
-            <SectionTag>Our work</SectionTag>
-            <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.6rem, 3.5vw, 2.1rem)', color: 'var(--midnight)', lineHeight: 1.15, marginBottom: 8 }}>
-              On the job in Phoenix
-            </h3>
-            <p style={{ fontSize: '0.98rem', color: '#718096', maxWidth: 520, margin: '0 auto' }}>
-              Real jobs, real equipment, real Valley heat — straight from the field.
-            </p>
+            <Reveal>
+              <SectionTag>Our work</SectionTag>
+              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.8rem, 3.9vw, 2.35rem)', color: 'var(--midnight)', lineHeight: 1.15, marginBottom: 8 }}>
+                On the job in Phoenix
+              </h3>
+              <p style={{ fontSize: '0.98rem', color: '#718096', maxWidth: 520, margin: '0 auto' }}>
+                Real jobs, real equipment, real Valley heat — straight from the field.
+              </p>
+            </Reveal>
           </div>
           <div
             style={{
@@ -1600,18 +1739,20 @@ const HomePage = ({ navigate }) => (
     )}
 
     {/* Why Choose All Star */}
-    <section style={{ padding: 'clamp(60px, 8vw, 90px) clamp(24px, 4vw, 80px)', background: 'var(--sand)', fontFamily: "'DM Sans', sans-serif" }}>
-      <Reveal style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <SectionTag>Why choose us</SectionTag>
-          <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 10 }}>
-            The HVAC Company You Call First.
-          </h3>
-          <p style={{ fontSize: '1.02rem', color: '#4A5568', maxWidth: 620, margin: '0 auto' }}>
-            Inspired by the best in the Valley, built for Phoenix families and small businesses who want straight answers, fast service, and work that actually lasts.
-          </p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 20 }}>
+    <section style={{ padding: 'clamp(60px, 8vw, 90px) clamp(24px, 4vw, 80px)', background: 'var(--sand)', fontFamily: fonts.body }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <Reveal>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <SectionTag>Why choose us</SectionTag>
+            <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4.4vw, 2.65rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 10 }}>
+              The HVAC Company You Call First.
+            </h3>
+            <p style={{ fontSize: '1.02rem', color: '#4A5568', maxWidth: 620, margin: '0 auto' }}>
+              Inspired by the best in the Valley, built for Phoenix families and small businesses who want straight answers, fast service, and work that actually lasts.
+            </p>
+          </div>
+        </Reveal>
+        <div className="interaction-card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 20 }}>
           {[
             {
               icon: <StarIcon />,
@@ -1634,59 +1775,71 @@ const HomePage = ({ navigate }) => (
               desc: "We live here, we work here, and our reputation with your neighbors matters more than billboards."
             }
           ].map((item, i) => (
-            <div key={i} style={{ background: 'linear-gradient(180deg, var(--ice) 0%, white 100%)', borderRadius: 18, padding: '32px 24px', border: '1px solid rgba(21,101,160,0.12)', textAlign: 'center', boxShadow: '0 4px 20px rgba(15,23,42,0.05)' }}>
-              <div style={{ width: 52, height: 52, borderRadius: 14, background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cool)', margin: '0 auto 16px', boxShadow: '0 2px 8px rgba(21,101,160,0.1)' }}>
-                {item.icon}
-              </div>
-              <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.96rem', marginBottom: 6 }}>{item.title}</div>
-              <div style={{ fontSize: '0.9rem', color: '#5a6f83', lineHeight: 1.6 }}>{item.desc}</div>
-            </div>
+            <Reveal key={i} delay={i * 80}>
+              <MagneticCard>
+                <div style={{ background: 'linear-gradient(180deg, var(--ice) 0%, white 100%)', borderRadius: 18, padding: '32px 24px', border: '1px solid rgba(21,101,160,0.12)', textAlign: 'center', boxShadow: '0 4px 20px rgba(15,23,42,0.05)', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box' }}>
+                  <div style={{ width: 52, height: 52, borderRadius: 14, background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cool)', margin: '0 auto 16px', boxShadow: '0 2px 8px rgba(21,101,160,0.1)' }}>
+                    {item.icon}
+                  </div>
+                  <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.96rem', marginBottom: 6 }}>{item.title}</div>
+                  <div style={{ fontSize: '0.9rem', color: '#5a6f83', lineHeight: 1.6, flex: 1 }}>{item.desc}</div>
+                </div>
+              </MagneticCard>
+            </Reveal>
           ))}
         </div>
-      </Reveal>
+      </div>
     </section>
 
     {/* Services Overview */}
-    <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--midnight)', fontFamily: "'DM Sans', sans-serif" }}>
+    <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--midnight)', fontFamily: fonts.body }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 50 }}>
-          <SectionTag light>What we do</SectionTag>
-          <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', color: 'white', lineHeight: 1.1 }}>Heating, Cooling & Refrigeration <span style={{ color: 'var(--ice)' }}>Done Right.</span></h3>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 22 }}>
-          {SERVICES.map(svc => (
-            <button key={svc.id} onClick={() => navigate(`service-${svc.id}`)}
-              style={{
-                background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderTop: `3px solid ${svc.color}`, borderRadius: 20,
-                padding: '32px 28px', textAlign: 'left', cursor: 'pointer', transition: 'all 0.4s', position: 'relative', overflow: 'hidden',
-                fontFamily: "'DM Sans', sans-serif"
-              }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.transform = 'translateY(0)'; }}
-            >
-              <div style={{ width: 52, height: 52, borderRadius: 15, background: 'rgba(21,101,160,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ice)', marginBottom: 18 }}>
-                <svc.icon />
-              </div>
-              <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '1.08rem', color: 'white', marginBottom: 8 }}>{svc.title}</div>
-              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: 16 }}>{svc.shortDesc}</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--ice)', fontSize: '0.88rem', fontWeight: 600 }}>
-                Learn more <ArrowRightIcon />
-              </div>
-            </button>
+        <Reveal>
+          <div style={{ textAlign: 'center', marginBottom: 50 }}>
+            <SectionTag light>What we do</SectionTag>
+            <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4.4vw, 2.75rem)', color: 'white', lineHeight: 1.1 }}>Heating, Cooling & Refrigeration <span style={{ color: 'var(--ice)' }}>Done Right.</span></h3>
+          </div>
+        </Reveal>
+        <div className="interaction-card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 22 }}>
+          {SERVICES.map((svc, si) => (
+            <Reveal key={svc.id} delay={si * 80}>
+              <MagneticCard>
+                <button type="button" onClick={() => navigate(`service-${svc.id}`)}
+                  style={{
+                    background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderTop: `3px solid ${svc.color}`, borderRadius: 20,
+                    padding: '32px 28px', textAlign: 'left', cursor: 'pointer', transition: 'all 0.4s', position: 'relative', overflow: 'hidden',
+                    fontFamily: fonts.body, width: '100%', boxSizing: 'border-box', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start'
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+                >
+                  <div style={{ width: 52, height: 52, borderRadius: 15, background: 'rgba(21,101,160,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ice)', marginBottom: 18 }}>
+                    <svc.icon />
+                  </div>
+                  <div style={{ fontFamily: fonts.display, fontSize: '1.08rem', color: 'white', marginBottom: 8 }}>{svc.title}</div>
+                  <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: 16, flex: 1 }}>{svc.shortDesc}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--ice)', fontSize: '0.88rem', fontWeight: 600, marginTop: 'auto' }}>
+                    Learn more <ArrowRightIcon />
+                  </div>
+                </button>
+              </MagneticCard>
+            </Reveal>
           ))}
         </div>
       </div>
     </section>
 
     {/* How It Works */}
-    <section style={{ padding: 'clamp(60px, 8vw, 90px) clamp(24px, 4vw, 80px)', background: 'linear-gradient(180deg, #EAF3FA 0%, #D6E9F8 100%)', fontFamily: "'DM Sans', sans-serif" }}>
-      <Reveal style={{ maxWidth: 1000, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <SectionTag>How it works</SectionTag>
-          <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 10 }}>From Panic to Cool Air in Three Steps.</h3>
-          <p style={{ fontSize: '1.02rem', color: '#4A5568', maxWidth: 560, margin: '0 auto' }}>We keep the process simple so you can focus on your family, your tenants, or your business — not your AC.</p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+    <section style={{ padding: 'clamp(60px, 8vw, 90px) clamp(24px, 4vw, 80px)', background: 'linear-gradient(180deg, #EAF3FA 0%, #D6E9F8 100%)', fontFamily: fonts.body }}>
+      <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+        <Reveal>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <SectionTag>How it works</SectionTag>
+            <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4.4vw, 2.65rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 10 }}>From Panic to Cool Air in Three Steps.</h3>
+            <p style={{ fontSize: '1.02rem', color: '#4A5568', maxWidth: 560, margin: '0 auto' }}>We keep the process simple so you can focus on your family, your tenants, or your business — not your AC.</p>
+          </div>
+        </Reveal>
+        <div className="interaction-card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
           {[
             {
               icon: <PhoneIcon />,
@@ -1704,24 +1857,28 @@ const HomePage = ({ navigate }) => (
               desc: "Most repairs are handled on the first visit. We document our work, answer questions, and leave your space cleaner than we found it."
             }
           ].map((step, i) => (
-            <div key={i} style={{ background: 'white', borderRadius: 18, padding: '28px 24px', border: '1px solid rgba(21,101,160,0.12)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', boxShadow: '0 4px 18px rgba(15,23,42,0.06)' }}>
-              <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--cool)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Archivo Black', sans-serif", fontSize: '1.15rem', marginBottom: 16, boxShadow: '0 4px 14px rgba(21,101,160,0.25)' }}>
-                {i + 1}
-              </div>
-              <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.98rem', marginBottom: 6 }}>{step.title.replace(/^\d+\.\s*/, '')}</div>
-              <div style={{ fontSize: '0.9rem', color: '#5a6f83', lineHeight: 1.6 }}>{step.desc}</div>
-            </div>
+            <Reveal key={i} delay={i * 80}>
+              <MagneticCard>
+                <div style={{ background: 'white', borderRadius: 18, padding: '28px 24px', border: '1px solid rgba(21,101,160,0.12)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', boxShadow: '0 4px 18px rgba(15,23,42,0.06)', height: '100%', boxSizing: 'border-box' }}>
+                  <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--cool)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: fonts.display, fontSize: '1.15rem', marginBottom: 16, boxShadow: '0 4px 14px rgba(21,101,160,0.25)' }}>
+                    {i + 1}
+                  </div>
+                  <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.98rem', marginBottom: 6 }}>{step.title.replace(/^\d+\.\s*/, '')}</div>
+                  <div style={{ fontSize: '0.9rem', color: '#5a6f83', lineHeight: 1.6, flex: 1 }}>{step.desc}</div>
+                </div>
+              </MagneticCard>
+            </Reveal>
           ))}
         </div>
-      </Reveal>
+      </div>
     </section>
 
     {/* Transparent Pricing */}
-    <section style={{ padding: 'clamp(50px, 7vw, 80px) clamp(24px, 4vw, 80px)', background: 'var(--warm-white)', fontFamily: "'DM Sans', sans-serif" }}>
+    <section style={{ padding: 'clamp(50px, 7vw, 80px) clamp(24px, 4vw, 80px)', background: 'var(--warm-white)', fontFamily: fonts.body }}>
       <div className="pricing-grid" style={{ maxWidth: 1050, margin: '0 auto', display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 1fr)', gap: 'clamp(24px, 4vw, 40px)' }}>
         <div>
           <SectionTag>No games, just numbers</SectionTag>
-          <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.9rem, 4vw, 2.5rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 18 }}>
+          <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(2.05rem, 4.4vw, 2.75rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 18 }}>
             Transparent Pricing You Can Actually See.
           </h3>
           <button
@@ -1741,7 +1898,7 @@ const HomePage = ({ navigate }) => (
               width: '100%',
               textAlign: 'left',
               cursor: 'pointer',
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: fonts.body,
             }}
           >
             <strong style={{ color: 'var(--midnight)', fontSize: '1.15em' }}>{SERVICE_CALL_SHORT}</strong> is our standard way to get rolling: a tech on site, full diagnostic, and a written quote before optional repairs — <strong>no “free estimate” games that turn into pressure.</strong>
@@ -1780,11 +1937,11 @@ const HomePage = ({ navigate }) => (
               border: '1px solid rgba(212,165,57,0.35)',
               width: '100%',
               cursor: 'pointer',
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: fonts.body,
             }}
           >
             <div style={{ fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.14em', color: 'var(--cool)', textTransform: 'uppercase', marginBottom: 6 }}>Lead with clarity</div>
-            <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 4vw, 2.75rem)', color: 'var(--midnight)', lineHeight: 1 }}>
+            <div style={{ fontFamily: fonts.display, fontSize: 'clamp(2.2rem, 4.4vw, 3rem)', color: 'var(--midnight)', lineHeight: 1 }}>
               {SERVICE_CALL_PRICE}
             </div>
             <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.95rem', marginTop: 4 }}>service call</div>
@@ -1816,34 +1973,40 @@ const HomePage = ({ navigate }) => (
     </section>
 
     {/* Reviews Preview */}
-    <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'white', fontFamily: "'DM Sans', sans-serif" }}>
-      <Reveal style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <SectionTag>From your neighbors</SectionTag>
-          <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.8rem, 4vw, 2.3rem)', color: 'var(--midnight)', lineHeight: 1.1 }}>Phoenix Families Trust All Star</h3>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 22 }}>
+    <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'white', fontFamily: fonts.body }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <Reveal>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <SectionTag>From your neighbors</SectionTag>
+            <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4.4vw, 2.55rem)', color: 'var(--midnight)', lineHeight: 1.1 }}>Phoenix Families Trust All Star</h3>
+          </div>
+        </Reveal>
+        <div className="interaction-card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 22 }}>
           {REVIEWS.slice(0, 3).map((r, i) => (
-            <div key={i} style={{ background: 'var(--warm-white)', borderRadius: 20, padding: 30, borderLeft: '4px solid var(--gold)', border: '1px solid rgba(0,0,0,0.06)', borderLeftWidth: 4, borderLeftColor: 'var(--gold)', boxShadow: '0 6px 28px rgba(15,23,42,0.07)' }}>
-              <div style={{ display: 'flex', gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <StarIcon key={j} />)}</div>
-              <p style={{ fontSize: '0.95rem', lineHeight: 1.7, color: '#4A5568', fontStyle: 'italic', marginBottom: 18 }}>"{r.text}"</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--cool)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '0.85rem' }}>{r.initials}</div>
-                <div>
-                  <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.9rem' }}>{r.name}</div>
-                  <div style={{ color: '#718096', fontSize: '0.8rem' }}>{r.area}</div>
+            <Reveal key={i} delay={i * 80}>
+              <MagneticCard>
+                <div style={{ background: 'var(--warm-white)', borderRadius: 20, padding: 30, borderLeft: '4px solid var(--gold)', border: '1px solid rgba(0,0,0,0.06)', borderLeftWidth: 4, borderLeftColor: 'var(--gold)', boxShadow: '0 6px 28px rgba(15,23,42,0.07)', display: 'flex', flexDirection: 'column', height: '100%' }}>
+                  <div style={{ display: 'flex', gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <StarIcon key={j} />)}</div>
+                  <p style={{ fontSize: '0.95rem', lineHeight: 1.7, color: '#4A5568', fontStyle: 'italic', marginBottom: 18, flex: 1 }}>"{r.text}"</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--cool)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '0.85rem' }}>{r.initials}</div>
+                    <div>
+                      <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.9rem' }}>{r.name}</div>
+                      <div style={{ color: '#718096', fontSize: '0.8rem' }}>{r.area}</div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </MagneticCard>
+            </Reveal>
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: 36 }}>
-          <button onClick={() => navigate('reviews')} style={{ background: 'none', border: '2px solid var(--cool)', color: 'var(--cool)', padding: '12px 28px', borderRadius: 50, fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.3s' }}
+          <button type="button" onClick={() => navigate('reviews')} style={{ background: 'none', border: '2px solid var(--cool)', color: 'var(--cool)', padding: '12px 28px', borderRadius: 50, fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer', fontFamily: fonts.body, transition: 'all 0.3s' }}
             onMouseEnter={e => { e.currentTarget.style.background = 'var(--cool)'; e.currentTarget.style.color = 'white'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'none'; e.currentTarget.style.color = 'var(--cool)'; }}
           >Read More Reviews</button>
         </div>
-      </Reveal>
+      </div>
     </section>
 
     <CTABanner navigate={navigate} />
@@ -1852,36 +2015,42 @@ const HomePage = ({ navigate }) => (
 
 // ========== SERVICES INDEX ==========
 const ServicesPage = ({ navigate }) => (
-  <div style={{ fontFamily: "'DM Sans', sans-serif" }}>
+  <div style={{ fontFamily: fonts.body }}>
     <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--warm-white)' }}>
       <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-        <SectionTag>Our services</SectionTag>
-        <h2 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 5vw, 3rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 16 }}>Everything Your Home or Business Needs to Stay Comfortable.</h2>
-        <p style={{ fontSize: '1.1rem', color: '#4A5568', lineHeight: 1.7, maxWidth: 650, marginBottom: 50 }}>From emergency repairs to full system installations, we handle it all — for single-family homes, rentals, and small businesses. Every job gets the same thing: a real person, honest pricing, and work done right the first time.</p>
+        <Reveal>
+          <SectionTag>Our services</SectionTag>
+          <h2 style={{ fontFamily: fonts.display, fontSize: 'clamp(2.2rem, 5.5vw, 3.35rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 16 }}>Everything Your Home or Business Needs to Stay Comfortable.</h2>
+          <p style={{ fontSize: '1.1rem', color: '#4A5568', lineHeight: 1.7, maxWidth: 650, marginBottom: 50 }}>From emergency repairs to full system installations, we handle it all — for single-family homes, rentals, and small businesses. Every job gets the same thing: a real person, honest pricing, and work done right the first time.</p>
+        </Reveal>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {SERVICES.map(svc => (
-            <button key={svc.id} onClick={() => navigate(`service-${svc.id}`)}
-              className="services-list-btn"
-              style={{
-                display: 'grid', gridTemplateColumns: '80px 1fr auto', gap: 24, alignItems: 'center',
-                background: 'white', borderRadius: 20, padding: 'clamp(20px, 3vw, 32px) clamp(18px, 3vw, 36px)', border: '1px solid rgba(0,0,0,0.04)',
-                cursor: 'pointer', textAlign: 'left', transition: 'all 0.3s', fontFamily: "'DM Sans', sans-serif",
-                boxShadow: '0 2px 10px rgba(0,0,0,0.03)'
-              }}
-              onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
-              onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.03)'; e.currentTarget.style.transform = 'translateY(0)'; }}
-            >
-              <div style={{ width: 64, height: 64, borderRadius: 18, background: svc.bgColor, display: 'flex', alignItems: 'center', justifyContent: 'center', color: svc.color }}>
-                <svc.icon />
-              </div>
-              <div>
-                <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '1.15rem', color: 'var(--midnight)', marginBottom: 6 }}>{svc.title}</div>
-                <div style={{ color: '#718096', fontSize: '0.95rem', lineHeight: 1.55 }}>{svc.shortDesc}</div>
-              </div>
-              <div className="services-list-details" style={{ color: 'var(--cool)', display: 'flex', alignItems: 'center', gap: 4, fontWeight: 600, fontSize: '0.9rem', whiteSpace: 'nowrap' }}>
-                View details <ArrowRightIcon />
-              </div>
-            </button>
+          {SERVICES.map((svc, si) => (
+            <Reveal key={svc.id} delay={si * 80}>
+              <MagneticCard>
+                <button type="button" onClick={() => navigate(`service-${svc.id}`)}
+                  className="services-list-btn"
+                  style={{
+                    display: 'grid', gridTemplateColumns: '80px 1fr auto', gap: 24, alignItems: 'center',
+                    background: 'white', borderRadius: 20, padding: 'clamp(20px, 3vw, 32px) clamp(18px, 3vw, 36px)', border: '1px solid rgba(0,0,0,0.04)',
+                    cursor: 'pointer', textAlign: 'left', transition: 'all 0.3s', fontFamily: fonts.body,
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.03)', width: '100%', boxSizing: 'border-box'
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.03)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+                >
+                  <div style={{ width: 64, height: 64, borderRadius: 18, background: svc.bgColor, display: 'flex', alignItems: 'center', justifyContent: 'center', color: svc.color }}>
+                    <svc.icon />
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: fonts.display, fontSize: '1.15rem', color: 'var(--midnight)', marginBottom: 6 }}>{svc.title}</div>
+                    <div style={{ color: '#718096', fontSize: '0.95rem', lineHeight: 1.55 }}>{svc.shortDesc}</div>
+                  </div>
+                  <div className="services-list-details" style={{ color: 'var(--cool)', display: 'flex', alignItems: 'center', gap: 4, fontWeight: 600, fontSize: '0.9rem', whiteSpace: 'nowrap' }}>
+                    View details <ArrowRightIcon />
+                  </div>
+                </button>
+              </MagneticCard>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -1893,7 +2062,7 @@ const ServicesPage = ({ navigate }) => (
 // ========== SERVICE DETAIL ==========
 const ServiceDetailPage = ({ serviceId, navigate }) => {
   const svc = SERVICES.find(s => s.id === serviceId);
-  if (!svc) return <div style={{ padding: 80, textAlign: 'center', fontFamily: "'DM Sans', sans-serif" }}>Service not found. <button onClick={() => navigate('services')}>Back to services</button></div>;
+  if (!svc) return <div style={{ padding: 80, textAlign: 'center', fontFamily: fonts.body }}>Service not found. <button onClick={() => navigate('services')}>Back to services</button></div>;
 
   const isRepairPage = serviceId === REPAIR_SERVICE_ID;
   const isInstallPage = serviceId === AC_INSTALL_SERVICE_ID;
@@ -1904,19 +2073,19 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
 
   const serviceHeroInner = (
     <>
-      <button onClick={() => navigate('services')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem', cursor: 'pointer', marginBottom: 10, fontFamily: "'DM Sans', sans-serif", display: 'flex', alignItems: 'center', gap: 6 }}>
+      <button onClick={() => navigate('services')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem', cursor: 'pointer', marginBottom: 10, fontFamily: fonts.body, display: 'flex', alignItems: 'center', gap: 6 }}>
         ← All Services
       </button>
       <div style={{ width: 52, height: 52, borderRadius: 14, background: `${svc.color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: svc.bgColor, marginBottom: 14 }}>
         <svc.icon />
       </div>
-      <h1 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.5rem, 3.8vw, 2.35rem)', color: 'white', lineHeight: 1.12, marginBottom: 10 }}>{svc.hero}</h1>
+      <h1 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.7rem, 4.2vw, 2.65rem)', color: 'white', lineHeight: 1.12, marginBottom: 10 }}>{svc.hero}</h1>
       <p style={{ fontSize: '0.98rem', color: 'rgba(255,255,255,0.62)', lineHeight: 1.5, maxWidth: 520 }}>{svc.heroSub}</p>
       <div style={{ marginTop: 18, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-        <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--flame)', color: 'white', padding: '11px 20px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem', boxShadow: '0 6px 25px rgba(196,30,36,0.35)', fontFamily: "'DM Sans', sans-serif" }}>
+        <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--flame)', color: 'white', padding: '11px 20px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem', boxShadow: '0 6px 25px rgba(196,30,36,0.35)', fontFamily: fonts.body }}>
           <PhoneIcon /> Call — {SERVICE_CALL_SHORT}
         </a>
-        <button onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'none', color: 'rgba(255,255,255,0.7)', padding: '11px 18px', borderRadius: 60, border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', fontWeight: 600, fontSize: '0.92rem', fontFamily: "'DM Sans', sans-serif" }}>
+        <button onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'none', color: 'rgba(255,255,255,0.7)', padding: '11px 18px', borderRadius: 60, border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', fontWeight: 600, fontSize: '0.92rem', fontFamily: fonts.body }}>
           Schedule Online
         </button>
       </div>
@@ -1924,7 +2093,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
   );
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div style={{ fontFamily: fonts.body }}>
       {/* Hero — compact padding + type on all service detail pages */}
       <section className="service-detail-hero-section" style={{ background: 'var(--midnight)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 80% 20%, ${svc.color}15 0%, transparent 50%)` }} />
@@ -1969,7 +2138,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
           <div className="repair-included-section repair-included-stack">
             <div style={{ minWidth: 0, textAlign: 'left' }}>
               <SectionTag>What's included</SectionTag>
-              <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
+              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {svc.details.map((d, i) => (
                   <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
@@ -1980,13 +2149,17 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
               </div>
               <div style={{ marginTop: 28 }}>
                 <SectionTag>Common scenarios</SectionTag>
-                <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
+                <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {svc.scenarios.map((s, i) => (
-                    <div key={i} className="scenario-card">
-                      <div className="scenario-card__title">{s.title}</div>
-                      <div className="scenario-card__desc">{s.desc}</div>
-                    </div>
+                    <Reveal key={i} delay={i * 80}>
+                      <MagneticCard>
+                        <div className="scenario-card">
+                          <div className="scenario-card__title">{s.title}</div>
+                          <div className="scenario-card__desc">{s.desc}</div>
+                        </div>
+                      </MagneticCard>
+                    </Reveal>
                   ))}
                 </div>
               </div>
@@ -2007,7 +2180,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
           <div className="repair-included-section repair-included-paired-rows install-pair-rows">
             <div className="repair-left-what" style={{ minWidth: 0, textAlign: 'left' }}>
               <SectionTag>What's included</SectionTag>
-              <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
+              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {svc.details.map((d, i) => (
                   <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
@@ -2024,13 +2197,17 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
             </aside>
             <div className="repair-left-when" style={{ minWidth: 0, textAlign: 'left' }}>
               <SectionTag>Common scenarios</SectionTag>
-              <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
+              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {svc.scenarios.map((s, i) => (
-                  <div key={i} className="scenario-card">
-                    <div className="scenario-card__title">{s.title}</div>
-                    <div className="scenario-card__desc">{s.desc}</div>
-                  </div>
+                  <Reveal key={i} delay={i * 80}>
+                    <MagneticCard>
+                      <div className="scenario-card">
+                        <div className="scenario-card__title">{s.title}</div>
+                        <div className="scenario-card__desc">{s.desc}</div>
+                      </div>
+                    </MagneticCard>
+                  </Reveal>
                 ))}
               </div>
             </div>
@@ -2044,7 +2221,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
           <div className="repair-included-section">
             <div style={{ minWidth: 0, textAlign: 'left' }}>
               <SectionTag>What's included</SectionTag>
-              <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
+              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {svc.details.map((d, i) => (
                   <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
@@ -2055,13 +2232,17 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
               </div>
               <div style={{ marginTop: 28 }}>
                 <SectionTag>Common scenarios</SectionTag>
-                <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
+                <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {svc.scenarios.map((s, i) => (
-                    <div key={i} className="scenario-card">
-                      <div className="scenario-card__title">{s.title}</div>
-                      <div className="scenario-card__desc">{s.desc}</div>
-                    </div>
+                    <Reveal key={i} delay={i * 80}>
+                      <MagneticCard>
+                        <div className="scenario-card">
+                          <div className="scenario-card__title">{s.title}</div>
+                          <div className="scenario-card__desc">{s.desc}</div>
+                        </div>
+                      </MagneticCard>
+                    </Reveal>
                   ))}
                 </div>
               </div>
@@ -2079,7 +2260,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
           <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 40 }}>
             <div>
               <SectionTag>What's included</SectionTag>
-              <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
+              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 16 }}>What You Get</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {svc.details.map((d, i) => (
                   <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
@@ -2091,13 +2272,17 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
             </div>
             <div>
               <SectionTag>Common scenarios</SectionTag>
-              <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(1.35rem, 2.8vw, 1.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
+              <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.5rem, 3.1vw, 1.85rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 14 }}>When to Call Us</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {svc.scenarios.map((s, i) => (
-                  <div key={i} className="scenario-card">
-                    <div className="scenario-card__title">{s.title}</div>
-                    <div className="scenario-card__desc">{s.desc}</div>
-                  </div>
+                  <Reveal key={i} delay={i * 80}>
+                    <MagneticCard>
+                      <div className="scenario-card">
+                        <div className="scenario-card__title">{s.title}</div>
+                        <div className="scenario-card__desc">{s.desc}</div>
+                      </div>
+                    </MagneticCard>
+                  </Reveal>
                 ))}
               </div>
             </div>
@@ -2112,16 +2297,16 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
 
 // ========== ABOUT ==========
 const AboutPage = ({ navigate }) => (
-  <div style={{ fontFamily: "'DM Sans', sans-serif" }}>
+  <div style={{ fontFamily: fonts.body }}>
     <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--sand)' }}>
       <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
         <SectionTag>Our story</SectionTag>
-        <h1 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 5vw, 3rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 24 }}>Built on Frustration.<br />Fueled by <span style={{ color: 'var(--flame)' }}>Doing It Right.</span></h1>
-        <div style={{ width: 120, height: 120, borderRadius: '50%', background: 'var(--cool)', margin: '0 auto 32px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 30px rgba(21,101,160,0.2)', position: 'relative', color: 'white', fontFamily: "'Archivo Black', sans-serif", fontSize: '2rem' }}>
+        <h1 style={{ fontFamily: fonts.display, fontSize: 'clamp(2.2rem, 5.5vw, 3.35rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 24 }}>Built on Frustration.<br />Fueled by <span style={{ color: 'var(--flame)' }}>Doing It Right.</span></h1>
+        <div style={{ width: 120, height: 120, borderRadius: '50%', background: 'var(--cool)', margin: '0 auto 32px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 30px rgba(21,101,160,0.2)', position: 'relative', color: 'white', fontFamily: fonts.display, fontSize: '2rem' }}>
           <div style={{ position: 'absolute', inset: -6, border: '2px dashed rgba(21,101,160,0.3)', borderRadius: '50%' }} />
           JD
         </div>
-        <blockquote style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.3rem, 3vw, 1.7rem)', fontStyle: 'italic', color: 'var(--midnight)', lineHeight: 1.5, marginBottom: 20, maxWidth: 700, marginLeft: 'auto', marginRight: 'auto' }}>
+        <blockquote style={{ fontFamily: fonts.body, fontSize: 'clamp(1.45rem, 3.2vw, 1.9rem)', fontStyle: 'italic', fontWeight: 400, color: 'var(--midnight)', lineHeight: 1.5, marginBottom: 20, maxWidth: 700, marginLeft: 'auto', marginRight: 'auto' }}>
           "I didn't start this company to get rich. I started it because I got tired of watching big outfits charge my neighbors a fortune and still make them wait three days in a hot house."
         </blockquote>
         <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '1.05rem' }}>Joe David</div>
@@ -2160,7 +2345,7 @@ const AboutPage = ({ navigate }) => (
     <section style={{ padding: 'clamp(60px, 8vw, 80px) clamp(24px, 4vw, 80px)', background: 'white' }}>
       <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
         <SectionTag>Serving all of Phoenix metro</SectionTag>
-        <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '1.8rem', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 30 }}>Service Areas</h3>
+        <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4vw, 2.2rem)', color: 'var(--midnight)', lineHeight: 1.1, marginBottom: 30 }}>Service Areas</h3>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
           {SERVICE_AREAS.map(area => (
             <span key={area} style={{ background: 'var(--ice)', color: 'var(--cool-deep)', padding: '8px 20px', borderRadius: 30, fontWeight: 600, fontSize: '0.9rem' }}>{area}</span>
@@ -2175,27 +2360,33 @@ const AboutPage = ({ navigate }) => (
 
 // ========== REVIEWS ==========
 const ReviewsPage = ({ navigate }) => (
-  <div style={{ fontFamily: "'DM Sans', sans-serif" }}>
+  <div style={{ fontFamily: fonts.body }}>
     <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--warm-white)' }}>
       <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 50 }}>
-          <SectionTag>Real reviews from real neighbors</SectionTag>
-          <h1 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 5vw, 2.8rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 14 }}>What Phoenix Says About All Star</h1>
-          <p style={{ fontSize: '1.05rem', color: '#4A5568', maxWidth: 550, margin: '0 auto' }}>We don't run ads with actors. We let our work speak. Here's what our neighbors have to say.</p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 22 }}>
+        <Reveal>
+          <div style={{ textAlign: 'center', marginBottom: 50 }}>
+            <SectionTag>Real reviews from real neighbors</SectionTag>
+            <h1 style={{ fontFamily: fonts.display, fontSize: 'clamp(2.2rem, 5.5vw, 3.05rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 14 }}>What Phoenix Says About All Star</h1>
+            <p style={{ fontSize: '1.05rem', color: '#4A5568', maxWidth: 550, margin: '0 auto' }}>We don't run ads with actors. We let our work speak. Here's what our neighbors have to say.</p>
+          </div>
+        </Reveal>
+        <div className="interaction-card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 22 }}>
           {REVIEWS.map((r, i) => (
-            <div key={i} style={{ background: 'white', borderRadius: 20, padding: 30, border: '1px solid rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex', gap: 3, marginBottom: 14 }}>{[...Array(5)].map((_, j) => <StarIcon key={j} />)}</div>
-              <p style={{ fontSize: '0.95rem', lineHeight: 1.7, color: '#4A5568', fontStyle: 'italic', marginBottom: 18, flex: 1 }}>"{r.text}"</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--cool)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '0.85rem' }}>{r.initials}</div>
-                <div>
-                  <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.9rem' }}>{r.name}</div>
-                  <div style={{ color: '#718096', fontSize: '0.8rem' }}>{r.area}</div>
+            <Reveal key={i} delay={i * 80}>
+              <MagneticCard>
+                <div style={{ background: 'white', borderRadius: 20, padding: 30, border: '1px solid rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ display: 'flex', gap: 3, marginBottom: 14 }}>{[...Array(5)].map((_, j) => <StarIcon key={j} />)}</div>
+                  <p style={{ fontSize: '0.95rem', lineHeight: 1.7, color: '#4A5568', fontStyle: 'italic', marginBottom: 18, flex: 1 }}>"{r.text}"</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--cool)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '0.85rem' }}>{r.initials}</div>
+                    <div>
+                      <div style={{ fontWeight: 700, color: 'var(--midnight)', fontSize: '0.9rem' }}>{r.name}</div>
+                      <div style={{ color: '#718096', fontSize: '0.8rem' }}>{r.area}</div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </MagneticCard>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -2251,19 +2442,19 @@ const ContactPage = ({ navigate }) => {
 
   const inputStyle = {
     width: '100%', padding: '14px 18px', borderRadius: 12, border: '1px solid #E2E8F0',
-    fontSize: '1rem', fontFamily: "'DM Sans', sans-serif", background: 'white',
+    fontSize: '1rem', fontFamily: fonts.body, background: 'white',
     outline: 'none', transition: 'border-color 0.2s', boxSizing: 'border-box'
   };
   const labelStyle = { display: 'block', fontWeight: 600, fontSize: '0.88rem', color: 'var(--midnight)', marginBottom: 6 };
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div style={{ fontFamily: fonts.body }}>
       <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 80px)', background: 'var(--warm-white)' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: 'clamp(28px, 4vw, 50px)' }}>
           {/* Contact Info */}
           <div>
             <SectionTag>Get in touch</SectionTag>
-            <h1 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 'clamp(2rem, 4vw, 2.6rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 18 }}>Let's Get You <span style={{ color: 'var(--cool)' }}>Comfortable.</span></h1>
+            <h1 style={{ fontFamily: fonts.display, fontSize: 'clamp(2.2rem, 4.4vw, 2.85rem)', color: 'var(--midnight)', lineHeight: 1.08, marginBottom: 18 }}>Let's Get You <span style={{ color: 'var(--cool)' }}>Comfortable.</span></h1>
             <p style={{ fontSize: '1.05rem', color: '#4A5568', lineHeight: 1.7, marginBottom: 36 }}>
               Whether it's an emergency or you're planning ahead, we're here. Ask about our <strong>{SERVICE_CALL_SHORT}</strong> — then call us for the fastest response, or fill out the form and we'll call you back within an hour during business hours (next business day if you reach us after hours).
             </p>
@@ -2320,12 +2511,12 @@ const ContactPage = ({ navigate }) => {
             {submitted ? (
               <div style={{ background: 'white', borderRadius: 20, padding: 48, textAlign: 'center', border: '1px solid rgba(0,0,0,0.06)' }}>
                 <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#D1FAE5', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#059669', margin: '0 auto 20px' }}><CheckIcon /></div>
-                <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '1.5rem', color: 'var(--midnight)', marginBottom: 10 }}>We Got It!</h3>
+                <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.65rem, 3.2vw, 1.85rem)', color: 'var(--midnight)', marginBottom: 10 }}>We Got It!</h3>
                 <p style={{ color: '#4A5568', lineHeight: 1.6 }}>We'll call you within an hour during business hours, or the next business day if you submitted after hours. If it's urgent, don't wait — call us directly at <a href={PHONE_HREF} style={{ color: 'var(--flame)', fontWeight: 700 }}>{PHONE}</a>.</p>
               </div>
             ) : (
               <form id="contact-form" onSubmit={handleSubmit} style={{ position: 'relative', background: 'white', borderRadius: 20, padding: 'clamp(24px, 4vw, 40px)', border: '1px solid rgba(0,0,0,0.06)', scrollMarginTop: 96 }}>
-                <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '1.4rem', color: 'var(--midnight)', marginBottom: 6 }}>Request Service</h3>
+                <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.55rem, 3vw, 1.7rem)', color: 'var(--midnight)', marginBottom: 6 }}>Request Service</h3>
                 <p style={{ color: '#718096', fontSize: '0.9rem', marginBottom: 24 }}>Fill this out and we'll call you back within an hour during business hours — or the next business day if you reach us after hours.</p>
 
                 {/* Honeypot — leave hidden; bots often fill this */}
@@ -2389,7 +2580,7 @@ const ContactPage = ({ navigate }) => {
                   disabled={submitting}
                   style={{
                     width: '100%', padding: '16px', background: submitting ? '#9CA3AF' : 'var(--flame)', color: 'white', border: 'none',
-                    borderRadius: 14, fontSize: '1.05rem', fontWeight: 700, cursor: submitting ? 'not-allowed' : 'pointer', fontFamily: "'DM Sans', sans-serif",
+                    borderRadius: 14, fontSize: '1.05rem', fontWeight: 700, cursor: submitting ? 'not-allowed' : 'pointer', fontFamily: fonts.body,
                     boxShadow: '0 4px 15px rgba(196,30,36,0.3)', transition: 'all 0.3s'
                   }}
                 >{submitting ? 'Sending…' : 'Send Request'}</button>
@@ -2408,7 +2599,7 @@ const ContactPage = ({ navigate }) => {
         <div style={{ maxWidth: 750, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <SectionTag>FAQ</SectionTag>
-            <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '1.8rem', color: 'var(--midnight)', lineHeight: 1.1 }}>Common Questions</h3>
+            <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.95rem, 4vw, 2.2rem)', color: 'var(--midnight)', lineHeight: 1.1 }}>Common Questions</h3>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {FAQS.map((faq, i) => (
@@ -2428,7 +2619,7 @@ const FAQItem = ({ q, a }) => {
       <button onClick={() => setOpen(!open)} style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%',
         padding: '18px 24px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
-        fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '1rem', color: 'var(--midnight)'
+        fontFamily: fonts.body, fontWeight: 700, fontSize: '1rem', color: 'var(--midnight)'
       }}>
         {q}
         <span style={{ transform: open ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s', flexShrink: 0, marginLeft: 12 }}><ChevronDown /></span>
@@ -2541,7 +2732,7 @@ export default function AllStarWebsite() {
   };
 
   return (
-    <div className="allstar-app-root" style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--charcoal)', background: 'var(--warm-white)', minHeight: '100vh' }}>
+    <div className="allstar-app-root" style={{ fontFamily: fonts.body, color: 'var(--charcoal)', background: 'var(--warm-white)', minHeight: '100vh' }}>
       <a href="#main-content" className="skip-to-content">Skip to main content</a>
       <EmergencyBar navigate={navigate} />
       <Header currentPage={page} navigate={navigate} contactNavTarget={contactNavTarget} />
