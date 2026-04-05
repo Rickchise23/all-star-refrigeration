@@ -7,7 +7,7 @@
  * Mono: JetBrains Mono (labels, phone, license lines)
  */
 
-export const FONT_IMPORT_CSS = `@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');`;
+export const FONT_IMPORT_CSS = `@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');`;
 
 /** Use in React `style={{ fontFamily: fonts.body }}` */
 export const fonts = {
@@ -37,8 +37,8 @@ export const typography = {
   },
   sectionLabel: {
     fontFamily: fonts.mono,
-    fontWeight: 500,
-    fontSize: 12,
+    fontWeight: 400,
+    fontSize: 11,
     letterSpacing: "0.12em",
     textTransform: "uppercase",
   },
@@ -50,8 +50,8 @@ export const typography = {
   nav: {
     fontFamily: fonts.body,
     fontWeight: 500,
-    fontSize: 13,
-    letterSpacing: "0.08em",
+    fontSize: 14,
+    letterSpacing: "0.04em",
   },
   phone: {
     fontFamily: fonts.mono,

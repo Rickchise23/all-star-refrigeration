@@ -105,6 +105,7 @@ ${FONT_IMPORT_CSS}
       --sand: #F0EDE8;
       --charcoal: #1A1A1A;
       --gold: #D4A547;
+      --accent-blue: #3B82F6;
     }
     .skip-to-content {
       position: absolute;
@@ -374,15 +375,32 @@ ${FONT_IMPORT_CSS}
       outline-offset: 3px;
       border-radius: 4px;
     }
-    /* Phone numbers: match CTA buttons (Inter), not mono */
+    /* Phone numbers: JetBrains Mono (audit) */
     .footer-phone-num {
-      font-family: var(--font-body);
-      font-weight: inherit;
+      font-family: var(--font-mono);
+      font-weight: 500;
     }
     .footer-legal-meta {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 11px;
       letter-spacing: 0.06em;
+    }
+    .desktop-nav__link {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: #4A5568;
+    }
+    .desktop-nav__link:hover,
+    .desktop-nav__link:focus-visible {
+      color: #0f1b2d;
+    }
+    .desktop-nav__link--active {
+      color: var(--cool);
+    }
+    .header-phone-cta {
+      font-weight: 600;
+      letter-spacing: 0.04em;
     }
     .form-row-2col {
       display: grid;
@@ -826,7 +844,7 @@ const PHOTO_STRIP = [
   {
     src: "/photos/image10.jpeg",
     title: "Professional techs",
-    subtitle: `Flat ${SERVICE_CALL_PRICE} service call — book online 24/7 or call 9–5. Easy.`,
+    subtitle: `Flat ${SERVICE_CALL_PRICE} service call. Book online 24/7 or call 9–5. Easy.`,
   },
   {
     src: "/photos/image1.jpeg",
@@ -868,18 +886,18 @@ const SERVICES = [
     color: "#C41E24",
     bgColor: "#FDEAEA",
     hero: "Your AC Died. We're Already Loading the Truck.",
-    heroSub: "In Phoenix, a broken AC isn't an inconvenience — it's an emergency. We treat it like one.",
+    heroSub: "In Phoenix, a broken AC isn't an inconvenience. It's an emergency. We treat it like one.",
     details: [
-      "Same-day emergency response during business hours — often within 2 hours",
+      "Same-day emergency response during business hours, often within 2 hours",
       "We diagnose the real problem, not just the symptom",
       "Upfront pricing before any work begins",
-      "Common repairs completed on first visit — we stock parts",
+      "Common repairs completed on first visit. We stock parts",
       "24/7 availability including weekends and holidays",
       "No overtime charges or 'emergency fees'"
     ],
     scenarios: [
-      { title: "Compressor failure", desc: "The most dreaded sound — silence from your outdoor unit. We carry common compressor parts and can often get you running same-day." },
-      { title: "Refrigerant leak", desc: "Warm air blowing? Could be a leak. We find it, fix it, and recharge your system properly — no band-aids." },
+      { title: "Compressor failure", desc: "The most dreaded sound: silence from your outdoor unit. We carry common compressor parts and can often get you running same-day." },
+      { title: "Refrigerant leak", desc: "Warm air blowing? Could be a leak. We find it, fix it, and recharge your system properly, no band-aids." },
       { title: "Electrical issues", desc: "Tripped breakers, blown capacitors, faulty contactors. These are fast fixes when you know what you're looking at. We do." },
       { title: "Frozen coils", desc: "Ice on your AC in 110° heat seems impossible, but it happens. We'll thaw it, find the cause, and make sure it doesn't come back." }
     ],
@@ -888,14 +906,14 @@ const SERVICES = [
   {
     id: "ac-installation",
     title: "AC Installation & Replacement",
-    shortDesc: "New system sized right for your home and budget — no overselling, no undersizing.",
+    shortDesc: "New system sized right for your home and budget. No overselling, no undersizing.",
     icon: FanIcon,
     color: "#1565A0",
     bgColor: "#E3F0FA",
     hero: "Time for a New System? Let's Do This Right.",
     heroSub: "A properly sized, properly installed system is the difference between comfort and regret. We get it right the first time.",
     details: [
-      "Manual J load calculation — we size to your actual home, not a guess",
+      "Manual J load calculation. We size to your actual home, not a guess",
       "Top-tier brands at competitive prices",
       "Full removal and disposal of old equipment",
       "Clean, professional installation with photo documentation",
@@ -929,7 +947,7 @@ const SERVICES = [
     ],
     scenarios: [
       { title: "Heat pump blowing cold air", desc: "Could be a reversing valve, a refrigerant issue, or a defrost problem. We'll diagnose it fast." },
-      { title: "Furnace won't ignite", desc: "Igniter, flame sensor, gas valve — these are common fixes we handle every winter." },
+      { title: "Furnace won't ignite", desc: "Igniter, flame sensor, gas valve. These are common fixes we handle every winter." },
       { title: "Strange noises", desc: "Banging, squealing, or rattling from your heater? Don't ignore it. These usually get worse." },
       { title: "High energy bills", desc: "If your heating costs spiked, something's not running efficiently. A tune-up often pays for itself." }
     ],
@@ -945,7 +963,7 @@ const SERVICES = [
     hero: `The Smartest ${SERVICE_CALL_PRICE} You'll Spend All Year.`,
     heroSub: "A spring tune-up catches the small stuff before it becomes a $2,000 problem in July. Every year we save people from breakdowns they never saw coming.",
     details: [
-      "Full system inspection — electrical, mechanical, refrigerant",
+      "Full system inspection: electrical, mechanical, refrigerant",
       "Condenser and evaporator coil cleaning",
       "Refrigerant level check and adjustment",
       "Thermostat calibration",
@@ -965,7 +983,7 @@ const SERVICES = [
 
 const REVIEWS = [
   { text: "Our AC died at 2pm on a Saturday in July. Every other company said Monday at the earliest. All Star was at our door in under two hours. My kids were back to playing in a cool house by dinner.", name: "Sarah M.", area: "Gilbert, AZ", initials: "SM" },
-  { text: "After getting quoted $4,500 from a big chain for a 'full system replacement,' I called All Star for a second opinion. Turns out it was a $180 fix. Honest people are hard to find — these guys are the real deal.", name: "Robert J.", area: "Chandler, AZ", initials: "RJ" },
+  { text: "After getting quoted $4,500 from a big chain for a 'full system replacement,' I called All Star for a second opinion. Turns out it was a $180 fix. Honest people are hard to find. These guys are the real deal.", name: "Robert J.", area: "Chandler, AZ", initials: "RJ" },
   { text: "Just moved here from Ohio. Had no idea who to call when our AC started making a horrible noise. Found All Star on Nextdoor and I'm so glad I did. Felt like calling a friend, not a contractor.", name: "Diana T.", area: "Mesa, AZ", initials: "DT" },
   { text: "They talked me OUT of replacing my unit. Said it had another 5 years easy with a $200 repair. What company does that? All Star does. Customer for life.", name: "Marcus L.", area: "Scottsdale, AZ", initials: "ML" },
   { text: "I'm a single mom and the AC going out with two toddlers is genuinely scary in this heat. All Star came same day, charged me fair, and even showed me how to check my filter myself. Above and beyond.", name: "Jessica R.", area: "Tempe, AZ", initials: "JR" },
@@ -975,11 +993,11 @@ const REVIEWS = [
 const SERVICE_AREAS = ["Phoenix", "Scottsdale", "Tempe", "Mesa", "Gilbert", "Chandler", "Glendale", "Peoria", "Surprise", "Avondale", "Goodyear", "Buckeye"];
 
 const FAQS = [
-  { q: `What’s included in the ${SERVICE_CALL_PRICE} service call?`, a: `It covers a trip to your home, a full diagnostic of your system, and a clear, written quote before any repair work. You’re not paying for a vague “trip charge” — you’re paying for answers and transparency. If you approve repairs, we’ll apply the service call toward the work when it makes sense — we’ll explain that on site.` },
-  { q: "How fast can you get here?", a: "For emergencies, we aim for same-day service — often within 2 hours depending on our current schedule. We prioritize by severity, so if your house is 90°+ with kids or elderly family members, you jump to the front of the line." },
-  { q: "Do you charge extra for weekends or after-hours?", a: "No. We don't believe in punishing people for having an emergency at an inconvenient time. Our rates are our rates — period." },
+  { q: `What’s included in the ${SERVICE_CALL_PRICE} service call?`, a: `It covers a trip to your home, a full diagnostic of your system, and a clear, written quote before any repair work. You’re not paying for a vague “trip charge.” You’re paying for answers and transparency. If you approve repairs, we’ll apply the service call toward the work when it makes sense. We’ll explain that on site.` },
+  { q: "How fast can you get here?", a: "For emergencies, we aim for same-day service, often within 2 hours depending on our current schedule. We prioritize by severity, so if your house is 90°+ with kids or elderly family members, you jump to the front of the line." },
+  { q: "Do you charge extra for weekends or after-hours?", a: "No. We don't believe in punishing people for having an emergency at an inconvenient time. Our rates are our rates, period." },
   { q: "How much does a typical repair cost?", a: "It depends on what's wrong and the type of system you have, but we believe you should have a ballpark before you ever call. Most common repairs (capacitors, contactors, minor electrical) land between $180–$450, with larger repairs (motors, coils, refrigerant issues) typically between $450–$1,200. We always give you a written, line‑item estimate before we start, so there are no surprises." },
-  { q: "Should I repair or replace my AC?", a: "General rule: if your system is under 10 years old and the repair is under $1,000, repair it. Over 15 years with a major failure? Probably time to replace. We'll always give you our honest recommendation — even if it means less money for us." },
+  { q: "Should I repair or replace my AC?", a: "General rule: if your system is under 10 years old and the repair is under $1,000, repair it. Over 15 years with a major failure? Probably time to replace. We'll always give you our honest recommendation, even if it means less money for us." },
   { q: "Do you offer financing?", a: "Yes. We work with financing partners to offer affordable monthly payment options for new system installations. Ask us for details." },
   { q: "Are you licensed and insured?", a: "Absolutely. Full ROC license, full liability insurance, and all techs are background-checked and certified. We're happy to provide documentation." }
 ];
@@ -993,7 +1011,7 @@ const EmergencyBar = ({ navigate }) => (
       <button
         type="button"
         onClick={() => navigate('contact', { scrollToForm: true })}
-        aria-label="Book service — go to request form"
+        aria-label="Book service. Go to request form"
         style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -1075,15 +1093,16 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
             onMouseLeave={() => item.dropdown && setServicesOpen(false)}
           >
             <button
+              type="button"
               onClick={() => {
                 if (item.scrollToFaq) navigate('contact', { scrollToFaq: true });
                 else navigate(item.page);
                 setServicesOpen(false);
               }}
+              className={`desktop-nav__link${isActive(item) ? ' desktop-nav__link--active' : ''}`}
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
-                padding: '8px 16px', borderRadius: 8, fontSize: '0.92rem', fontWeight: 500,
-                color: isActive(item) ? 'var(--cool)' : 'var(--charcoal)',
+                padding: '8px 16px', borderRadius: 8,
                 fontFamily: fonts.body,
                 display: 'flex', alignItems: 'center', gap: 4,
                 transition: 'color 0.2s',
@@ -1124,9 +1143,9 @@ const Header = ({ currentPage, navigate, contactNavTarget }) => {
       </nav>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <a href={PHONE_HREF} style={{
+        <a href={PHONE_HREF} className="header-phone-cta" style={{
           display: 'flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white',
-          padding: '10px 22px', borderRadius: 50, textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem',
+          padding: '10px 22px', borderRadius: 50, textDecoration: 'none', fontSize: '0.95rem',
           transition: 'all 0.3s', boxShadow: '0 4px 15px rgba(196,30,36,0.3)', fontFamily: fonts.body
         }}>
           <span style={{ animation: 'phoneRing 2s ease-in-out infinite', display: 'inline-flex' }}><PhoneIcon /></span>
@@ -1186,9 +1205,9 @@ const Footer = ({ navigate }) => (
   <footer style={{ background: 'var(--midnight)', padding: 'clamp(48px, 8vw, 80px) clamp(20px, 4vw, 40px) clamp(24px, 3vw, 30px)', fontFamily: fonts.body }}>
     {/* Mini CTA */}
     <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center', marginBottom: 48, paddingBottom: 40, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-      <h4 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.55rem, 3.3vw, 2rem)', color: 'white', marginBottom: 16 }}>Ready to Stop Sweating?</h4>
-      <a href={PHONE_HREF} className="footer-cta-call" style={{ background: 'var(--flame)', color: 'white', padding: '14px 32px', borderRadius: 50, fontWeight: 700, textDecoration: 'none', fontSize: '1rem', boxShadow: '0 4px 18px rgba(196,30,36,0.35)', transition: 'all 0.3s', fontFamily: fonts.body }}>
-        <PhoneIcon /> <span style={{ lineHeight: 1.3 }}>{PHONE}</span>
+      <h4 style={{ fontFamily: fonts.display, fontWeight: 600, letterSpacing: '-0.01em', fontSize: 'clamp(1.55rem, 3.3vw, 2rem)', color: 'white', marginBottom: 16 }}>Ready to Stop Sweating?</h4>
+      <a href={PHONE_HREF} className="footer-cta-call" style={{ background: 'var(--flame)', color: 'white', padding: '14px 32px', borderRadius: 50, fontWeight: 600, letterSpacing: '0.04em', textDecoration: 'none', fontSize: '1rem', boxShadow: '0 4px 18px rgba(196,30,36,0.35)', transition: 'all 0.3s', fontFamily: fonts.body }}>
+        <PhoneIcon /> <span className="footer-phone-num" style={{ lineHeight: 1.3 }}>{PHONE}</span>
       </a>
     </div>
     <div className="footer-main-grid">
@@ -1253,15 +1272,12 @@ const Footer = ({ navigate }) => (
   </footer>
 );
 
-const SectionTag = ({ children, light, emphasize }) => (
+const SectionTag = ({ children, light }) => (
   <div
     style={{
       ...typography.sectionLabel,
-      fontSize: emphasize ? '0.95rem' : '0.85rem',
-      fontWeight: emphasize ? 600 : 500,
-      fontFamily: emphasize ? fonts.display : fonts.mono,
-      letterSpacing: emphasize ? '0.11em' : typography.sectionLabel.letterSpacing,
-      color: light ? 'var(--gold)' : emphasize ? 'var(--cool-deep)' : 'var(--cool)',
+      fontSize: '11px',
+      color: light ? '#93C5FD' : '#3B82F6',
       marginBottom: 16,
     }}
   >
@@ -1277,14 +1293,14 @@ const CTABanner = ({ navigate }) => (
       <button
         type="button"
         onClick={() => navigate('contact', { scrollToForm: true })}
-        aria-label="Book service — go to request form"
+        aria-label="Book service. Go to request form"
         style={{
           display: 'inline-block',
           background: 'linear-gradient(180deg, #FBBF24 0%, #D97706 100%)',
           color: '#0f172a',
           padding: '8px 18px',
           borderRadius: 999,
-          fontWeight: 800,
+          fontWeight: 600,
           fontSize: '0.85rem',
           letterSpacing: '0.08em',
           marginBottom: 16,
@@ -1295,15 +1311,15 @@ const CTABanner = ({ navigate }) => (
       >
         {SERVICE_CALL_SHORT.toUpperCase()}
       </button>
-      <h3 style={{ fontFamily: fonts.display, fontSize: 'clamp(2.2rem, 5.5vw, 3.35rem)', color: 'white', lineHeight: 1.08, marginBottom: 16 }}>Don't Sweat It — Start With {SERVICE_CALL_PRICE}.</h3>
-      <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.55)', marginBottom: 36, lineHeight: 1.6 }}>One call between 9–5 (or book online 24/7). A real tech, a clear diagnosis, and pricing you’ll see in writing — starting with our flat {SERVICE_CALL_SHORT}.</p>
+      <h3 style={{ fontFamily: fonts.display, fontWeight: 600, letterSpacing: '-0.01em', fontSize: 'clamp(2.2rem, 5.5vw, 3.35rem)', color: 'white', lineHeight: 1.08, marginBottom: 16 }}>Don&apos;t Sweat It. Start With {SERVICE_CALL_PRICE}.</h3>
+      <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.55)', marginBottom: 36, lineHeight: 1.6 }}>One call between 9–5 (or book online 24/7). A real tech, a clear diagnosis, and pricing you&apos;ll see in writing, starting with our flat {SERVICE_CALL_SHORT}.</p>
       <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
         <a href={PHONE_HREF} style={{
           display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white',
-          padding: '18px 40px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1.15rem',
+          padding: '18px 40px', borderRadius: 60, textDecoration: 'none', fontWeight: 600, letterSpacing: '0.04em', fontSize: '1.15rem',
           boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: fonts.body
         }}>
-          <PhoneIcon /> {PHONE}
+          <PhoneIcon /> <span className="footer-phone-num">{PHONE}</span>
         </a>
         <button onClick={() => navigate('contact', { scrollToForm: true })} style={{
           display: 'inline-flex', alignItems: 'center', gap: 8, background: 'none', color: 'rgba(255,255,255,0.7)',
@@ -1346,23 +1362,56 @@ const HomePage = ({ navigate }) => (
             <span style={{ width: 8, height: 8, background: 'var(--flame)', borderRadius: '50%', animation: 'dotPulse 1.5s ease-in-out infinite' }} />
             Same-day service · Phoenix metro
           </div>
-          <h1 className="anim-fadeInUp anim-d3" style={{ fontFamily: fonts.display, fontWeight: 600, letterSpacing: '-0.01em', fontSize: 'clamp(2.2rem, 5.8vw, 4.25rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.06, marginBottom: 14 }}>
-            Fast, Reliable <span style={{ color: '#E0F2FE', fontWeight: 700 }}>AC Repair</span> in Phoenix
+          <h1 className="anim-fadeInUp anim-d3" style={{ fontFamily: fonts.display, fontWeight: 600, letterSpacing: '-0.01em', fontSize: 'clamp(2.2rem, 5.8vw, 4.25rem)', color: 'rgba(248,250,252,0.96)', lineHeight: 1.08, marginBottom: 14 }}>
+            <span style={{ display: 'block' }}>Your AC Quit.</span>
+            <span style={{ display: 'block', marginTop: 4 }}>
+              We&apos;re Already{' '}
+              <span style={{ color: '#3B82F6', fontWeight: 700 }}>On Our Way</span>.
+            </span>
           </h1>
           <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(1.02rem, 2.1vw, 1.2rem)', color: 'rgba(255,255,255,0.88)', fontWeight: 600, marginBottom: 12, letterSpacing: '0.02em' }}>
-            Same-day service · Residential & commercial
+            Same-day AC repair for homes and businesses across Phoenix.
           </p>
           <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(0.98rem, 1.9vw, 1.08rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, marginBottom: 28, maxWidth: 560 }}>
-            Licensed techs. Upfront pricing. Real people who answer the phone — <span style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>because when your AC quits, you need action fast.</span>
+            Licensed techs. Upfront pricing. Real people who answer the phone.{' '}
+            <span style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>Because when your AC quits, you need action fast.</span>
           </p>
           <div className="anim-fadeInUp anim-d5" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-            <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '16px 28px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: fonts.body }}>
+            <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '16px 28px', borderRadius: 60, textDecoration: 'none', fontWeight: 600, letterSpacing: '0.04em', fontSize: '1.1rem', boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: fonts.body }}>
               <PhoneIcon /> Call Now
             </a>
-            <button type="button" onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.92)', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.28)', padding: '16px 24px', borderRadius: 60, cursor: 'pointer', fontWeight: 700, fontSize: '1rem', fontFamily: fonts.body, transition: 'all 0.3s' }}>
+            <button type="button" onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.92)', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.28)', padding: '16px 24px', borderRadius: 60, cursor: 'pointer', fontWeight: 600, letterSpacing: '0.04em', fontSize: '1rem', fontFamily: fonts.body, transition: 'all 0.3s' }}>
               Schedule Service
             </button>
           </div>
+          <button
+            type="button"
+            onClick={() => navigate('contact', { scrollToForm: true })}
+            className="anim-fadeInUp anim-d5"
+            aria-label="Book a service call. Open scheduling form."
+            style={{
+              marginTop: 24,
+              width: '100%',
+              maxWidth: 560,
+              padding: '16px 20px',
+              borderRadius: 12,
+              background: 'linear-gradient(135deg, rgba(212,165,57,0.18) 0%, rgba(196,30,36,0.14) 55%, rgba(21,101,160,0.1) 100%)',
+              border: '1px solid rgba(212,165,57,0.45)',
+              boxShadow: '0 12px 40px rgba(0,0,0,0.25)',
+              cursor: 'pointer',
+              textAlign: 'left',
+              fontFamily: 'inherit',
+            }}
+          >
+            <div style={{ fontFamily: fonts.display, fontSize: 'clamp(1.85rem, 3.6vw, 2.65rem)', color: 'var(--gold)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>
+              {SERVICE_CALL_PRICE}{' '}
+              <span style={{ color: 'rgba(248,250,252,0.98)', fontSize: '0.52em', fontWeight: 600, fontFamily: fonts.body, letterSpacing: '0.02em', verticalAlign: 'middle' }}>service call</span>
+            </div>
+            <p style={{ margin: '10px 0 0', fontSize: '0.92rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.55, fontWeight: 500 }}>
+              Flat rate to get a licensed tech on site. Clear diagnosis, upfront quote before we start work.{' '}
+              <strong style={{ color: 'rgba(255,255,255,0.95)' }}>That’s how we earn your trust.</strong>
+            </p>
+          </button>
         </div>
         <div
           className="hero-van-column"
@@ -1392,7 +1441,7 @@ const HomePage = ({ navigate }) => (
               <div className="hero-van-photo-inner">
                 <img
                   src={HERO_VAN_PHOTO}
-                  alt="All Star Refrigeration service van — Phoenix metro"
+                  alt="All Star Refrigeration service van, Phoenix metro"
                 />
               </div>
               <div
@@ -1404,32 +1453,6 @@ const HomePage = ({ navigate }) => (
                 }}
               />
             </div>
-            <button
-              type="button"
-              onClick={() => navigate('contact', { scrollToForm: true })}
-              className="anim-fadeInUp anim-d2"
-              aria-label="Book a service call — open scheduling form"
-              style={{
-                padding: '16px 20px',
-                borderRadius: 18,
-                background: 'linear-gradient(135deg, rgba(212,165,57,0.18) 0%, rgba(196,30,36,0.14) 55%, rgba(21,101,160,0.1) 100%)',
-                border: '1px solid rgba(212,165,57,0.45)',
-                boxShadow: '0 12px 40px rgba(0,0,0,0.25)',
-                width: '100%',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontFamily: 'inherit',
-              }}
-            >
-              <div style={{ fontFamily: fonts.display, fontSize: 'clamp(1.85rem, 3.6vw, 2.65rem)', color: 'var(--gold)', lineHeight: 1.05, letterSpacing: '-0.02em' }}>
-                {SERVICE_CALL_PRICE}{' '}
-                <span style={{ color: 'rgba(248,250,252,0.98)', fontSize: '0.52em', fontWeight: 700, fontFamily: fonts.body, letterSpacing: '0.02em', verticalAlign: 'middle' }}>service call</span>
-              </div>
-              <p style={{ margin: '10px 0 0', fontSize: '0.92rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.55, fontWeight: 500 }}>
-                Flat rate to get a licensed tech on site — clear diagnosis, upfront quote before we start work.{' '}
-                <strong style={{ color: 'rgba(255,255,255,0.95)' }}>That’s how we earn your trust.</strong>
-              </p>
-            </button>
           </div>
         </div>
       </div>
@@ -1490,52 +1513,52 @@ const HomePage = ({ navigate }) => (
     <section style={{ padding: 'clamp(56px, 8vw, 96px) clamp(24px, 4vw, 80px)', background: 'white', fontFamily: fonts.body }}>
       <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
         <Reveal>
-          <SectionTag emphasize>Don&apos;t wait — it only gets hotter</SectionTag>
-          <h2 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.85rem, 4.2vw, 2.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 12 }}>AC Not Cooling?</h2>
+          <SectionTag>Don&apos;t wait</SectionTag>
+          <h2 style={{ fontFamily: fonts.display, fontWeight: 600, letterSpacing: '-0.01em', fontSize: 'clamp(1.85rem, 4.2vw, 2.65rem)', color: 'var(--midnight)', lineHeight: 1.12, marginBottom: 12 }}>AC not cooling?</h2>
           <p style={{ fontSize: '1.05rem', color: '#5a6f83', lineHeight: 1.6, marginBottom: 28, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
-            Same-day appointments when available. Tell us what you&apos;re seeing — we&apos;ll prioritize emergencies.
+            Emergencies come first. Tell us what you&apos;re seeing.
           </p>
         </Reveal>
         <div className="interaction-card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: 14, marginBottom: 28, textAlign: 'left' }}>
           {[
             {
               t: 'Warm or hot air at the vents',
-              d: 'Blowing but not cold — could be refrigerant, compressor, or airflow.',
+              d: 'Blowing but not cold. Could be refrigerant, compressor, or airflow.',
               icon: <SunIcon />,
-              accent: 'var(--flame)',
-              iconBg: '#FDEAEA',
+              accent: '#F59E0B',
+              iconBg: '#FEF3C7',
               cardBg: 'linear-gradient(180deg, #FFFBFB 0%, #FFF5F5 100%)',
-              titleColor: 'var(--midnight)',
+              titleColor: '#F59E0B',
               descColor: '#5B6578',
             },
             {
               t: 'Weak or no airflow',
-              d: 'Frozen coil, clogged filter, or duct issue — we diagnose on site.',
+              d: 'Frozen coil, clogged filter, or duct issue. We diagnose on site.',
               icon: <FanIcon />,
-              accent: 'var(--cool)',
-              iconBg: '#E3F0FA',
+              accent: '#3B82F6',
+              iconBg: '#DBEAFE',
               cardBg: 'linear-gradient(180deg, #FAFCFF 0%, #F0F7FC 100%)',
-              titleColor: 'var(--cool-deep)',
+              titleColor: '#3B82F6',
               descColor: '#4A5F75',
             },
             {
               t: "Won't turn on",
-              d: 'Electrical, thermostat, or motor — we get you a clear answer fast.',
+              d: 'Electrical, thermostat, or motor. We get you a clear answer fast.',
               icon: <WrenchIcon />,
-              accent: 'var(--gold)',
-              iconBg: '#FEF3C7',
+              accent: '#6B7280',
+              iconBg: '#F3F4F6',
               cardBg: 'linear-gradient(180deg, #FFFCF5 0%, #FDF8ED 100%)',
-              titleColor: 'var(--midnight)',
+              titleColor: '#6B7280',
               descColor: '#5B6578',
             },
             {
               t: 'Burning smell or loud noises',
-              d: 'Shut it off and call — we treat safety issues as urgent.',
+              d: 'Shut it off and call. We treat safety issues as urgent.',
               icon: <ShieldIcon />,
-              accent: 'var(--flame-dark)',
+              accent: '#E63946',
               iconBg: '#FEE2E2',
               cardBg: 'linear-gradient(180deg, #FFFAFA 0%, #FEF2F2 100%)',
-              titleColor: 'var(--flame-dark)',
+              titleColor: '#E63946',
               descColor: '#5B6578',
             },
           ].map((row, i) => (
@@ -1573,7 +1596,7 @@ const HomePage = ({ navigate }) => (
                     {row.icon}
                   </div>
                   <div style={{ minWidth: 0, flex: 1 }}>
-                    <div style={{ fontWeight: 700, color: row.titleColor, fontSize: '0.95rem', marginBottom: 6, lineHeight: 1.25 }}>{row.t}</div>
+                    <div style={{ fontFamily: fonts.display, fontWeight: 600, letterSpacing: '-0.01em', color: row.titleColor, fontSize: '0.95rem', marginBottom: 6, lineHeight: 1.25 }}>{row.t}</div>
                     <div style={{ fontSize: '0.86rem', color: row.descColor, lineHeight: 1.5 }}>{row.d}</div>
                   </div>
                 </div>
@@ -1588,10 +1611,10 @@ const HomePage = ({ navigate }) => (
           <p style={{ fontSize: '0.9rem', color: '#718096', margin: 0 }}>Flat diagnostic visit · written quote before optional repairs</p>
         </div>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--flame)', color: 'white', padding: '14px 26px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '1rem', fontFamily: fonts.body, boxShadow: '0 6px 22px rgba(196,30,36,0.35)' }}>
+          <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--flame)', color: 'white', padding: '14px 26px', borderRadius: 60, textDecoration: 'none', fontWeight: 600, letterSpacing: '0.04em', fontSize: '1rem', fontFamily: fonts.body, boxShadow: '0 6px 22px rgba(196,30,36,0.35)' }}>
             <PhoneIcon /> Call Now
           </a>
-          <button type="button" onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'white', color: 'var(--cool-deep)', padding: '14px 26px', borderRadius: 60, border: '2px solid var(--cool)', cursor: 'pointer', fontWeight: 700, fontSize: '1rem', fontFamily: fonts.body }}>
+          <button type="button" onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'white', color: 'var(--cool-deep)', padding: '14px 26px', borderRadius: 60, border: '2px solid var(--cool)', cursor: 'pointer', fontWeight: 600, letterSpacing: '0.04em', fontSize: '1rem', fontFamily: fonts.body }}>
             Schedule Service
           </button>
         </div>
@@ -1602,7 +1625,7 @@ const HomePage = ({ navigate }) => (
     <section style={{ padding: '0 clamp(24px, 4vw, 80px) clamp(48px, 6vw, 72px)', background: 'var(--sand)', fontFamily: fonts.body }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <Reveal>
-          <p style={{ textAlign: 'center', fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--cool)', marginBottom: 10 }}>Real Phoenix homeowners</p>
+          <p style={{ textAlign: 'center', fontFamily: fonts.mono, fontSize: '11px', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#3B82F6', marginBottom: 10 }}>Real Phoenix homeowners</p>
         </Reveal>
         <div className="interaction-card-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: 16 }}>
           {REVIEWS.slice(0, 2).map((r, i) => (
@@ -1633,7 +1656,7 @@ const HomePage = ({ navigate }) => (
           </Reveal>
           <div style={{ fontSize: '1.05rem', lineHeight: 1.8, color: '#4A5568' }}>
             <p style={{ marginBottom: 14 }}>We're not a call center in another state. We're your neighbors. We live in this heat. We know what it feels like when the AC quits on a Friday in July and every big company tells you <strong style={{ color: 'var(--midnight)' }}>"earliest we can get there is Tuesday."</strong></p>
-            <p>That's why All Star exists. Not to be the biggest company — but to be the one that actually <strong style={{ color: 'var(--midnight)' }}>shows up when it matters.</strong></p>
+            <p>That&apos;s why All Star exists. Not to be the biggest company, but to be the one that actually <strong style={{ color: 'var(--midnight)' }}>shows up when it matters.</strong></p>
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -1694,7 +1717,7 @@ const HomePage = ({ navigate }) => (
                 On the job in Phoenix
               </h3>
               <p style={{ fontSize: '0.98rem', color: '#718096', maxWidth: 520, margin: '0 auto' }}>
-                Real jobs, real equipment, real Valley heat — straight from the field.
+                Real jobs, real equipment, real Valley heat, straight from the field.
               </p>
             </Reveal>
           </div>
@@ -1709,9 +1732,9 @@ const HomePage = ({ navigate }) => (
               const useContain = GALLERY_CONTAIN_FILENAMES.includes(file);
               const alt =
                 file === "image0.jpeg"
-                  ? "Better Business Bureau Accredited — All Star Refrigeration"
+                  ? "Better Business Bureau Accredited. All Star Refrigeration"
                   : file === "image12.jpeg"
-                    ? "Heating and HVAC service — All Star Refrigeration"
+                    ? "Heating and HVAC service. All Star Refrigeration"
                     : `All Star Refrigeration work photo ${i + 1}`;
               return (
                 <img
@@ -1940,7 +1963,7 @@ const HomePage = ({ navigate }) => (
               fontFamily: fonts.body,
             }}
           >
-            <div style={{ fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.14em', color: 'var(--cool)', textTransform: 'uppercase', marginBottom: 6 }}>Lead with clarity</div>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.14em', color: 'var(--cool)', textTransform: 'uppercase', marginBottom: 6 }}>Lead with clarity</div>
             <div style={{ fontFamily: fonts.display, fontSize: 'clamp(2.2rem, 4.4vw, 3rem)', color: 'var(--midnight)', lineHeight: 1 }}>
               {SERVICE_CALL_PRICE}
             </div>
@@ -2082,7 +2105,7 @@ const ServiceDetailPage = ({ serviceId, navigate }) => {
       <h1 style={{ fontFamily: fonts.display, fontSize: 'clamp(1.7rem, 4.2vw, 2.65rem)', color: 'white', lineHeight: 1.12, marginBottom: 10 }}>{svc.hero}</h1>
       <p style={{ fontSize: '0.98rem', color: 'rgba(255,255,255,0.62)', lineHeight: 1.5, maxWidth: 520 }}>{svc.heroSub}</p>
       <div style={{ marginTop: 18, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-        <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--flame)', color: 'white', padding: '11px 20px', borderRadius: 60, textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem', boxShadow: '0 6px 25px rgba(196,30,36,0.35)', fontFamily: fonts.body }}>
+        <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--flame)', color: 'white', padding: '11px 20px', borderRadius: 60, textDecoration: 'none', fontWeight: 600, letterSpacing: '0.04em', fontSize: '0.95rem', boxShadow: '0 6px 25px rgba(196,30,36,0.35)', fontFamily: fonts.body }}>
           <PhoneIcon /> Call — {SERVICE_CALL_SHORT}
         </a>
         <button onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'none', color: 'rgba(255,255,255,0.7)', padding: '11px 18px', borderRadius: 60, border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', fontWeight: 600, fontSize: '0.92rem', fontFamily: fonts.body }}>
@@ -2758,7 +2781,7 @@ export default function AllStarWebsite() {
           <MailIcon />
           <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.15, textAlign: 'left' }}>
             <span>Schedule Service</span>
-            <span style={{ fontSize: '0.72rem', fontWeight: 800, opacity: 0.92 }}>{SERVICE_CALL_PRICE}</span>
+            <span style={{ fontSize: '0.72rem', fontWeight: 600, opacity: 0.92 }}>{SERVICE_CALL_PRICE}</span>
           </span>
         </button>
       </div>
