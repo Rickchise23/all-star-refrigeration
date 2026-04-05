@@ -375,10 +375,10 @@ ${FONT_IMPORT_CSS}
       outline-offset: 3px;
       border-radius: 4px;
     }
-    /* Phone numbers: JetBrains Mono (audit) */
+    /* Phone numbers: match body (Inter) — readable, no mono “slashed” zeros */
     .footer-phone-num {
-      font-family: var(--font-mono);
-      font-weight: 500;
+      font-family: var(--font-body);
+      font-weight: inherit;
     }
     .footer-legal-meta {
       font-family: var(--font-mono);
@@ -1368,12 +1368,15 @@ const HomePage = ({ navigate }) => (
           style={{
             display: 'grid',
             gridTemplateColumns: 'minmax(0, 1.05fr) minmax(280px, 1fr)',
-            gap: 'clamp(36px, 5vw, 56px)',
-            alignItems: 'start',
+            gridTemplateRows: 'auto auto',
+            gridTemplateAreas: '"copy van" "buttons ."',
+            columnGap: 'clamp(36px, 5vw, 56px)',
+            rowGap: 'clamp(28px, 4vw, 36px)',
+            alignItems: 'stretch',
           }}
           className="hero-home-grid"
         >
-        <div style={{ minWidth: 0, paddingTop: 2 }}>
+        <div className="hero-copy-col" style={{ gridArea: 'copy', minWidth: 0, paddingTop: 2 }}>
           <div className="anim-fadeInUp anim-d2" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(196,30,36,0.15)', border: '1px solid rgba(196,30,36,0.3)', color: '#E88A8D', padding: '8px 18px', borderRadius: 30, fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.04em', marginBottom: 16 }}>
             <span style={{ width: 8, height: 8, background: 'var(--flame)', borderRadius: '50%', animation: 'dotPulse 1.5s ease-in-out infinite' }} />
             Same-day service · Phoenix metro
@@ -1388,37 +1391,34 @@ const HomePage = ({ navigate }) => (
           <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(1.02rem, 2.1vw, 1.2rem)', color: 'rgba(255,255,255,0.88)', fontWeight: 600, marginBottom: 12, letterSpacing: '0.02em' }}>
             Same-day AC repair for homes and businesses across Phoenix.
           </p>
-          <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(0.98rem, 1.9vw, 1.08rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, marginBottom: 28, maxWidth: 560 }}>
+          <p className="anim-fadeInUp anim-d4" style={{ fontSize: 'clamp(0.98rem, 1.9vw, 1.08rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, marginBottom: 0, maxWidth: 560 }}>
             Licensed techs. Upfront pricing. Real people who answer the phone.{' '}
             <span style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>Because when your AC quits, you need action fast.</span>
           </p>
-          <div className="anim-fadeInUp anim-d5" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-            <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '16px 28px', borderRadius: 60, textDecoration: 'none', fontWeight: 600, letterSpacing: '0.04em', fontSize: '1.1rem', boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: fonts.body }}>
-              <PhoneIcon /> Call Now
-            </a>
-            <button type="button" onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.92)', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.28)', padding: '16px 24px', borderRadius: 60, cursor: 'pointer', fontWeight: 600, letterSpacing: '0.04em', fontSize: '1rem', fontFamily: fonts.body, transition: 'all 0.3s' }}>
-              Schedule Service
-            </button>
-          </div>
         </div>
         <div
           className="hero-van-column"
           style={{
+            gridArea: 'van',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
             alignItems: 'flex-end',
-            paddingTop: 2,
+            /* Align van top with h1, not the badge: badge block + marginBottom (16) */
+            paddingTop: 'calc(16px + 0.85rem * 1.5 + 16px)',
             minHeight: 0,
-            gap: 16,
           }}
         >
-          <div style={{ width: '100%', maxWidth: 540, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div style={{ width: '100%', maxWidth: 540, flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
             <div
               className="hero-van-photo"
               style={{
                 position: 'relative',
                 width: '100%',
+                flex: 1,
+                minHeight: 0,
+                display: 'flex',
+                flexDirection: 'column',
                 borderRadius: 22,
                 overflow: 'hidden',
                 boxShadow: '0 22px 56px rgba(0,0,0,0.42), 0 0 0 1px rgba(255,255,255,0.08) inset',
@@ -1442,6 +1442,14 @@ const HomePage = ({ navigate }) => (
               />
             </div>
           </div>
+        </div>
+        <div className="hero-buttons-row anim-fadeInUp anim-d5" style={{ gridArea: 'buttons', display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+          <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'var(--flame)', color: 'white', padding: '16px 28px', borderRadius: 60, textDecoration: 'none', fontWeight: 600, letterSpacing: '0.04em', fontSize: '1.1rem', boxShadow: '0 8px 30px rgba(196,30,36,0.4)', transition: 'all 0.3s', fontFamily: fonts.body }}>
+            <PhoneIcon /> Call Now
+          </a>
+          <button type="button" onClick={() => navigate('contact', { scrollToForm: true })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.92)', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.28)', padding: '16px 24px', borderRadius: 60, cursor: 'pointer', fontWeight: 600, letterSpacing: '0.04em', fontSize: '1rem', fontFamily: fonts.body, transition: 'all 0.3s' }}>
+            Schedule Service
+          </button>
         </div>
         </div>
         <button
@@ -1475,18 +1483,33 @@ const HomePage = ({ navigate }) => (
       <style>{`
         @media (min-width: 901px) {
           .hero-home-grid {
-            align-items: start;
+            align-items: stretch;
+          }
+          .hero-van-column .hero-van-photo-inner {
+            aspect-ratio: auto !important;
+            max-height: none !important;
+            flex: 1 1 auto !important;
+            min-height: 0 !important;
           }
         }
         @media (max-width: 900px) {
           .hero-home-grid {
             grid-template-columns: 1fr !important;
-            gap: 28px !important;
+            grid-template-rows: auto !important;
+            grid-template-areas:
+              "copy"
+              "van"
+              "buttons" !important;
+            column-gap: 0 !important;
+            row-gap: 28px !important;
           }
           .hero-van-column {
             justify-content: center !important;
             align-items: center !important;
             padding-top: 0 !important;
+          }
+          .hero-van-column .hero-van-photo {
+            flex: 0 1 auto !important;
           }
           .hero-van-photo {
             max-width: 100% !important;

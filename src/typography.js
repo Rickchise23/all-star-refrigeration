@@ -4,7 +4,7 @@
  *
  * Display: Outfit (headlines, logo wordmark weight)
  * Body: Inter (paragraphs, nav, buttons)
- * Mono: JetBrains Mono (labels, phone, license lines)
+ * Mono: JetBrains Mono (labels, license lines; phone uses body)
  */
 
 export const FONT_IMPORT_CSS = `@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');`;
@@ -55,8 +55,8 @@ export const typography = {
     letterSpacing: "0.04em",
   },
   phone: {
-    fontFamily: fonts.mono,
-    fontWeight: 500,
+    fontFamily: fonts.body,
+    fontWeight: 600,
   },
   trustBar: {
     fontFamily: fonts.display,
